@@ -11,7 +11,7 @@ const Category = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const handleAddNewCategory=(e)=> {
-        dispatch(requestAddNewProducts(newCategory));
+        dispatch(requestAddNewCategory(newCategory));
     }
     return (
         <div>
