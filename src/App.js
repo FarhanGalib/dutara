@@ -4,22 +4,23 @@ import Loader from "./components/Loader";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUP from "./pages/SignUp";
-import Cart from "./pages/Cart";
-import Users from "./pages/Users";
-import AddUser from "./pages/AddUser";
-import AddProduct from "./pages/AddProduct";
-import UserProfile from "./pages/UserProfile";
-import EditUserProfile from "./pages/EditUserProfile";
-import Category from "./pages/Category";
+import Cart from "./pages/admin/Cart";
+import Users from "./pages/admin/Users";
+import AddUser from "./pages/admin/AddUser";
+import AddProduct from "./pages/admin/AddProduct";
+import UserProfile from "./pages/admin/UserProfile";
+import EditUserProfile from "./pages/admin/EditUserProfile";
+import Category from "./pages/admin/Category";
 import Page404 from "./pages/404";
 import About from "./pages/About";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import EditCategory from "./pages/admin/Category/EditCategory";
 // import {isEmpty} from "lodash";
 const _ = require("lodash");
 
 function App() {
-    const { token } = useSelector((state) => state.persistedStorage);
+    //const { token } = useSelector((state) => state.persistedStorage.token.userInfo);
     // const [tokenIsEmpty, setTokenIsEmpty] = useState(true);
     // Object.keys(token).length === 0 && token.constructor === 0
     // if (_.isEmpty(token)) {
@@ -108,13 +109,15 @@ function App() {
                         <Route exact path="/profile/:user-id">
                             <UserProfile />
                         </Route>
-                        <Route exact path="/edit-profile/:user-id">
+                        <Route exact path="/edit-profile/:id">
                             <EditUserProfile />
                         </Route>
                         <Route exact path="/category">
                             <Category />
                         </Route>
-
+                        <Route exact path="/category/edit/:id">
+                            <EditCategory />
+                        </Route>
                         {/* ////////////////////////////////////////////////////////////// */}
                         <Route exact path="/about">
                             <About />

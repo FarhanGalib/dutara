@@ -92,7 +92,7 @@ const Dashboard = () => {
     ];
 
     const signOut = () => {
-        dispatch(setToken({}));
+        dispatch(setToken({userInfo:{user:"", role:"", token:""}}));
         history.push("/signin");
     };
     return (

@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Layout = ({ children }) => {
     const classes = useStyles();
-    const { token } = useSelector((state) => state.persistedStorage);
+   const { token } = useSelector((state) => state.persistedStorage.currentUser);
     // const [tokenIsEmpty, setTokenIsEmpty] = useState(true);
     // if (Object.keys(token).length === 0 && token.constructor === 0) {
     //     setTokenIsEmpty(true);

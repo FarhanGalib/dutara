@@ -2,10 +2,10 @@ import axios from "axios";
 import { actionTypes } from "../actionTypes";
 
 export const addNewUser = (newUser) => {
-    return ({
+    return {
         type: actionTypes.ADD_NEW_USER,
         payload: newUser,
-    });
+    };
 };
 
 export const requestAddNewUser = (newUser) => {
@@ -24,31 +24,126 @@ export const requestAddNewUser = (newUser) => {
         long,
     } = newUser;
 
-    
     return async (dispatch) => {
-        const {data}=await axios
-            .post("http://localhost:8080/signup", {
-                email:email,
-                username:username,
-                password:password,
-                firstname:firstname,
-                lastname:lastname,
-                address: {
-                    city:city,
-                    street:street,
-                    number:number,
-                    zipcode:zipcode,
-                    geolocation: {
-                        lat:lat,
-                        long:long,
-                    },
+        const { data } = await axios.post("http://localhost:8080/signup", {
+            email: email,
+            username: username,
+            password: password,
+            firstname: firstname,
+            lastname: lastname,
+            address: {
+                city: city,
+                street: street,
+                number: number,
+                zipcode: zipcode,
+                geolocation: {
+                    lat: lat,
+                    long: long,
                 },
-                phone:phone,
-            })
-            
-             dispatch(addNewUser(data));
-            
-            
+            },
+            phone: phone,
+        });
+
+        dispatch(addNewUser(data));
     };
 };
+
+
+
+export const setUserList = (userList)=>{
+    return {
+        type: actionTypes.SET_USER_LIST,
+        payload: userList,
+    };
+};
+
+export const requestUserList = (token) => {
+    return async (dispatch) => {
+        const { data } = await axios.get("http://localhost:8080/user/", {
+            headers: {
+                authorization: `bearer ${token}`,
+            },
+        });
+        dispatch(setUserList(data));
+        
+    };
+};
+
+
+
+
+
+export const requestDeleteSingleUser = (id,token) => {
+    return async (dispatch) => {
+        const { data } = await axios.delete(`http://localhost:8080/user/${id}`, {
+            headers: {
+                authorization: `bearer ${token}`,
+            },
+        });
+        console.log(data);
+    };
+};
+
+
+
+
+
+
+export const setSingleUserInfoForEdit = (singleUser)=>{
+    return {
+        type: actionTypes.SET_CURRENT_USER,
+        payload: singleUser,
+    };
+};
+
+
+export const requestSingleUserInfo = (id,token) => {
+    return async (dispatch) => {
+        const { data } = await axios.get(`http://localhost:8080/user/${id}`, {
+            headers: {
+                authorization: `bearer ${token}`,
+            },
+        });
+        dispatch(setSingleUserInfoForEdit(data));
+        console.log(data);
+       
+    };
+};
+
+
+
+
+
+export const requestUserUpdate = (id,token, currentUserUpdatedInfo) => {
+    return async (dispatch) => {
+        const { data } = await axios.patch(`http://localhost:8080/user/${id}`,
+        {
+            address: {
+                geolocation: {
+                    lat: currentUserUpdatedInfo.lat,
+                    long: currentUserUpdatedInfo.long,
+                },
+                city: currentUserUpdatedInfo.city ,
+                number: currentUserUpdatedInfo.number,
+                zipcode: currentUserUpdatedInfo.zipcode
+            },
+            role: currentUserUpdatedInfo.role,
+            email: currentUserUpdatedInfo.email, 
+            username: currentUserUpdatedInfo.username, 
+            
+            firstname: currentUserUpdatedInfo.firstname ,
+            lastname: currentUserUpdatedInfo.lastname,
+            phone: currentUserUpdatedInfo.phone
+            
+        }, {
+            headers: {
+                authorization: `bearer ${token}`,
+            },
+        });
+        
+        console.log(data);
+       
+    };
+};
+
 

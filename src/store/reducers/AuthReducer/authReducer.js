@@ -1,15 +1,16 @@
 import { actionTypes } from "../../actionTypes";
 
 const initialState = {
-    token: {},
+    currentUser: {
+        email:"",
+        role:"",
+        token:"",
+    },
 };
 const authReducer = (state = initialState, action) => {
-    
-
-
     switch (action.type) {
         case actionTypes.SET_TOKEN:
-            return { ...state, token: action.payload };
+            return {currentUser:{ ...state.currentUser, email: action.payload.userInfo.user, role: action.payload.userInfo.role, token: action.payload.userInfo.token}};
         default:
             return state;
     }

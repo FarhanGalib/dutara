@@ -3,6 +3,11 @@ import addUserReducer from './AddUserReducer/addUserReducer';
 import storage from "redux-persist/lib/storage";
 import {persistReducer} from "redux-persist";
 import authReducer from "./AuthReducer/authReducer";
+import categoryReducer from './CategoryReducer/categoryReducer';
+import EditCategoryReducer from './CategoryReducer/EditCategoryReducer';
+import userListReducer from './UserReducer/userListReducer';
+import EditUserReducer from './UserReducer/EditUserReducer';
+
 
 
 const persistConfig = {
@@ -14,7 +19,11 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     addUserReducer,
-    persistedStorage
+    categoryStore: categoryReducer,
+    EditCategoryReducer,
+    userListReducer,
+    EditUserReducer,
+    persistedStorage,
 });
 
 export default  rootReducer;
