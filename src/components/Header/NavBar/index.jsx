@@ -15,6 +15,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core/styles";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import CartBadge from "../CartBadge";
+import { useDispatch, useSelector } from "react-redux";
+import { setToken } from "../../../store/actions/tokenAction";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -95,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
         color: "#91CA55",
         fontWeight: 900,
     },
-   
+
     toolbar: theme.mixins.toolbar,
 }));
 
@@ -104,7 +106,11 @@ const Header = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const history = useHistory();
     const location = useLocation();
+    const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = useState(null);
+    const { role, email, token } = useSelector(
+        (state) => state.persistedStorage.currentUser
+    );
 
     const navlinks = [
         {
@@ -131,9 +137,18 @@ const Header = () => {
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
- 
+
     const handleMenuClose = () => {
         setAnchorEl(null);
+    };
+    const handleSignOut = () => {
+        setAnchorEl(null);
+        dispatch(setToken({ userInfo: { user: "", role: "", token: "" } }));
+        history.push("/signin");
+    };
+    const userProfile = () => {
+        setAnchorEl(null);
+        history.push("/my-profile");
     };
     return (
         <div>
@@ -212,56 +227,78 @@ const Header = () => {
                             >
                                 About
                             </NavLink>
-                            <NavLink
-                                to="/signin"
-                                style={{ textDecoration: "none" }}
-                                className={`${classes.navLink} ${
-                                    classes.item
-                                } ${
-                                    location.pathname === "/signin"
-                                        ? classes.active
-                                        : null
-                                }`}
-                            >
-                                SignIn
-                            </NavLink>
+                            {role === "" && (
+                                <NavLink
+                                    to="/signin"
+                                    style={{ textDecoration: "none" }}
+                                    className={`${classes.navLink} ${
+                                        classes.item
+                                    } ${
+                                        location.pathname === "/signin"
+                                            ? classes.active
+                                            : null
+                                    }`}
+                                >
+                                    Signin
+                                </NavLink>
+                            )}
+                            {role === "" && (
+                                <NavLink
+                                    to="/signup"
+                                    style={{ textDecoration: "none" }}
+                                    className={`${classes.navLink} ${
+                                        classes.item
+                                    } ${
+                                        location.pathname === "/signup"
+                                            ? classes.active
+                                            : null
+                                    }`}
+                                >
+                                    Signup
+                                </NavLink>
+                            )}
                         </div>
 
                         {/* cart badge */}
-                        <div className={classes.cart}>
-                            <CartBadge />
-                        </div>
-
+                        {role !== "" && (
+                            <div className={classes.cart}>
+                                <CartBadge />
+                            </div>
+                        )}
                         {/* profile */}
-                        <IconButton
-                            onClick={handleProfileMenuOpen}
-                            className={classes.profile}
-                        >
-                            <Avatar alt="" className={classes.avatar}>
-                                F
-                            </Avatar>
-                        </IconButton>
-                        <Menu
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "center",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "center",
-                            }}
-                            open={Boolean(anchorEl)}
-                            onClose={handleMenuClose}
-                        >
-                            <MenuItem onClick={handleMenuClose}>
-                                My Profile
-                            </MenuItem>
-                            <MenuItem onClick={handleMenuClose}>
-                                Logout
-                            </MenuItem>
-                        </Menu>
+                        {role !== "" && (
+                            <IconButton
+                                onClick={handleProfileMenuOpen}
+                                className={classes.profile}
+                            >
+                                <Avatar alt="" className={classes.avatar}>
+                                    F
+                                </Avatar>
+                            </IconButton>
+                        )}
+                        {role !== "" && (
+                            <Menu
+                                anchorEl={anchorEl}
+                                // anchorOrigin={{
+                                //     vertical: "bottom",
+                                //     horizontal: "center",
+                                // }}
+                                // keepMounted
+                                // transformOrigin={{
+                                //     vertical: "top",
+                                //     horizontal: "center",
+                                // }}
+                                open={Boolean(anchorEl)}
+                                onClose={handleMenuClose}
+                            >
+                                <MenuItem onClick={userProfile}>
+                                    My Profile
+                                </MenuItem>
+                                <MenuItem onClick={handleSignOut}>
+                                    Signout
+                                </MenuItem>
+                            </Menu>
+                        )}
                     </div>
                 </Toolbar>
             </AppBar>

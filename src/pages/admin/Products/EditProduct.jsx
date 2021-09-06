@@ -1,54 +1,72 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { Container, Grid, TextField, Typography } from "@material-ui/core";
+import { useHistory, useParams } from "react-router-dom";
+import { Container, FormControl, Grid, InputLabel, TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 import { useDispatch, useSelector } from "react-redux";
 import { requestCategoryList } from "../../../store/actions/categoryAction";
-import { requestAddNewProduct } from "../../../store/actions/productAction";
+import { requestSingleProduct, requestUpdateProduct } from "../../../store/actions/productAction";
+
 
 const useStyles = makeStyles({});
 
-const AddProduct = () => {
+const EditProduct = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
+    const { id } = useParams();
     const [baseImage, setBaseImage] = useState("");
-    
-    const [newProduct, setNewProduct] = useState({
+    const [isImageChanged, setIsImageChanged] = useState(false);
+    const [currentProduct, setCurrentProduct] = useState({
         title: "",
         categoryId: "",
         description: "",
         price: "",
-        stock:"",
+        stock: "",
         image: "",
     });
     const { categoryList } = useSelector((state) => state.categoryStore);
-   
     const { token } = useSelector(
         (state) => state.persistedStorage.currentUser
     );
-    console.log(newProduct);
+    const { singleProductForEdit } = useSelector((state) => state);
+
+    console.log(currentProduct);
 
     useEffect(() => {
         dispatch(requestCategoryList());
+        dispatch(requestSingleProduct(id, token));
     }, []);
 
+    // useEffect(() => {
+    //     setCurrentProduct({
+    //         ...currentProduct,
+    //         categoryId: categoryList[0]?._id,
+    //     })
+    // }, [categoryList]);
+
     useEffect(() => {
-        setNewProduct({
-            ...newProduct,
-            categoryId: categoryList[0]?._id,
-        })
-    }, [categoryList]);
+        setCurrentProduct({
+            ...currentProduct,
+            title: singleProductForEdit?.title,
+            categoryId: singleProductForEdit?.category._id,
+            description: singleProductForEdit?.description,
+            price: singleProductForEdit?.price,
+            stock: singleProductForEdit?.stock,
+            image: singleProductForEdit?.image,
+        });
+
+    }, [singleProductForEdit, categoryList]);
 
     const uploadProductImage = async (e) => {
+        setIsImageChanged(true);
         const file = e.target.files[0];
         const base64 = await convertBase64(file);
         setBaseImage(base64);
         console.log(base64);
-        setNewProduct({ ...newProduct, image: base64 });
+        setCurrentProduct({ ...currentProduct, image: base64 });
     };
 
     const convertBase64 = (file) => {
@@ -60,52 +78,54 @@ const AddProduct = () => {
         });
     };
 
-    const setAddProduct = (e, key) => {
-        setNewProduct({ ...newProduct, [key]: e.target.value });
+    const setEditedCurrentProduct = (e, key) => {
+        setCurrentProduct({ ...currentProduct, [key]: e.target.value });
     };
 
-    const requestAddProduct = (e) => {
+    const handleUpdateProduct = (e) => {
         e.preventDefault();
-        dispatch(requestAddNewProduct(newProduct, token));
+        dispatch(requestUpdateProduct(id, currentProduct,isImageChanged, token));
         history.push("/products");
     };
+
+    
 
     return (
         <div>
             <Container>
                 <Typography variant="h4" className={classes.heading}>
-                    Create <span className={classes.headingStyle2}>Pro</span>
+                    Edit <span className={classes.headingStyle2}>Pro</span>
                     duct
                 </Typography>
-                <form type="submit" onSubmit={requestAddProduct}>
+                <form type="submit" onSubmit={handleUpdateProduct}>
                     <TextField
                         required
                         fullWidth
                         variant="outlined"
                         label="Product Title"
                         type="text"
-                        value={newProduct.title}
-                        onChange={(e) => setAddProduct(e, "title")}
+                        value={currentProduct.title}
+                        onChange={(e) => setEditedCurrentProduct(e, "title")}
                         className={classes.txtField}
                     />
+                    <img height="400px" src={isImageChanged?baseImage:`http://localhost:8080${currentProduct?.image}`} alt="" />
                     <input
                         type="file"
                         onChange={(e) => uploadProductImage(e)}
-                        required
+                        
                     />
 
                     <TextField
                         required
                         select
-                        value={newProduct._id}
-                        className={classes.sortByCategory}
+                        value={currentProduct.categoryId}
+                        className={classes.Category}
                         onChange={(e) =>
-                            setNewProduct({
-                                ...newProduct,
+                            setCurrentProduct({
+                                ...currentProduct,
                                 categoryId: e.target.value,
                             })
                         }
-                        
                         SelectProps={{
                             native: true,
                         }}
@@ -118,22 +138,24 @@ const AddProduct = () => {
                         ))}
                     </TextField>
 
+
+                    
                     <TextField
                         required
                         variant="outlined"
                         label="Product Price"
                         type="number"
-                        value={newProduct.price}
-                        onChange={(e) => setAddProduct(e, "price")}
+                        value={currentProduct.price}
+                        onChange={(e) => setEditedCurrentProduct(e, "price")}
                         className={classes.txtField}
                     />
-                     <TextField
+                    <TextField
                         required
                         variant="outlined"
                         label="Product Stock"
                         type="number"
-                        value={newProduct.stock}
-                        onChange={(e) => setAddProduct(e, "stock")}
+                        value={currentProduct.stock}
+                        onChange={(e) => setEditedCurrentProduct(e, "stock")}
                         className={classes.txtField}
                     />
 
@@ -145,8 +167,10 @@ const AddProduct = () => {
                         type="text"
                         multiline
                         rows={4}
-                        value={newProduct.description}
-                        onChange={(e) => setAddProduct(e, "description")}
+                        value={currentProduct.description}
+                        onChange={(e) =>
+                            setEditedCurrentProduct(e, "description")
+                        }
                         className={classes.txtField}
                     />
                     <Button
@@ -156,14 +180,12 @@ const AddProduct = () => {
                         color="primary"
                         className={classes.btn}
                     >
-                        Add Product
+                        Update Product
                     </Button>
                 </form>
             </Container>
-
-           
         </div>
     );
 };
 
-export default AddProduct;
+export default EditProduct;

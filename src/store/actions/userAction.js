@@ -147,3 +147,88 @@ export const requestUserUpdate = (id,token, currentUserUpdatedInfo) => {
 };
 
 
+export const requestAddNewUserByAdmin =(newUserInfo,token)=>{
+    return async ()=>{
+        await axios.post("http://localhost:8080/user",
+        {
+            address: {
+                geolocation: {
+                    lat: newUserInfo.lat,
+                    long: newUserInfo.long,
+                },
+                city: newUserInfo.city ,
+                street:newUserInfo.street,
+                number: newUserInfo.number,
+                zipcode: newUserInfo.zipcode
+            },
+            role: newUserInfo.role,
+            email: newUserInfo.email, 
+            username: newUserInfo.username, 
+            
+            
+            phone: newUserInfo.phone,
+            password: newUserInfo.password
+        },
+        {
+            headers: {
+                authorization: `bearer ${token}`,
+            },
+        }
+        )
+    }
+}
+
+
+export const setUserProfileInfo = (userInfo)=>{
+    return {
+        type: actionTypes.SET_USER_PROFILE,
+        payload: userInfo,
+    };
+};
+export const requestUserInfoByUser=(token)=>{
+    return async (dispatch) => {
+        const {data} =await axios.get("http://localhost:8080/my-detail",
+        {
+            headers: {
+                authorization: `bearer ${token}`,
+            },
+        });
+        dispatch(setUserProfileInfo(data));
+        console.log("data=======",data);
+    };
+}
+
+
+
+
+
+
+export const requestUpdateUserInfo=(userInfo, token)=>{
+    return async () =>{
+        const {data}=await axios.patch(`http://localhost:8080/my-detail`,
+        {
+            address: {
+                geolocation: {
+                    lat: userInfo.lat,
+                    long: userInfo.long
+                },
+                city: userInfo.city,
+                street: userInfo.street,
+                number: parseInt(userInfo.number),
+                zipcode: userInfo.zipcode
+            },
+            role: userInfo.role,
+            email: userInfo.email,
+            username: userInfo.username,
+            phone: userInfo.phone,
+            password: userInfo.password 
+        },
+        {
+            headers: {
+                authorization: `bearer ${token}`,
+            }
+        }
+        );
+        console.log(data);
+    }
+}

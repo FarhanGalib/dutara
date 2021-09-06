@@ -17,8 +17,8 @@ import { useDispatch } from "react-redux";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { setToken } from "../../store/actions/tokenAction";
 import CategoryIcon from '@material-ui/icons/Category';
-
-
+import LocalMallIcon from '@material-ui/icons/LocalMall';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 
 const drawerWidth = 240;
@@ -65,9 +65,14 @@ const Dashboard = () => {
             path: "/",
         },
         {
+            text: "Products",
+            icon: <LocalMallIcon color="primary" />,
+            path: "/products",
+        },
+        {
             text: "Add Product",
             icon: <AddCircleOutlineIcon color="primary" />,
-            path: "/create-product",
+            path: "/add-product",
         },
         {
             text: "Orders",
@@ -76,7 +81,7 @@ const Dashboard = () => {
         },
         {
             text: "Add User",
-            icon: <AddIcon color="primary" />,
+            icon: <PersonAddIcon color="primary" />,
             path: "/add-user",
         },
         {
@@ -89,6 +94,7 @@ const Dashboard = () => {
             icon: <CategoryIcon color="primary" />,
             path: "/category",
         },
+        
     ];
 
     const signOut = () => {

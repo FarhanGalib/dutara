@@ -14,6 +14,9 @@ import SearchIcon from "@material-ui/icons/Search";
 import styles from "./home.module.css";
 import { useEffect } from "react";
 import axios from "axios";
+import Products from "../clint/Products";
+import { useDispatch, useSelector } from 'react-redux';
+import { requestAddCartItem, setPersistedCart } from "../../store/actions/cartAction";
 const useStyles = makeStyles((theme) => ({
     searchBox: {
         display: "flex",
@@ -54,13 +57,24 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
     const classes = useStyles();
     const [category, setCategory] = useState("All");
+    const dispatch = useDispatch();
+    const {productId} = useSelector(
+        (state) => state.PersistedCartStorage
+    );
+    const { token } = useSelector(
+        (state) => state.persistedStorage.currentUser
+    );
     const handleChangeCategory = (e) => {
         setCategory(e.target.value);
     };
 
     useEffect(()=>{
-        
-    },[]);
+        if(productId){
+            dispatch(requestAddCartItem(productId,token));
+            dispatch(setPersistedCart(null));
+
+        }
+    },[productId,token]);
     return (
         <div>
             <Container>
@@ -112,7 +126,7 @@ const Home = () => {
                     </Grid>
                 </Grid>
                 {/* PRODUCT LIST */}
-                
+                <Products></Products>
             </Container>
         </div>
     );

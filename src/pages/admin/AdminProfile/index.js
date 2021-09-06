@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
 
-const UserProfile = () => {
+const AdminProfile = () => {
    
 };
 
-export default UserProfile;
+export default AdminProfile;

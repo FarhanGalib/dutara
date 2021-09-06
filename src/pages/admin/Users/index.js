@@ -34,7 +34,7 @@ const Users = () => {
 
     useEffect(() => {
         dispatch(requestUserList(token));
-    }, [toggle]);
+    }, [toggle,userList]);
 
     const handleEditUser = (id) => {
         history.push(`/edit-profile/${id}`);

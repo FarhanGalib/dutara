@@ -1,7 +1,7 @@
 import { actionTypes } from "../../actionTypes";
 
 const initialState = {
-    currentUserInfo: {},
+    currentUserInfo: null,
 };
 
 const EditUserReducer = (state = initialState, action) => {
