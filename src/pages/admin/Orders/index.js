@@ -74,7 +74,7 @@ const Orders = () => {
                                         <br />
                                         {`@${item.userId.username}`}{" "}
                                     </TableCell>
-                                    <TableCell>{item.date}</TableCell>
+                                    <TableCell>{new Date(item.date).toUTCString()}</TableCell>
                                     <TableCell>{item.status}</TableCell>
                                     <TableCell>
                                         {item.userId.address.geolocation.lat}-

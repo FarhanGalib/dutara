@@ -22,6 +22,7 @@ import ProductDetails from "./pages/clint/ProductDetails";
 import UserProfile from "./pages/clint/UserProfile";
 import Cart from "./pages/clint/Cart";
 import Orders from "./pages/admin/Orders";
+import UserOrder from "./pages/clint/UserOrder";
 
 
 
@@ -56,6 +57,10 @@ function App() {
                         <Route exact path="/orders">
                             <Orders />
                         </Route>
+                        <Route exact path="/my-order">
+                            <UserOrder />
+                        </Route>
+                        
                         <Route exact path="/products">
                             <Products />
                         </Route>

@@ -14,6 +14,7 @@ import CurrentUserInfoReducer from './UserReducer/UserInfoReducer';
 import PersistedCartReducer from "./CartReducer/PersistedCartReducer";
 import CartReducer from './CartReducer/CartReducer';
 import OrdersReducer from './OrderReducer/OrdersReducer';
+import UserOrderListReducer from './OrderReducer/UserOrderListReducer';
 
 
 
@@ -39,6 +40,7 @@ const rootReducer = combineReducers({
     productDetailsReducer,
     CartReducer,
     OrdersReducer,
+    UserOrderListReducer,
     
     persistedStorage,
     PersistedCartStorage,

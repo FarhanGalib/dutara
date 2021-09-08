@@ -37,3 +37,30 @@ export const requestChangeOrderStatus = (orderId, status, token) => {
        console.log(data);
     };
 };
+
+
+//set my (user) orders
+
+export const setUserOrders = (userOrderList) => {
+    return {
+        type: actionTypes.SET_USER_ORDER_LIST,
+        payload: userOrderList,
+    };
+};
+
+
+//Get my (user) orders
+export const requestOrdersByUser=(token)=>{
+    return async (dispatch) => {
+        const { data } = await axios.get(
+            `http://localhost:8080/order/my-order`,
+            {
+                headers: {
+                    authorization: `bearer ${token}`,
+                },
+            }
+        );
+       console.log(data);
+       dispatch(setUserOrders(data));
+    };
+}

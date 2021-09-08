@@ -5,8 +5,8 @@ import React, { useState } from "react";
 import styles from "./index.module.css";
 
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { requestSignIn } from "../../store/actions/tokenAction";
+import { useDispatch, useSelector } from "react-redux";
+import { requestSignIn, setError } from "../../store/actions/tokenAction";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -70,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignIn = () => {
     const classes = useStyles();
+    const { error } = useSelector((state) => state.persistedStorage);
     const [signInInfo, setSignInInfo] = useState({
         email: "",
         password: "",
@@ -85,6 +86,13 @@ const SignIn = () => {
         e.preventDefault();
         dispatch(requestSignIn(signInInfo));
         history.push("/home");
+        // if (error===null) {
+        //     history.push("/home");
+            
+        // } else {
+        //     setError(null);
+        //     history.push("/signin");
+        // }
     };
 
     return (
@@ -137,9 +145,7 @@ const SignIn = () => {
                         </div>
                     </form>
                 </Grid>
-              
             </Grid>
-           
         </div>
     );
 };

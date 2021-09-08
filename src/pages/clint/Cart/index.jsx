@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { requestAddCartItem, requestCartList, requestCheckOut } from "../../../store/actions/cartAction";
+import { deleteProductFromCart, requestAddCartItem, requestCartList, requestCheckOut } from "../../../store/actions/cartAction";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/core/styles";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
@@ -56,7 +56,7 @@ const Cart = () => {
         dispatch(requestCheckOut(token));
     };
     const handleDeleteCartItem = (id) => {
-       // dispatch(deleteProductFromCart(id))
+        dispatch(deleteProductFromCart(id, token))
     };
     return (
         <div className={classes.cartContainer}> 

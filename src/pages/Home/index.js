@@ -16,7 +16,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import Products from "../clint/Products";
 import { useDispatch, useSelector } from 'react-redux';
-import { requestAddCartItem, setPersistedCart } from "../../store/actions/cartAction";
+import { requestAddCartItem, requestAddCartItemSignin, setPersistedCart } from "../../store/actions/cartAction";
 const useStyles = makeStyles((theme) => ({
     searchBox: {
         display: "flex",
@@ -68,13 +68,11 @@ const Home = () => {
         setCategory(e.target.value);
     };
 
-    useEffect(()=>{
-        if(productId){
-            dispatch(requestAddCartItem(productId,token));
-            dispatch(setPersistedCart(null));
-
-        }
-    },[productId,token]);
+    // useEffect(()=>{
+    //     if(productId){
+    //         dispatch(requestAddCartItem(productId,token));
+    //     }
+    // },[productId,token]);
     return (
         <div>
             <Container>

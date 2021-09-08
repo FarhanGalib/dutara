@@ -1,27 +1,45 @@
-import React from 'react';
-import Badge from '@material-ui/core/Badge';
-import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import { useHistory } from 'react-router';
+import React, { useEffect, useState } from "react";
+import Badge from "@material-ui/core/Badge";
+import { withStyles } from "@material-ui/core/styles";
+import IconButton from "@material-ui/core/IconButton";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { useHistory } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { requestCartList } from "../../../store/actions/cartAction";
 
 const StyledBadge = withStyles((theme) => ({
-  badge: {
-    right: -3,
-    top: 13,
-    border: `2px solid ${theme.palette.background.paper}`,
-    padding: '0 4px',
-  },
+    badge: {
+        right: -3,
+        top: 13,
+        border: `2px solid ${theme.palette.background.paper}`,
+        padding: "0 4px",
+    },
 }))(Badge);
 
 export default function CartBadge() {
-  const history = useHistory();
-  return (
-    <IconButton onClick={() => history.push("/cart")} aria-label="cart">
-      <StyledBadge badgeContent={4} color="secondary">
-        <ShoppingCartIcon />
-      </StyledBadge>
-    </IconButton>
-  );
-}
+    const dispatch = useDispatch();
+    const history = useHistory();
+    let { cartList } = useSelector((state) => state.CartReducer);
+    const { token } = useSelector(
+        (state) => state.persistedStorage.currentUser
+    );
 
+    useEffect(() => {
+        dispatch(requestCartList(token));
+    }, []);
+
+    return (
+        <IconButton onClick={() => history.push("/cart")} aria-label="cart">
+            <StyledBadge
+                badgeContent={1}
+                color="secondary"
+              //   cartList.products.reduce(
+              //     (total, item) => total + item.quantity,
+              //     0
+              // )
+            >
+                <ShoppingCartIcon />
+            </StyledBadge>
+        </IconButton>
+    );
+}

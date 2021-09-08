@@ -150,6 +150,10 @@ const Header = () => {
         setAnchorEl(null);
         history.push("/my-profile");
     };
+    const userOrders = () => {
+        setAnchorEl(null);
+        history.push("/my-order");
+    }
     return (
         <div>
             <AppBar className={classes.appbar}>
@@ -293,6 +297,9 @@ const Header = () => {
                             >
                                 <MenuItem onClick={userProfile}>
                                     My Profile
+                                </MenuItem>
+                                <MenuItem onClick={userOrders}>
+                                    My Orders
                                 </MenuItem>
                                 <MenuItem onClick={handleSignOut}>
                                     Signout

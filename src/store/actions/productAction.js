@@ -86,13 +86,13 @@ export const requestSingleProduct = (id, token) => {
 export const requestUpdateProduct = ( id,currentProduct,idImageChanged,token) => {
     
         return async (dispatch) => {
-            const pro = await axios.patch(
+            const {data} = await axios.patch(
                 `http://localhost:8080/products/${id}`,
                 {
                     title: currentProduct.title,
                     price: parseInt(currentProduct.price),
                     description: currentProduct.description,
-                    image: currentProduct.image,
+                    
                     stock: parseInt(currentProduct.stock),
                     category_id: currentProduct.categoryId,
                 },
@@ -102,7 +102,7 @@ export const requestUpdateProduct = ( id,currentProduct,idImageChanged,token) =>
                     },
                 }
             );
-            console.log(pro);
+            console.log(data);
         };
     
        

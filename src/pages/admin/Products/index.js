@@ -36,16 +36,19 @@ const Products = () => {
     const { productList } = useSelector((state) => state);
     const dispatch = useDispatch();
     const history = useHistory();
+    const [reload, setReload] = useState(true);
     const BASE_URL = "http://localhost:8080";
     useEffect(() => {
         dispatch(requestProductList(token));
-    }, [productList]);
+    }, [reload]);
+   
 
     const handleEditProduct = (id) => {
         history.push(`/product/edit/${id}`);
     };
     const handleDeleteProduct = (id) => {
        dispatch( requestDeleteProduct(id, token));
+       setReload(!reload);
     };
 
     return (
