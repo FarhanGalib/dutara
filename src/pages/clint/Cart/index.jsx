@@ -60,7 +60,7 @@ const Cart = () => {
     };
     return (
         <div className={classes.cartContainer}> 
-            {cartList && (
+            {cartList? (
                 <div>
                     <div className={classes.tableContainer}>
                         <TableContainer component={Paper}>
@@ -181,7 +181,7 @@ const Cart = () => {
                         </Button>
                     </div>
                 </div>
-            )}
+            ):(<p>Cart Is Empty</p>}
         </div>
     );
 };
