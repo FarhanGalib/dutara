@@ -1,11 +1,18 @@
-import { Container } from "@material-ui/core";
+import { Button, Container, TextField, Typography } from "@material-ui/core";
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { requestAddNewUserByAdmin } from "../../../store/actions/userAction";
+import { makeStyles } from '@material-ui/core/styles';
+import styles from "./addUser.module.css";
+
+const useStyles = makeStyles((theme)=>({
+    
+}));
 
 const AddUser = () => {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     const { token } = useSelector(
@@ -16,54 +23,53 @@ const AddUser = () => {
         long: "",
 
         city: "",
-        street:"",
+        street: "",
         number: 0,
         zipcode: "",
 
-        role: "",
+        role: "user",
 
         email: "",
         username: "",
-        
-        firstname: "",
-        lastname: "",
+
         phone: "",
-        password:"",
-        confirmPassword:""
+        password: "",
+        confirmPassword: "",
     });
-    const setAddUserForm=(key, e)=>{
-        setUserAddInfo({...userAddInfo, [key]: e.target.value })
-    }
-    const handleAddUserForm=( e)=>{
+    const setAddUserForm = (key, e) => {
+        setUserAddInfo({ ...userAddInfo, [key]: e.target.value });
+    };
+    const handleAddUserForm = (e) => {
         e.preventDefault();
         dispatch(requestAddNewUserByAdmin(userAddInfo, token));
-        history.push('/users');
-    }
+        history.push("/users");
+    };
     console.log(userAddInfo);
     return (
-        <div>
+        <div className={styles.root}>
             <Container>
+                <Typography variant="h5" align="center">ADD USER</Typography>
                 <form onSubmit={handleAddUserForm}>
-                    <label htmlFor="email" className="">
-                        Email
-                    </label>
                     <br />
-                    <input
+                    <TextField
                         type="email"
+                        variant="outlined"
+                        label="Email"
                         value={userAddInfo.email}
                         onChange={(e) => setAddUserForm("email", e)}
                         id="email"
                         name="email"
                         className=""
+                        
                         required
                     />
                     <br />
-                    <label htmlFor="username" className="">
-                        Username
-                    </label>
+
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label=" Username"
                         value={userAddInfo.username}
                         onChange={(e) => setAddUserForm("username", e)}
                         id="username"
@@ -71,14 +77,15 @@ const AddUser = () => {
                         className=""
                         required
                     />
-                    
+
                     <br />
-                    <label htmlFor="password" className="">
-                        Password
-                    </label>
+
                     <br />
-                    <input
-                        type="text"
+                    <TextField
+                        type="password"
+                        variant="outlined"
+                        label="Password"
+                        helperText="password must be 8-20 characters"
                         value={userAddInfo.password}
                         onChange={(e) => setAddUserForm("password", e)}
                         id="password"
@@ -86,14 +93,14 @@ const AddUser = () => {
                         className=""
                         required
                     />
-                      <br />
-
-                    <label htmlFor="confirmPassword" className="">
-                        Confirm Password
-                    </label>
                     <br />
-                    <input
-                        type="text"
+
+                    <br />
+                    <TextField
+                        type="password"
+                        variant="outlined"
+                        label="Confirm Password"
+                        helperText="password must be 8-20 characters"
                         value={userAddInfo.confirmPassword}
                         onChange={(e) => setAddUserForm("confirmPassword", e)}
                         id="confirmPassword"
@@ -101,18 +108,16 @@ const AddUser = () => {
                         className=""
                         required
                     />
-                    <br />
 
-                    {userAddInfo.password!==userAddInfo.confirmPassword && <p>password not matched</p>}
-
+                    {userAddInfo.password !== userAddInfo.confirmPassword && (
+                        <p style={{ color: "red" }}>password not matched</p>
+                    )}
 
                     <br />
-                    <label htmlFor="street" className="">
-                    street
-                    </label>
-                    <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="Street"
                         value={userAddInfo.street}
                         onChange={(e) => setAddUserForm("street", e)}
                         id="street"
@@ -122,56 +127,52 @@ const AddUser = () => {
                     />
                     <br />
 
-                    <label htmlFor="firstname" className="">
-                        Last Name
-                    </label>
-                    <br />
-                    <input
-                        type="text"
-                        value={userAddInfo.firstname}
-                        onChange={(e) => setAddUserForm("firstname", e)}
-                        id="firstname"
-                        name="firstname"
-                        className=""
-                        required
-                    />
-                    <br />
+                  
 
-                    <label htmlFor="lastname" className="">
-                        Last Name
-                    </label>
                     <br />
-                    <input
+                    {/* <TextField
                         type="text"
-                        value={userAddInfo.lastname}
-                        onChange={(e) => setAddUserForm("lastname", e)}
-                        id="lastname"
-                        name="lastname"
-                        className=""
-                        required
-                    />
-                    <br />
-                    <label htmlFor="role" className="">
-                        Role
-                    </label>
-                    <br />
-                    <input
-                        type="text"
+                        variant="outlined"
+                        label="Role"
                         value={userAddInfo.role}
                         onChange={(e) => setAddUserForm("role", e)}
                         id="role"
                         name="role"
                         className=""
                         required
-                    />
+                    /> */}
+                     <TextField
+                        required
+                        select
+                        value={userAddInfo.role}
+                        className={classes.sortByCategory}
+                        onChange={(e) =>
+                            setUserAddInfo({
+                                ...userAddInfo,
+                                role: e.target.value,
+                            })
+                        }
+                        
+                        SelectProps={{
+                            native: true,
+                        }}
+                        label="select role"
+                        variant= "outlined"
+                    >
+                        {["user", "admin"].map((role) => (
+                            <option key={role} value={role}>
+                                {role}
+                            </option>
+                        ))}
+                    </TextField>
 
                     <br />
-                    <label htmlFor="phone" className="">
-                        Phone Number
-                    </label>
+
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="Phone Number"
                         value={userAddInfo.phone}
                         onChange={(e) => setAddUserForm("phone", e)}
                         id="phone"
@@ -181,12 +182,12 @@ const AddUser = () => {
                     />
 
                     <br />
-                    <label htmlFor="lat" className="">
-                        Lat
-                    </label>
+
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="Lat"
                         value={userAddInfo.lat}
                         onChange={(e) => setAddUserForm("lat", e)}
                         id="lat"
@@ -196,12 +197,12 @@ const AddUser = () => {
                     />
 
                     <br />
-                    <label htmlFor="long" className="">
-                        Long
-                    </label>
+
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="Long"
                         value={userAddInfo.long}
                         onChange={(e) => setAddUserForm("long", e)}
                         id="long"
@@ -211,12 +212,12 @@ const AddUser = () => {
                     />
 
                     <br />
-                    <label htmlFor="zipcode" className="">
-                        Zip Code
-                    </label>
+
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="Zip Code"
                         value={userAddInfo.zipcode}
                         onChange={(e) => setAddUserForm("zipcode", e)}
                         id="zipcode"
@@ -226,12 +227,12 @@ const AddUser = () => {
                     />
 
                     <br />
-                    <label htmlFor="number" className="">
-                        House no.
-                    </label>
+
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="House no."
                         value={userAddInfo.number}
                         onChange={(e) => setAddUserForm("number", e)}
                         id="number"
@@ -241,12 +242,12 @@ const AddUser = () => {
                     />
 
                     <br />
-                    <label htmlFor="city" className="">
-                        City
-                    </label>
+
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="City"
                         value={userAddInfo.city}
                         onChange={(e) => setAddUserForm("city", e)}
                         id="city"
@@ -255,7 +256,9 @@ const AddUser = () => {
                         required
                     />
                     <br />
-                    <input type="submit" value="UPDATE" />
+                    <Button type="submit" variant="contained" color="primary">
+                        Submit
+                    </Button>
                 </form>
             </Container>
         </div>

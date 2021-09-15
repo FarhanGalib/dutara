@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory,useLocation } from "react-router-dom";
 import {
     Table,
     TableBody,
@@ -25,16 +25,21 @@ const Users = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
+    const location = useLocation();
     const [toggle, setToggle] = useState(true);
     const { token } = useSelector(
         (state) => state.persistedStorage.currentUser
     );
     const { userList } = useSelector((state) => state.userListReducer);
-
+    const [user, setUser] = useState(userList);
 
     useEffect(() => {
         dispatch(requestUserList(token));
-    }, [toggle,userList]);
+    }, [dispatch, toggle, location]);
+
+    useEffect(() => {
+        setUser(userList);
+    },[userList]);
 
     const handleEditUser = (id) => {
         history.push(`/edit-profile/${id}`);
@@ -59,7 +64,7 @@ const Users = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {userList && userList.map((user) => (
+                            {user? user.map((user) => (
                                 <TableRow key={user?._id}>
                                     <TableCell>
                                         {`${user?.firstname} ${user?.lastname}`}{" "}
@@ -92,7 +97,7 @@ const Users = () => {
                                         </IconButton>
                                     </TableCell>
                                 </TableRow>
-                            ))}
+                            )):null}
                         </TableBody>
                     </Table>
                 </TableContainer>

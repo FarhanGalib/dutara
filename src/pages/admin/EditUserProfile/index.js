@@ -7,7 +7,7 @@ import {
     requestSingleUserInfo,
     requestUserUpdate,
 } from "../../../store/actions/userAction";
-import { Container } from "@material-ui/core";
+import { Container, TextField, Button, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({}));
 
@@ -75,13 +75,16 @@ const EditUserProfile = () => {
     return (
         <div>
             <Container>
+                <Typography variant="h5" align="center">UPDATE USER INFORMATION</Typography>
                 <form onSubmit={handleUserUpdateForm}>
-                    <label htmlFor="email" className="">
-                        Email
-                    </label>
+                    
+                        
+                   
                     <br />
-                    <input
+                    <TextField
                         type="email"
+                        variant="outlined"
+                        label="Email"
                         value={userUpdateForm.email}
                         onChange={(e) => setForm("email", e)}
                         id="email"
@@ -90,12 +93,14 @@ const EditUserProfile = () => {
                         required
                     />
                     <br />
-                    <label htmlFor="username" className="">
-                        Username
-                    </label>
+                    
+                        
+                   
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="Username"
                         value={userUpdateForm.username}
                         onChange={(e) => setForm("username", e)}
                         id="username"
@@ -104,12 +109,14 @@ const EditUserProfile = () => {
                         required
                     />
                     <br />
-                    <label htmlFor="firstname" className="">
-                        First name
-                    </label>
+                    
+                        
+                   
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="First name"
                         value={userUpdateForm.firstname}
                         onChange={(e) => setForm("firstname", e)}
                         id="firstname"
@@ -118,12 +125,14 @@ const EditUserProfile = () => {
                         required
                     />
                     <br />
-                    <label htmlFor="lastname" className="">
-                        Last Name
-                    </label>
+                    
+                
+                    
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="Last Name"
                         value={userUpdateForm.lastname}
                         onChange={(e) => setForm("lastname", e)}
                         id="lastname"
@@ -132,27 +141,54 @@ const EditUserProfile = () => {
                         required
                     />
                     <br />
-                    <label htmlFor="role" className="">
-                        Role
-                    </label>
+                  
+                        
+                   
                     <br />
-                    <input
+                    {/* <TextField
                         type="text"
+                        variant="outlined"
+                        label="Role"
                         value={userUpdateForm.role}
                         onChange={(e) => setForm("role", e)}
                         id="role"
                         name="role"
                         className=""
                         required
-                    />
-
+                    /> */}
+                    <TextField
+                        required
+                        select
+                        value={userUpdateForm.role}
+                        className={classes.sortByCategory}
+                        onChange={(e) =>
+                            setUserUpdateForm({
+                                ...userUpdateForm,
+                                role: e.target.value,
+                            })
+                        }
+                        
+                        SelectProps={{
+                            native: true,
+                        }}
+                        label="select role"
+                        variant= "outlined"
+                    >
+                        {["user", "admin"].map((role) => (
+                            <option key={role} value={role}>
+                                {role}
+                            </option>
+                        ))}
+                    </TextField>
                     <br />
-                    <label htmlFor="phone" className="">
-                        Phone Number
-                    </label>
+                
+                        
+                   
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="Phone Number"
                         value={userUpdateForm.phone}
                         onChange={(e) => setForm("phone", e)}
                         id="phone"
@@ -162,12 +198,14 @@ const EditUserProfile = () => {
                     />
 
                     <br />
-                    <label htmlFor="lat" className="">
-                        Lat
-                    </label>
+                   
+                        
+                    
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="Lat"
                         value={userUpdateForm.lat}
                         onChange={(e) => setForm("lat", e)}
                         id="lat"
@@ -177,12 +215,14 @@ const EditUserProfile = () => {
                     />
 
                     <br />
-                    <label htmlFor="long" className="">
-                        Long
-                    </label>
+                  
+                        
+                  
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="Long"
                         value={userUpdateForm.long}
                         onChange={(e) => setForm("long", e)}
                         id="long"
@@ -192,12 +232,14 @@ const EditUserProfile = () => {
                     />
 
                     <br />
-                    <label htmlFor="zipcode" className="">
-                        Zip Code
-                    </label>
+                   
+                        
+                   
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="Zip Code"
                         value={userUpdateForm.zipcode}
                         onChange={(e) => setForm("zipcode", e)}
                         id="zipcode"
@@ -207,12 +249,14 @@ const EditUserProfile = () => {
                     />
 
                     <br />
-                    <label htmlFor="number" className="">
-                        House no.
-                    </label>
+             
+                        
+                 
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="House no."
                         value={userUpdateForm.number}
                         onChange={(e) => setForm("number", e)}
                         id="number"
@@ -222,12 +266,14 @@ const EditUserProfile = () => {
                     />
 
                     <br />
-                    <label htmlFor="city" className="">
-                        City
-                    </label>
+                  
+                    
+               
                     <br />
-                    <input
+                    <TextField
                         type="text"
+                        variant="outlined"
+                        label="City"
                         value={userUpdateForm.city}
                         onChange={(e) => setForm("city", e)}
                         id="city"
@@ -236,7 +282,7 @@ const EditUserProfile = () => {
                         required
                     />
                     <br />
-                    <input type="submit" value="UPDATE" />
+                    <Button type="submit" variant="contained" color="primary">UPDATE</Button>  
                 </form>
             </Container>
         </div>

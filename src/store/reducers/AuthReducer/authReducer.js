@@ -6,7 +6,7 @@ const initialState = {
         role: "",
         token: "",
     },
-    error: null,
+    error: "",
 };
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -19,9 +19,10 @@ const authReducer = (state = initialState, action) => {
                     role: action.payload.userInfo.role,
                     token: action.payload.userInfo.token,
                 },
+                error: action.payload.message,
             };
         case actionTypes.SET_ERROR:
-            return { ...state, error: action.payload };
+            return { ...state, error: action.payload.message };
         default:
             return state;
     }

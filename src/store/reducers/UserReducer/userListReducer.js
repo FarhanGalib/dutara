@@ -7,7 +7,7 @@ const initialState = {
 const userListReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_USER_LIST:
-            return { ...state, userList: action.payload };
+            return { userList: action.payload };
         default:
             return state;
     }

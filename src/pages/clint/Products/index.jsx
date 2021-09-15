@@ -16,6 +16,8 @@ const Products = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { productList } = useSelector((state) => state);
+    const  searchText = useSelector((state) => state.SearchText);
+
     const { role, token } = useSelector( (state) => state.persistedStorage.currentUser);
 
     useEffect(() => {
@@ -41,7 +43,15 @@ const Products = () => {
             <Container>
                 <Grid container spacing={4}>
                     {productList &&
-                        productList.map((product) => (
+                        productList.filter((product) => {
+                            if (searchText === "") return product;
+                            else if (
+                                product.title
+                                    .toLowerCase()
+                                    .includes(searchText.toLowerCase())
+                            )
+                                return product;
+                        }).map((product) => (
                             <Grid item   key={product._id}>
                                 <div className="productContainer">
                                     <div>

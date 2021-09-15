@@ -16,6 +16,8 @@ const AddProduct = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [baseImage, setBaseImage] = useState("");
+    const [isImageChanged, setIsImageChanged] = useState(false);
+
     
     const [newProduct, setNewProduct] = useState({
         title: "",
@@ -44,6 +46,7 @@ const AddProduct = () => {
     }, [categoryList]);
 
     const uploadProductImage = async (e) => {
+        setIsImageChanged(true);
         const file = e.target.files[0];
         const base64 = await convertBase64(file);
         setBaseImage(base64);
@@ -74,7 +77,7 @@ const AddProduct = () => {
         <div>
             <Container>
                 <Typography variant="h4" className={classes.heading}>
-                    Create <span className={classes.headingStyle2}>Pro</span>
+                    Add <span className={classes.headingStyle2}>Pro</span>
                     duct
                 </Typography>
                 <form type="submit" onSubmit={requestAddProduct}>
@@ -88,6 +91,7 @@ const AddProduct = () => {
                         onChange={(e) => setAddProduct(e, "title")}
                         className={classes.txtField}
                     />
+                    <img src={isImageChanged? baseImage : null} alt=""/>
                     <input
                         type="file"
                         onChange={(e) => uploadProductImage(e)}

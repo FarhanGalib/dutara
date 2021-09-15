@@ -17,6 +17,8 @@ import axios from "axios";
 import Products from "../clint/Products";
 import { useDispatch, useSelector } from 'react-redux';
 import { requestAddCartItem, requestAddCartItemSignin, setPersistedCart } from "../../store/actions/cartAction";
+import { requestCategoryList } from "../../store/actions/categoryAction";
+import { setSearchText } from "../../store/actions/searchAction";
 const useStyles = makeStyles((theme) => ({
     searchBox: {
         display: "flex",
@@ -64,15 +66,20 @@ const Home = () => {
     const { token } = useSelector(
         (state) => state.persistedStorage.currentUser
     );
+    const {categoryList} = useSelector((state) => state.categoryStore);
+    const searchText = useSelector((state) => state.SearchText);
+
     const handleChangeCategory = (e) => {
         setCategory(e.target.value);
     };
-
-    // useEffect(()=>{
-    //     if(productId){
-    //         dispatch(requestAddCartItem(productId,token));
-    //     }
-    // },[productId,token]);
+    useEffect(()=>{
+        dispatch(requestCategoryList());
+    },[]);
+    useEffect(()=>{
+        if(productId && token ){
+            dispatch(requestAddCartItemSignin(productId,token));
+        }
+    },[productId,token]);
     return (
         <div>
             <Container>
@@ -90,8 +97,8 @@ const Home = () => {
                         {/* <TextField
                                 select
                                 
-                                value={productCategory}
-                               / className={classes.sortByCategory}
+                                value={categoryList._id}
+                                className={classes.sortByCategory}
                                 onChange={(e) =>
                                     setProductCategory(e.target.value)
                                 }
@@ -107,15 +114,18 @@ const Home = () => {
                                     </option>
                                 ))}
                             </TextField> */}
+
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
                         {/* SEARCH BAR */}
                         <div className={classes.searchBox}>
                             <input
+                                value={searchText}
                                 className={classes.searchTxt}
                                 type="text"
                                 placeholder="Search..."
+                                onChange={(e)=>dispatch(setSearchText(e.target.value))}
                             />
                             <div className={classes.searchBtn}>
                                 <SearchIcon />

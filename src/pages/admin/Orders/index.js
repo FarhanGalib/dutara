@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 const Orders = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const [orders,setOrders] = useState(null);
     const { orderList } = useSelector((state) => state.OrdersReducer);
     const { token } = useSelector(
         (state) => state.persistedStorage.currentUser
@@ -48,6 +49,10 @@ const Orders = () => {
     useEffect(() => {
         dispatch(requestOrderList(token));
     }, []);
+
+    useEffect(() => {
+        setOrders(orderList);
+    }, [orderList])
 
     const handleStatus = (orderId, status) => {
         dispatch(requestChangeOrderStatus(orderId, status, token));
@@ -66,8 +71,8 @@ const Orders = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {orderList &&
-                            orderList.map((item) => (
+                        {orders &&
+                            orders.map((item) => (
                                 <TableRow key={item._id}>
                                     <TableCell>
                                         {`${item.userId.firstname} ${item.userId.lastname}`}{" "}
@@ -75,7 +80,7 @@ const Orders = () => {
                                         {`@${item.userId.username}`}{" "}
                                     </TableCell>
                                     <TableCell>{new Date(item.date).toUTCString()}</TableCell>
-                                    <TableCell>{item.status}</TableCell>
+                                    <TableCell>{item.status===0?"pending":item.status===1?"delivered":"canceled"}</TableCell>
                                     <TableCell>
                                         {item.userId.address.geolocation.lat}-
                                         {item.userId.address.geolocation.long}-

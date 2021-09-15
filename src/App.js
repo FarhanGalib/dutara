@@ -13,8 +13,8 @@ import EditUserProfile from "./pages/admin/EditUserProfile";
 import Category from "./pages/admin/Category";
 import Page404 from "./pages/404";
 import About from "./pages/About";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 import EditCategory from "./pages/admin/Category/EditCategory";
 import Products from "./pages/admin/Products";
 import EditProduct from "./pages/admin/Products/EditProduct";
@@ -23,12 +23,21 @@ import UserProfile from "./pages/clint/UserProfile";
 import Cart from "./pages/clint/Cart";
 import Orders from "./pages/admin/Orders";
 import UserOrder from "./pages/clint/UserOrder";
-
-
+import { setLoader } from "./store/actions/loaderAction";
 
 function App() {
-    //const { token } = useSelector((state) => state.persistedStorage.token.userInfo);
-  
+    const { token, role } = useSelector(
+        (state) => state.persistedStorage.currentUser
+    );
+    const dispatch = useDispatch();
+    const loader = useSelector((state) => state.LoaderReducer);
+    // useEffect(() =>{
+    //     setTimeout(() => {
+    //         dispatch(setLoader(false))
+    //     }, 6000);
+
+    // })
+    console.log(loader);
     return (
         <div>
             <Router>
@@ -50,49 +59,50 @@ function App() {
                         <Route exact path="/signup">
                             <SignUP />
                         </Route>
-                       
+
                         <Route exact path="/cart">
                             <Cart />
                         </Route>
-                        <Route exact path="/orders">
+                        {role === "admin" && <Route exact path="/orders">
                             <Orders />
-                        </Route>
-                        <Route exact path="/my-order">
+                        </Route>}
+                        {role === "user" &&<Route exact path="/my-order">
                             <UserOrder />
-                        </Route>
-                        
+                        </Route>}
+
                         <Route exact path="/products">
                             <Products />
                         </Route>
                         <Route exact path="/product/:id">
                             <ProductDetails />
                         </Route>
-                        <Route exact path="/users">
+                        {role === "admin" &&  <Route exact path="/users">
                             <Users />
-                        </Route>
-                        <Route exact path="/add-user">
+                        </Route>}
+                        {role === "admin" &&  <Route exact path="/add-user">
                             <AddUser />
-                        </Route>
-                        <Route exact path="/add-product">
+                        </Route>}
+                        {role === "admin" &&  <Route exact path="/add-product">
                             <AddProduct />
-                        </Route>
-                        <Route exact path="/product/edit/:id">
+                        </Route>}
+                        {role === "admin" && <Route exact path="/product/edit/:id">
                             <EditProduct />
-                        </Route>
-                        <Route exact path="/my-profile">
+                        </Route>}
+                        {role === "user" &&  <Route exact path="/my-profile">
                             <UserProfile />
-                        </Route>
-                        <Route exact path="/edit-profile/:id">
+                        </Route>}
+
+                       {role === "admin" &&  <Route exact path="/edit-profile/:id">
                             <EditUserProfile />
-                        </Route>
-                        <Route exact path="/category">
+                        </Route>}
+
+                        {<Route exact path="/category">
                             <Category />
-                        </Route>
-                        <Route exact path="/category/edit/:id">
+                        </Route>}
+                        {role === "admin" && <Route exact path="/category/edit/:id">
                             <EditCategory />
-                        </Route>
-                        
-                     
+                        </Route>}
+
                         <Route exact path="/about">
                             <About />
                         </Route>

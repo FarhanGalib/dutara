@@ -15,6 +15,8 @@ import PersistedCartReducer from "./CartReducer/PersistedCartReducer";
 import CartReducer from './CartReducer/CartReducer';
 import OrdersReducer from './OrderReducer/OrdersReducer';
 import UserOrderListReducer from './OrderReducer/UserOrderListReducer';
+import LoaderReducer from './LoaderReducer/LoaderReducer';
+import SearchReducer from './SeatchReducer/SearchReducer';
 
 
 
@@ -41,6 +43,8 @@ const rootReducer = combineReducers({
     CartReducer,
     OrdersReducer,
     UserOrderListReducer,
+    LoaderReducer,
+    SearchText:SearchReducer,
     
     persistedStorage,
     PersistedCartStorage,

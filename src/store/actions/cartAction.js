@@ -44,7 +44,7 @@ export const requestAddCartItem = (productId, token) => {
                 authorization: `bearer ${token}`,
             },
         });
-        
+        dispatch(setPersistedCart(null))
         console.log(data);
     };
 };
@@ -68,7 +68,7 @@ export const requestAddCartItemSignin = (productId, token) => {
         console.log("signinCart===============",data);
     };
 };
-export const setCartProductQuantity=(type, itemId, productId, quantity, token)=>{
+export const setCartProductQuantity=(type, productId, quantity, token)=>{
    
     return async (dispatch) => {
         const {data} = await axios.post("http://localhost:8080/cart",{

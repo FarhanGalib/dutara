@@ -14,6 +14,7 @@ import {
     Paper,
     IconButton,
     Container,
+    Typography,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -55,6 +56,7 @@ const Products = () => {
         <div>
             <Container>
                 <div className={classes.categoryTable}>
+                    <Typography variant="h5" align="center">PRODUCTS</Typography>
                     <TableContainer component={Paper}>
                         <Table
                             className={classes.table}

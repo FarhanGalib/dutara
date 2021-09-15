@@ -1,4 +1,4 @@
-import { Container } from "@material-ui/core";
+import { Container, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,8 +49,10 @@ const EditCategory = () => {
             <Container>
                 <div className={classes.form}>
                     <form onSubmit={handleUpdateCategory}>
-                        <input
+                        <TextField
                             type="text"
+                            label="category name"
+                            variant="outlined"
                             className={classes.input}
                             onChange={(e) =>
                                 setCategory({
@@ -62,8 +64,10 @@ const EditCategory = () => {
                             placeholder="Category Name"
                             required
                         />
-                        <input
+                        <TextField
                             type="text"
+                            label="category description"
+                            variant="outlined"
                             className={classes.input}
                             onChange={(e) =>
                                 setCategory({

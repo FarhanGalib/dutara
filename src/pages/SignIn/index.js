@@ -12,6 +12,8 @@ const useStyles = makeStyles((theme) => ({
     root: {
         // backgroundColor:"black",
         marginTop: 200,
+        width: "100%",
+
     },
     formBackground: {
         // backgroundColor: "white",
@@ -82,23 +84,35 @@ const SignIn = () => {
         setSignInInfo({ ...signInInfo, [key]: e.target.value });
     };
     console.log(signInInfo);
+
+
     const handleSignIn = (e) => {
         e.preventDefault();
         dispatch(requestSignIn(signInInfo));
+        
         history.push("/home");
-        // if (error===null) {
-        //     history.push("/home");
+        //  if (error==="") {
+        //      history.push("/signin");
+        //      console.log("faka string");
             
-        // } else {
-        //     setError(null);
+        // } else if(error==="Logged in Successfully") {
+        //     history.push("/home");
+        //     setError("");
+        //     console.log("Logged in Successfully");
+
+        // }
+        // else if(error==="Wrong Password") {
+        //     setError("");
         //     history.push("/signin");
+        //     console.log("Wrong Password");
+
         // }
     };
 
     return (
         <div className={classes.root}>
-            <Grid container>
-                <Grid item sm={12} className={classes.formBackground}>
+            {/* <Grid container>
+                <Grid item sm={12} className={classes.formBackground}> */}
                     <form onSubmit={handleSignIn}>
                         <div className={classes.form}>
                             <div>
@@ -144,8 +158,8 @@ const SignIn = () => {
                             </p>
                         </div>
                     </form>
-                </Grid>
-            </Grid>
+                {/* </Grid>
+            </Grid> */}
         </div>
     );
 };
