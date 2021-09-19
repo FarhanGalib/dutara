@@ -20,7 +20,7 @@ export const requestSignIn = (signInInfo) => {
             password: signInInfo.password,
         });
         if (data.message === "Logged in Successfully") dispatch(setToken(data));
-        else dispatch(setError(data.message));
-        console.log(data);
+        else  dispatch(setError(data.message));
+        console.log("login=========",data);
     };
 };

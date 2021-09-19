@@ -26,6 +26,7 @@ import {
     Grid,
 } from "@mui/material";
 import "./cart.css";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
     table: { minWidth: 250 },
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 const Cart = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const history = useHistory();
     const { cartList } = useSelector((state) => state.CartReducer);
     const [reload, setReload] = useState(true);
     const [cart, setCart] = useState();
@@ -68,6 +70,7 @@ const Cart = () => {
     const checkOut = () => {
         
         dispatch(requestCheckOut(token));
+        history.push("/my-order");
     };
     const handleDeleteCartItem = (id) => {
         dispatch(deleteProductFromCart(id, token));

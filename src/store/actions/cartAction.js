@@ -137,6 +137,7 @@ export const requestCheckOut = (token) => {
             },
         });
         console.log(data);
+        dispatch(requestCartList(token));
     };
 };
 

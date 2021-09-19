@@ -92,6 +92,7 @@ const Home = () => {
         dispatch(requestCategoryList());
         
     },[]);
+    
 
     useEffect(()=>{
         if(productId && token ){

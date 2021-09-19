@@ -169,22 +169,15 @@
 
 // export default SignIn;
 
-
-
-
-
-
-
-
-
-
-
-
 import * as React from "react";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { requestSignIn, setError } from "../../store/actions/tokenAction";
+import {
+    requestSignIn,
+    setError,
+    setToken,
+} from "../../store/actions/tokenAction";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -195,12 +188,13 @@ import Checkbox from "@mui/material/Checkbox";
 // import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import SignInPhoto from "./photo/shopping.jpg";
-
+import axios from "axios";
 
 const theme = createTheme();
 
@@ -210,6 +204,8 @@ export default function SignIn() {
         email: "",
         password: "",
     });
+    const [loginError, setLoginError] = useState(false);
+
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -221,34 +217,19 @@ export default function SignIn() {
     const handleSignIn = (e) => {
         e.preventDefault();
         dispatch(requestSignIn(signInInfo));
+        axios
+            .post("http://localhost:8080/signin", signInInfo)
+            .then(({ data }) => {
+                if (data.message === "Logged in Successfully") {
+                    dispatch(setToken(data));
+                    setLoginError(false);
 
-        history.push("/");
-        //  if (error==="") {
-        //      history.push("/signin");
-        //      console.log("faka string");
-
-        // } else if(error==="Logged in Successfully") {
-        //     history.push("/home");
-        //     setError("");
-        //     console.log("Logged in Successfully");
-
-        // }
-        // else if(error==="Wrong Password") {
-        //     setError("");
-        //     history.push("/signin");
-        //     console.log("Wrong Password");
-
-        // }
-    };
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
-            email: data.get("email"),
-            password: data.get("password"),
-        });
+                    history.push("/");
+                } else {
+                    dispatch(setError(data.message));
+                    setLoginError(true);
+                }
+            });
     };
 
     return (
@@ -301,47 +282,76 @@ export default function SignIn() {
                             onSubmit={handleSignIn}
                             sx={{ mt: 1 }}
                         >
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                                value={signInInfo.email}
-                                onChange={(e) => setValues("email", e)}
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                                value={signInInfo.password}
-                                onChange={(e) => setValues("password", e)}
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        value="remember"
-                                        color="primary"
-                                    />
-                                }
-                                label="Remember me"
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                            >
-                                Sign In
-                            </Button>
+                            <Container maxWidth="sm">
+                                <Grid container spacing={.5}>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="email"
+                                            label="Email Address"
+                                            name="email"
+                                            autoComplete="email"
+                                            autoFocus
+                                            value={signInInfo.email}
+                                            onChange={(e) =>
+                                                setValues("email", e)
+                                            }
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            name="password"
+                                            label="Password"
+                                            type="password"
+                                            id="password"
+                                            autoComplete="current-password"
+                                            value={signInInfo.password}
+                                            onChange={(e) =>
+                                                setValues("password", e)
+                                            }
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        {loginError && (
+                                            <Box
+                                                fullWidth
+                                                style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                }}
+                                            >
+                                                user/password is incorrect.
+                                            </Box>
+                                        )}
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    value="remember"
+                                                    color="primary"
+                                                />
+                                            }
+                                            label="Remember me"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Button
+                                            type="submit"
+                                            fullWidth
+                                            variant="contained"
+                                            sx={{ mt: 3, mb: 2 }}
+                                        >
+                                            Sign In
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </Container>
                             <Grid container>
                                 <Grid item xs>
                                     <Link href="#" variant="body2">
@@ -354,7 +364,6 @@ export default function SignIn() {
                                     </Link>
                                 </Grid>
                             </Grid>
-                            
                         </Box>
                     </Box>
                 </Grid>

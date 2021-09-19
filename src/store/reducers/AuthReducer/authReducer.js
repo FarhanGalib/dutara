@@ -22,7 +22,7 @@ const authReducer = (state = initialState, action) => {
                 error: action.payload.message,
             };
         case actionTypes.SET_ERROR:
-            return { ...state, error: action.payload.message };
+            return { ...state, error: action.payload };
         default:
             return state;
     }
