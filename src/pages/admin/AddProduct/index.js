@@ -119,6 +119,7 @@ const AddProduct = () => {
                         <TextField
                             required
                             fullWidth
+                            size="small"
                             select
                             value={newProduct._id}
                             className={classes.sortByCategory}

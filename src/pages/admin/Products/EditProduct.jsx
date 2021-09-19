@@ -144,6 +144,7 @@ const EditProduct = () => {
                         fullWidth
                             required
                             select
+                            size="small"
                             label="select category"
                             value={currentProduct.categoryId}
                             className={classes.Category}

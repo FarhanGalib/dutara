@@ -103,64 +103,10 @@ const Home = () => {
     return (
       
             <Container maxWidth="lg">
-                {/* <Typography
-                    variant="h6"
-                    color="textSecondary"
-                    className={classes.title}
-                >
-                    Product-List
-                </Typography>
-                <Grid container spacing={4}>
-                    <Grid item xs={12} sm={6}>
-                        
-
-                        <TextField
-                                select
-                                size= "small"
-                                label="filter by category"
-                                sx={{backgroundColor:"white", }}
-                                value={categoryList?.name}
-                                className={classes.sortByCategory}
-                                onChange={(e) =>
-                                    setCategory(e.target.value)
-                                }
-                                variant="outlined"
-                                fullWidth
-                                SelectProps={{
-                                    native: true,
-                                }}
-                                // helperText="filter product by category"
-                            >
-                                {categories?.map((c) => (
-                                    <option key={c} value={c}>
-                                        {c}
-                                    </option>
-                                ))}
-                            </TextField>
-
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        
-                        <div >
-                            <TextField
-                                value={searchText}
-                                size= "small"
-                                //className={classes.searchTxt}
-                                sx={{backgroundColor:"white", }}
-                                fullWidth
-                                type="text"
-                                label="Search products"
-                                placeholder="Search..."
-                                onChange={(e)=>dispatch(setSearchText(e.target.value))}
-                            />
-                            
-                        </div>
-                    </Grid>
-                </Grid>
-                <br /><br /><br /> */}
+               
                 {/* PRODUCT LIST */}
                 <Products></Products>
+
             </Container>
        
     );
