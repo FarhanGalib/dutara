@@ -1,5 +1,6 @@
 import axios from "axios";
 import { actionTypes } from "../actionTypes";
+import { setLoader } from "./loaderAction";
 
 export const setOrderList = (orderList) => {
     return {
@@ -10,6 +11,8 @@ export const setOrderList = (orderList) => {
 
 export const requestOrderList = (token) => {
     return async (dispatch) => {
+        dispatch(setLoader(true));
+
         const { data } = await axios.get("http://localhost:8080/order", {
             headers: {
                 authorization: `bearer ${token}`,
@@ -17,12 +20,14 @@ export const requestOrderList = (token) => {
         });
         console.log(data);
         dispatch(setOrderList(data));
+        dispatch(setLoader(false));
+
     };
 };
 
 export const requestChangeOrderStatus = (orderId, status, token) => {
     console.log("=========================",orderId, status, token,"==============================");
-    return async () => {
+    return async (dispatch) => {
         const { data } = await axios.patch(
             `http://localhost:8080/order/${orderId}`,
             {
@@ -34,7 +39,9 @@ export const requestChangeOrderStatus = (orderId, status, token) => {
                 },
             }
         );
-       console.log(data);
+       console.log("orderchanged=====",data);
+       dispatch(requestOrderList(token));
+
     };
 };
 
@@ -52,6 +59,7 @@ export const setUserOrders = (userOrderList) => {
 //Get my (user) orders
 export const requestOrdersByUser=(token)=>{
     return async (dispatch) => {
+        dispatch(setLoader(true));
         const { data } = await axios.get(
             `http://localhost:8080/order/my-order`,
             {
@@ -61,6 +69,8 @@ export const requestOrdersByUser=(token)=>{
             }
         );
        console.log(data);
+       dispatch(setLoader(false));
        dispatch(setUserOrders(data));
+
     };
 }

@@ -1,9 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Container, Grid, TextField, Typography } from "@material-ui/core";
+import { Container, Grid, TextField, Typography } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import SaveIcon from "@material-ui/icons/Save";
 import { useDispatch, useSelector } from "react-redux";
 import { requestCategoryList } from "../../../store/actions/categoryAction";
@@ -18,17 +18,16 @@ const AddProduct = () => {
     const [baseImage, setBaseImage] = useState("");
     const [isImageChanged, setIsImageChanged] = useState(false);
 
-    
     const [newProduct, setNewProduct] = useState({
         title: "",
         categoryId: "",
         description: "",
         price: "",
-        stock:"",
+        stock: "",
         image: "",
     });
     const { categoryList } = useSelector((state) => state.categoryStore);
-   
+
     const { token } = useSelector(
         (state) => state.persistedStorage.currentUser
     );
@@ -42,7 +41,7 @@ const AddProduct = () => {
         setNewProduct({
             ...newProduct,
             categoryId: categoryList[0]?._id,
-        })
+        });
     }, [categoryList]);
 
     const uploadProductImage = async (e) => {
@@ -74,99 +73,127 @@ const AddProduct = () => {
     };
 
     return (
-        <div>
-            <Container>
-                <Typography variant="h4" className={classes.heading}>
-                    Add <span className={classes.headingStyle2}>Pro</span>
-                    duct
-                </Typography>
-                <form type="submit" onSubmit={requestAddProduct}>
-                    <TextField
-                        required
-                        fullWidth
-                        variant="outlined"
-                        label="Product Title"
-                        type="text"
-                        value={newProduct.title}
-                        onChange={(e) => setAddProduct(e, "title")}
-                        className={classes.txtField}
-                    />
-                    <img src={isImageChanged? baseImage : null} alt=""/>
-                    <input
-                        type="file"
-                        onChange={(e) => uploadProductImage(e)}
-                        required
-                    />
+        <Container maxWidth="sm">
+            <Typography variant="h4" align="center" className={classes.heading} sx={{my: "50px"}}>
+                Add Product
+            </Typography>
+            <form type="submit" onSubmit={requestAddProduct}>
+                <Grid container spacing={2}>
+                    {isImageChanged && (
+                        <Grid
+                            item
+                            xs={12}
+                            sx={{ display: "flex", justifyContent: "center" }}
+                        >
+                            <img
+                                style={{
+                                    height: "300px",
+                                    objectFit: "contain",
+                                }}
+                                src={isImageChanged ? baseImage : null}
+                                alt=""
+                            />
+                        </Grid>
+                    )}
+                    <Grid item xs={12}>
+                        <TextField
+                            required
+                            fullWidth
+                            variant="outlined"
+                            label="Product Title"
+                            type="text"
+                            value={newProduct.title}
+                            onChange={(e) => setAddProduct(e, "title")}
+                            className={classes.txtField}
+                        />
+                    </Grid>
 
-                    <TextField
-                        required
-                        select
-                        value={newProduct._id}
-                        className={classes.sortByCategory}
-                        onChange={(e) =>
-                            setNewProduct({
-                                ...newProduct,
-                                categoryId: e.target.value,
-                            })
-                        }
-                        
-                        SelectProps={{
-                            native: true,
-                        }}
-                        helperText="select category"
-                    >
-                        {categoryList.map((c) => (
-                            <option key={c._id} value={c._id}>
-                                {c.name}
-                            </option>
-                        ))}
-                    </TextField>
+                    <Grid item xs={12} sm={6}>
+                        <input
+                            type="file"
+                            onChange={(e) => uploadProductImage(e)}
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            required
+                            fullWidth
+                            select
+                            value={newProduct._id}
+                            className={classes.sortByCategory}
+                            onChange={(e) =>
+                                setNewProduct({
+                                    ...newProduct,
+                                    categoryId: e.target.value,
+                                })
+                            }
+                            SelectProps={{
+                                native: true,
+                            }}
+                            helperText="select category"
+                        >
+                            {categoryList.map((c) => (
+                                <option key={c._id} value={c._id}>
+                                    {c.name}
+                                </option>
+                            ))}
+                        </TextField>
+                    </Grid>
 
-                    <TextField
-                        required
-                        variant="outlined"
-                        label="Product Price"
-                        type="number"
-                        value={newProduct.price}
-                        onChange={(e) => setAddProduct(e, "price")}
-                        className={classes.txtField}
-                    />
-                     <TextField
-                        required
-                        variant="outlined"
-                        label="Product Stock"
-                        type="number"
-                        value={newProduct.stock}
-                        onChange={(e) => setAddProduct(e, "stock")}
-                        className={classes.txtField}
-                    />
-
-                    <TextField
-                        required
-                        fullWidth
-                        variant="outlined"
-                        label="Product Description"
-                        type="text"
-                        multiline
-                        rows={4}
-                        value={newProduct.description}
-                        onChange={(e) => setAddProduct(e, "description")}
-                        className={classes.txtField}
-                    />
-                    <Button
-                        type="submit"
-                        startIcon={<SaveIcon />}
-                        variant="contained"
-                        color="primary"
-                        className={classes.btn}
-                    >
-                        Add Product
-                    </Button>
-                </form>
-            </Container>
-
-           
-        </div>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            required
+                            fullWidth
+                            variant="outlined"
+                            label="Product Price"
+                            type="number"
+                            value={newProduct.price}
+                            onChange={(e) => setAddProduct(e, "price")}
+                            className={classes.txtField}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            required
+                            fullWidth
+                            variant="outlined"
+                            label="Product Stock"
+                            type="number"
+                            value={newProduct.stock}
+                            onChange={(e) => setAddProduct(e, "stock")}
+                            className={classes.txtField}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            required
+                            fullWidth
+                            variant="outlined"
+                            label="Product Description"
+                            type="text"
+                            multiline
+                            rows={4}
+                            value={newProduct.description}
+                            onChange={(e) => setAddProduct(e, "description")}
+                            className={classes.txtField}
+                        />
+                    </Grid>
+                    <Grid item xm={12} sm={12}>
+                        <Button
+                            fullWidth
+                            type="submit"
+                            startIcon={<SaveIcon />}
+                            variant="contained"
+                            color="primary"
+                            className={classes.btn}
+                        >
+                            Add Product
+                        </Button>
+                    </Grid>
+                </Grid>
+            </form>
+        </Container>
     );
 };
 

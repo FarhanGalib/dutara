@@ -11,9 +11,10 @@ import {
     TableHead,
     TableRow,
     Paper,
-    IconButton,
     Container,
-} from "@material-ui/core";
+    Typography,
+} from "@mui/material";
+import { IconButton } from "@material-ui/core";
 import { requestOrderList } from "../../../store/actions/orderActon";
 import { requestChangeOrderStatus } from "../../../store/actions/orderActon";
 import HelpIcon from "@material-ui/icons/Help";
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 const Orders = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [orders,setOrders] = useState(null);
+    const [orders, setOrders] = useState(null);
     const { orderList } = useSelector((state) => state.OrdersReducer);
     const { token } = useSelector(
         (state) => state.persistedStorage.currentUser
@@ -52,16 +53,19 @@ const Orders = () => {
 
     useEffect(() => {
         setOrders(orderList);
-    }, [orderList])
+    }, [orderList]);
 
     const handleStatus = (orderId, status) => {
         dispatch(requestChangeOrderStatus(orderId, status, token));
     };
     return (
-        <div>
+        <Container maxWidth="lg" sx={{ my: "50px", mb: "500px" }}>
+            <Typography variant="h5" align="center" sx={{ my: "50px" }}>
+                Orders
+            </Typography>
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
-                    <TableHead>
+                    <TableHead sx={{ backgroundColor: "#BDBDBD" }}>
                         <TableRow>
                             <TableCell>ORDER OF</TableCell>
                             <TableCell>ORDER TIME</TableCell>
@@ -71,16 +75,24 @@ const Orders = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {orders &&
-                            orders.map((item) => (
+                        {orderList &&
+                            orderList.map((item) => (
                                 <TableRow key={item._id}>
                                     <TableCell>
                                         {`${item.userId.firstname} ${item.userId.lastname}`}{" "}
                                         <br />
                                         {`@${item.userId.username}`}{" "}
                                     </TableCell>
-                                    <TableCell>{new Date(item.date).toUTCString()}</TableCell>
-                                    <TableCell>{item.status===0?"pending":item.status===1?"delivered":"canceled"}</TableCell>
+                                    <TableCell>
+                                        {new Date(item.date).toUTCString()}
+                                    </TableCell>
+                                    <TableCell>
+                                        {item.status === 0
+                                            ? "pending"
+                                            : item.status === 1
+                                            ? "delivered"
+                                            : "canceled"}
+                                    </TableCell>
                                     <TableCell>
                                         {item.userId.address.geolocation.lat}-
                                         {item.userId.address.geolocation.long}-
@@ -90,24 +102,45 @@ const Orders = () => {
                                     <TableCell>
                                         <div className={classes.actions}>
                                             <IconButton
+                                                disabled={
+                                                    item?.status === 0
+                                                        ? true
+                                                        : false
+                                                }
                                                 variant="contained"
                                                 className={classes.pending}
-                                                onClick={() => handleStatus(item._id, 0)}
+                                                onClick={() =>
+                                                    handleStatus(item._id, 0)
+                                                }
                                             >
                                                 <HelpIcon />
                                             </IconButton>
                                             <IconButton
+                                                disabled={
+                                                    item?.status === 1
+                                                        ? true
+                                                        : false
+                                                }
                                                 variant="contained"
                                                 className={classes.delivered}
-                                                onClick={() => handleStatus(item._id, 1)}
+                                                onClick={() =>
+                                                    handleStatus(item._id, 1)
+                                                }
                                             >
                                                 <CheckIcon />
                                             </IconButton>
                                             <IconButton
+                                                disabled={
+                                                    item?.status === 2
+                                                        ? true
+                                                        : false
+                                                }
                                                 variant="contained"
                                                 className={classes.canceled}
-                                                onClick={() => handleStatus(item._id, 2)}
-                                                disabled={false}
+                                                onClick={() =>
+                                                    handleStatus(item._id, 2)
+                                                }
+                                                
                                             >
                                                 <CancelIcon />
                                             </IconButton>
@@ -118,7 +151,7 @@ const Orders = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div>
+        </Container>
     );
 };
 

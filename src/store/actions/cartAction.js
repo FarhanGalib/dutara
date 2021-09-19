@@ -1,5 +1,6 @@
 import axios from "axios";
 import { actionTypes } from "../actionTypes";
+import { setLoader } from "./loaderAction";
 
 export const setPersistedCart = (productId) => {
     return {
@@ -21,11 +22,14 @@ export const setCartList = (cartList) => {
 };
 export const requestCartList = (token) => {
     return async (dispatch) => {
+        dispatch(setLoader(true));
+
         const { data } = await axios.get("http://localhost:8080/cart", {
             headers: {
                 authorization: `bearer ${token}`,
             },
         });
+        dispatch(setLoader(false));
         dispatch(setCartList(data));
     };
 };
@@ -44,7 +48,9 @@ export const requestAddCartItem = (productId, token) => {
                 authorization: `bearer ${token}`,
             },
         });
-        dispatch(setPersistedCart(null))
+        dispatch(setPersistedCart(null));
+        dispatch(setCartList(data));
+
         console.log(data);
     };
 };
@@ -65,6 +71,7 @@ export const requestAddCartItemSignin = (productId, token) => {
         });
 
         dispatch(setPersistedCart(null));
+        dispatch(requestCartList(token));
         console.log("signinCart===============",data);
     };
 };
@@ -101,7 +108,7 @@ export const requestAddToCart = (productId,quantity,token)=>{
                 authorization: `bearer ${token}`,
             },
         });
-      
+        dispatch(requestCartList(token));
     }
 }
 

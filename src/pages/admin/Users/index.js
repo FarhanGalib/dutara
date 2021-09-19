@@ -13,7 +13,8 @@ import {
     Paper,
     IconButton,
     Container,
-} from "@material-ui/core";
+    Typography
+} from "@mui/material";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { requestDeleteSingleUser, requestUserList } from "../../../store/actions/userAction";
@@ -50,11 +51,12 @@ const Users = () => {
         setToggle(!toggle);
     };
     return (
-        <div>
-            <div className={classes.userTable}>
+        
+            <Container maxWidth="lg" sx={{ my: "50px"}} className={classes.userTable}>
+                <Typography variant="h5" align="center" sx={{my:"50px"}}>User List</Typography>
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="User table">
-                        <TableHead>
+                        <TableHead sx={{backgroundColor: "#BDBDBD" }}>
                             <TableRow>
                                 <TableCell>NAME AND USERNAME</TableCell>
                                 <TableCell>EMAIL AND PHONE NO.</TableCell>
@@ -101,8 +103,7 @@ const Users = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </div>
-        </div>
+            </Container>
     );
 };
 

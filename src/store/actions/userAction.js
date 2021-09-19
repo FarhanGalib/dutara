@@ -1,5 +1,6 @@
 import axios from "axios";
 import { actionTypes } from "../actionTypes";
+import { setLoader } from "./loaderAction";
 
 export const addNewUser = (newUser) => {
     return {
@@ -59,12 +60,14 @@ export const setUserList = (userList)=>{
 
 export const requestUserList = (token) => {
     return async (dispatch) => {
+        dispatch(setLoader(true));
         const { data } = await axios.get("http://localhost:8080/user/", {
             headers: {
                 authorization: `bearer ${token}`,
             },
         });
         dispatch(setUserList(data));
+        dispatch(setLoader(false));
         
     };
 };
@@ -81,6 +84,7 @@ export const requestDeleteSingleUser = (id,token) => {
             },
         });
         console.log(data);
+        dispatch(requestUserList(token));
     };
 };
 
@@ -99,12 +103,16 @@ export const setSingleUserInfoForEdit = (singleUser)=>{
 
 export const requestSingleUserInfo = (id,token) => {
     return async (dispatch) => {
+        dispatch(setLoader(true));
+
         const { data } = await axios.get(`http://localhost:8080/user/${id}`, {
             headers: {
                 authorization: `bearer ${token}`,
             },
         });
         dispatch(setSingleUserInfoForEdit(data));
+        dispatch(setLoader(false));
+        
         console.log(data);
        
     };
@@ -140,7 +148,8 @@ export const requestUserUpdate = (id,token, currentUserUpdatedInfo) => {
                 authorization: `bearer ${token}`,
             },
         });
-        
+        dispatch(requestUserList(token));
+    
         console.log(data);
        
     };
@@ -148,7 +157,7 @@ export const requestUserUpdate = (id,token, currentUserUpdatedInfo) => {
 
 
 export const requestAddNewUserByAdmin =(newUserInfo,token)=>{
-    return async ()=>{
+    return async (dispatch)=>{
         await axios.post("http://localhost:8080/user",
         {
             address: {
@@ -174,7 +183,9 @@ export const requestAddNewUserByAdmin =(newUserInfo,token)=>{
                 authorization: `bearer ${token}`,
             },
         }
-        )
+        );
+        dispatch(requestUserList(token));
+
     }
 }
 
@@ -187,6 +198,8 @@ export const setUserProfileInfo = (userInfo)=>{
 };
 export const requestUserInfoByUser=(token)=>{
     return async (dispatch) => {
+        dispatch(setLoader(true));
+
         const {data} =await axios.get("http://localhost:8080/my-detail",
         {
             headers: {
@@ -195,6 +208,8 @@ export const requestUserInfoByUser=(token)=>{
         });
         dispatch(setUserProfileInfo(data));
         console.log("data=======",data);
+        dispatch(setLoader(false));
+
     };
 }
 

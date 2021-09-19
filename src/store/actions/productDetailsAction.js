@@ -1,5 +1,6 @@
 import axios from "axios";
 import { actionTypes } from "../actionTypes";
+import { setLoader } from "./loaderAction";
 
 export const setCurrentProduct = (currentProduct) => {
     return {
@@ -10,6 +11,8 @@ export const setCurrentProduct = (currentProduct) => {
 export const requestSingleProduct = (id, token) => {
     console.log("++++++++++++++++++++++++++++++++++++++++++++");
     return async (dispatch) => {
+        dispatch(setLoader(true));
+
         const {data}  = await axios.get(
             "http://localhost:8080/products/"+id,
             {
@@ -20,5 +23,7 @@ export const requestSingleProduct = (id, token) => {
         );
         dispatch(setCurrentProduct(data));
         console.log("********************",data);
+        dispatch(setLoader(false));
+
     };
 };

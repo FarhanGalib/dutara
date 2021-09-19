@@ -4,7 +4,8 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import { requestOrdersByUser } from '../../../store/actions/orderActon';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Container, Paper, Typography } from '@mui/material';
 
 
 
@@ -29,13 +30,15 @@ const UserOrder = () => {
         dispatch(requestOrdersByUser(token));
     },[])
     return (
-        <div>
-            <TableContainer >
+        <Container maxWidth="lg" >
+
+            <Typography sx={{mt:"50px"}} variant="h5"  align="center">My Orders</Typography>
+            <TableContainer component={Paper} sx={{mb:"100px"}}>
                         <Table
                             className={classes.table}
                             aria-label="simple table"
                         >
-                            <TableHead>
+                            <TableHead sx={{backgroundColor:"#bdbdbd"}}>
                                 <TableRow>
                                     <TableCell>STATUS</TableCell>
                                     <TableCell>DATE</TableCell>
@@ -58,7 +61,7 @@ const UserOrder = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-        </div>
+        </Container>
     );
 };
 

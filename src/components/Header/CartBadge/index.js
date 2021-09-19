@@ -19,11 +19,11 @@ const StyledBadge = withStyles((theme) => ({
 export default function CartBadge() {
     const dispatch = useDispatch();
     const history = useHistory();
-    let { cartList } = useSelector((state) => state.CartReducer);
+    const { cartList } = useSelector((state) => state.CartReducer);
     const { token } = useSelector(
         (state) => state.persistedStorage.currentUser
     );
-
+   
     useEffect(() => {
         dispatch(requestCartList(token));
     }, []);
@@ -31,14 +31,14 @@ export default function CartBadge() {
     return (
         <IconButton onClick={() => history.push("/cart")} aria-label="cart">
             <StyledBadge
-                badgeContent={1}
+                badgeContent={cartList?.status!=="error"?cartList?.products.reduce(
+                    (total, item) => total + item.quantity,
+                    0
+                ):0}
                 color="secondary"
-              //   cartList.products.reduce(
-              //     (total, item) => total + item.quantity,
-              //     0
-              // )
+                
             >
-                <ShoppingCartIcon />
+                <ShoppingCartIcon style={{color: "white"}}/>
             </StyledBadge>
         </IconButton>
     );

@@ -5,7 +5,8 @@ import {
     ListItem,
     ListItemText,
     ListItemIcon,
-} from "@material-ui/core";
+    Typography
+} from "@mui/material";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import HomeIcon from "@material-ui/icons/Home";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
@@ -40,15 +41,17 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     logo: {
-        paddingLeft: theme.spacing(8),
+        
+        paddingLeft: theme.spacing(4),
     },
     logo1: {
         color: "#D44D12",
-        fontSize: "25px",
+        fontSize: "45px",
         fontWeight: 600,
     },
     logo2: {
         color: "#91CA55",
+        fontSize: "35px",
         fontWeight: 900,
     },
 }));
@@ -114,13 +117,14 @@ const Dashboard = () => {
                 <div className={classes.logo}>
                     <span className={classes.logo1}>দো</span>
                     <span className={classes.logo2}>তারা</span>
+                    <Typography></Typography>
                 </div>
-
+                <div style={{marginTop:"50px"}}></div>
                 <List>
                     {navlinks.map((item) => (
                         <ListItem
                             className={`${classes.item} ${
-                                location.pathname === item.path
+                                (location.pathname === item.path)
                                     ? classes.active
                                     : null
                             }`}

@@ -24,20 +24,20 @@ import {
     Container,
     Button,
     Grid,
-} from "@material-ui/core";
+} from "@mui/material";
 import "./cart.css";
 
 const useStyles = makeStyles((theme) => ({
     table: { minWidth: 250 },
-    quantity: { display: "flex", flexDirection: "row" },
+    quantity: { display: "flex", flexDirection: "row", itemsAlign: "center"},
     cartContainer: {
-        border: "5px solid red",
+       
         width: "100%",
         marginTop: 30,
         marginBottom: 20,
     },
     tableContainer: { marginBottom: 20, marginRight: 20 },
-    cartDetails: { marginBottom: 20 },
+    cartDetails: { marginBottom: 20, },
     marginLeft: 20,
 }));
 
@@ -53,12 +53,12 @@ const Cart = () => {
 
     useEffect(() => {
         dispatch(requestCartList(token));
-    }, []);
+    }, [reload]);
 
-    useEffect(() => {
-        setReload(!reload);
-        setCart(cartList);
-    }, [cartList]);
+    // useEffect(() => {
+    //     setReload(!reload);
+    //     setCart(cartList);
+    // }, [cartList]);
 
     const handleQuantity = (type, productId, quantity) => {
         dispatch(setCartProductQuantity(type, productId, quantity, token));
@@ -66,21 +66,25 @@ const Cart = () => {
     };
 
     const checkOut = () => {
+        
         dispatch(requestCheckOut(token));
     };
     const handleDeleteCartItem = (id) => {
         dispatch(deleteProductFromCart(id, token));
+        setReload(!reload);
+
     };
     return (
-        <div className={classes.cartContainer}>
-            <div>
-                <div className={classes.tableContainer}>
+        <Container maxWidth="lg" className={classes.cartContainer}>
+            <Grid container spacing={4} sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Grid item xs={12} sm={12} md={7} className={classes.tableContainer}>
+                    
                     <TableContainer component={Paper}>
                         <Table
                             className={classes.table}
-                            aria-label="simple table"
+                            aria-label="cart table"
                         >
-                            <TableHead>
+                            <TableHead sx={{backgroundColor:"#cfcfcf"}}>
                                 <TableRow>
                                     <TableCell>IMAGE</TableCell>
                                     <TableCell>TITLE</TableCell>
@@ -91,17 +95,17 @@ const Cart = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {cart
-                                    ? !cart?.status
-                                        ? null
-                                        : cart?.products.map(
+                                {cartList &&
+                                     cartList.status!=="error"?
+                                        
+                                         cartList.products.map(
                                               (item, index) => (
                                                   <TableRow key={item._id}>
                                                       <TableCell>
                                                           {" "}
                                                           <img
-                                                              height="150px"
-                                                              src={`http://localhost:8080${item.productId.image}`}
+                                                              style={{height:"150px", objectFit:"contain"}}
+                                                              src={`http://localhost:8080/files/${item.productId.image}`}
                                                               alt=""
                                                           />
                                                       </TableCell>
@@ -180,46 +184,53 @@ const Cart = () => {
                                                   </TableRow>
                                               )
                                           )
-                                    : null}
+                                    :"Your cart is empty"}
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </div>
-                <div className={classes.cartDetails}>
-                    <h4>Cart Details</h4>
+                    </Grid>
+                
+                <Grid item xs={12} md={4} className={classes.cartDetails} >
+                    <h3>Cart Details</h3>
+                    <br />
                     <p>
-                        {`Total Products: ${
-                            cart?.status
-                                ? 0
-                                : cart?.products.reduce(
+                        Total Products: &nbsp;&nbsp;&nbsp;&nbsp;{`${
+                            cartList && cartList?.status !=="error"
+                                ? 
+                                 cartList?.products.reduce(
                                       (total, item) => total + item.quantity,
                                       0
-                                  )
+                                  ):0
                         }`}
+                        
                     </p>
+                  
+
                     <p>
-                        {`Total  Price: ${
-                            cart?.status
-                                ? 0
-                                : cart?.products.reduce(
+                        Total  Price:&nbsp;&nbsp;&nbsp;&nbsp;  {` ${
+                            cartList && cartList?.status !=="error"
+                                ? 
+                                 cartList?.products.reduce(
                                       (total, item) =>
                                           total +
                                           item.productId.price * item.quantity,
                                       0
-                                  )
+                                  ):0
                         } TK`}
+                        
                     </p>
+                    <br />
 
-                    <Button
+                   { cartList?.status!== "error" && <Button
                         variant="contained"
                         color="primary"
                         onClick={() => checkOut()}
                     >
                         Proceed to Checkout
-                    </Button>
-                </div>
-            </div>
-        </div>
+                    </Button>}
+                </Grid>
+            </Grid>
+        </Container>
     );
 };
 

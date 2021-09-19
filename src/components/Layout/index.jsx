@@ -6,46 +6,36 @@ import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-    flexSidebarChildren:{
+    flexSidebarChildren: {
         display: "flex",
         flexDirection: "row",
-    }
+        flexGrow: 1,
+    },
+    children: {
+        flexGrow: 1,
+         backgroundColor: "#f5f5f5f5"
+    },
 }));
 
 const Layout = ({ children }) => {
     const classes = useStyles();
-   const { token, role } = useSelector((state) => state.persistedStorage.currentUser);
-    // const [tokenIsEmpty, setTokenIsEmpty] = useState(true);
-    // if (Object.keys(token).length === 0 && token.constructor === 0) {
-    //     setTokenIsEmpty(true);
-    // } else {
-    //     setTokenIsEmpty(false);
-    // }
+    const { token, role } = useSelector(
+        (state) => state.persistedStorage.currentUser
+    );
+
     return (
         <div className={classes.root}>
-            {/* {!tokenIsEmpty ? (
-                token.userInfo.role === "user" && <Header></Header>
-            ) : (
-                <Header></Header>
-            )}
-            {!tokenIsEmpty
-                ? token.userInfo.role === "admin" && <Dashboard></Dashboard>
-                : null}
-            {children}
-            {!tokenIsEmpty ? (
-                token.userInfo.role === "user" && <Footer></Footer>
-            ) : (
-                <Footer></Footer>
-            )} */}
-
-
-
-            {(role==="" || role==="user") && <Header></Header>}
-            <div className={classes.flexSidebarChildren}>
-               {role ==="admin"  && <Dashboard></Dashboard>}
-                <div>{children}</div>
+            {(role === "" || role === "user") && <Header></Header>}
+            <div
+                className={`${
+                    role === "admin" ? classes.flexSidebarChildren : null
+                }`}
+            >
+                {role === "admin" && <Dashboard></Dashboard>}
+                <div className={classes.children}>{children}</div>
             </div>
-            <Footer></Footer>
+
+            {(role === "" || role === "user") && <Footer />}
         </div>
     );
 };

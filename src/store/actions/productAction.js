@@ -23,6 +23,7 @@ export const requestAddNewProduct = (newProduct, token) => {
                 },
             }
         );
+        dispatch(requestProductList(token));
         console.log(pro);
     };
 };
@@ -46,7 +47,8 @@ export const requestProductList = (token) => {
         });
         dispatch(setProductList(data));
         dispatch(setLoader(false));
-        // console.log(store.LoaderReducer);
+        console.log("Product list======",data);
+        
     };
 };
 
@@ -58,6 +60,7 @@ export const requestDeleteProduct = (id, token) => {
                 authorization: `bearer ${token}`,
             },
         });
+        dispatch(requestProductList(token));
     };
 };
 
@@ -70,6 +73,7 @@ export const setCurrentProduct = (currentProduct) => {
 };
 export const requestSingleProduct = (id, token) => {
     return async (dispatch) => {
+        dispatch(setLoader(true));
         const { data } = await axios.get(
             `http://localhost:8080/products/${id}`,
             {
@@ -79,6 +83,8 @@ export const requestSingleProduct = (id, token) => {
             }
         );
         dispatch(setCurrentProduct(data));
+        dispatch(setLoader(false));
+
     };
 };
 
@@ -107,7 +113,8 @@ export const requestUpdateProduct = (
                     },
                 }
             );
-            console.log(data);
+        dispatch(requestProductList(token));
+        console.log(data);
         }
         else{
             const { data } = await axios.patch(
@@ -127,6 +134,8 @@ export const requestUpdateProduct = (
                 }
             );
             console.log(data);
+        dispatch(requestProductList(token));
+
         }
     };
 };

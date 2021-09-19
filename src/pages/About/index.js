@@ -1,9 +1,11 @@
 import React from 'react';
+import styles from './about.module.css';
+import about from './about.webp';
 
 const About = () => {
     return (
-        <div>
-            
+        <div className={styles.container}>
+            <img className={styles.image} src={about} alt=""/>
         </div>
     );
 };

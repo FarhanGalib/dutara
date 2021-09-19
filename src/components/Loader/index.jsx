@@ -8,17 +8,14 @@ const Loader = ({ children }) => {
     console.log(loader, "loader======");
     return (
         <div>
-            {/* {loader ? ( */}
+            {loader &&
             <div className={Styles.container}>
                 <div className={Styles.flex}>
                     <div className={Styles.loader}></div>
                 </div>
                 <div className={Styles.load_text}>Loading...</div>
-            </div>
-            {/* ) : (
-                <div> {children}</div>
-            )} */}
-            {/* <div> {children}</div> */}
+            </div>}
+          
         </div>
     );
 };

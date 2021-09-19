@@ -41,7 +41,7 @@ function App() {
     return (
         <div>
             <Router>
-                {/* <Loader> */}
+             <Loader/> 
                 <Layout>
                     <Switch>
                         <Route exact path="/">
@@ -111,7 +111,7 @@ function App() {
                         </Route>
                     </Switch>
                 </Layout>
-                {/* </Loader> */}
+              
             </Router>
         </div>
     );

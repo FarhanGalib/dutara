@@ -15,7 +15,7 @@ import {
     IconButton,
     Container,
     Typography,
-} from "@material-ui/core";
+} from  '@mui/material';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { requestDeleteProduct, requestProductList } from "../../../store/actions/productAction";
@@ -53,16 +53,16 @@ const Products = () => {
     };
 
     return (
-        <div>
-            <Container>
+        
+            <Container maxWidth="lg" sx={{my:"50px"}}>
                 <div className={classes.categoryTable}>
-                    <Typography variant="h5" align="center">PRODUCTS</Typography>
+                    <Typography variant="h5"  sx={{my:"50px"}} align="center">Product List</Typography>
                     <TableContainer component={Paper}>
                         <Table
                             className={classes.table}
                             aria-label="simple table"
                         >
-                            <TableHead>
+                            <TableHead sx={{backgroundColor:"#BDBDBD"}}>
                                 <TableRow>
                                     <TableCell>TITLE</TableCell>
                                     <TableCell>PRICE</TableCell>
@@ -79,9 +79,9 @@ const Products = () => {
                                             <TableCell component="th" scope="row" >
                                                <div className={classes.title}>
                                                <img
-                                                    src={BASE_URL+product.image}
+                                                    src={BASE_URL+"/files/"+product.image}
                                                     alt="img"
-                                                    height="50px"
+                                                    style={{height:"100px", objectFit: "contain"}}
                                                     className={classes.img}
                                                 />
                                                 {product.title}
@@ -99,7 +99,8 @@ const Products = () => {
                                             <TableCell>
                                                 {product.description}
                                             </TableCell>
-                                            <TableCell>
+                                            <TableCell >
+                                                <div style={{display: 'flex',}}>
                                                 <IconButton
                                                     onClick={() =>
                                                         handleEditProduct(
@@ -110,6 +111,7 @@ const Products = () => {
                                                     <EditIcon />
                                                 </IconButton>
                                                 <IconButton
+                                                    
                                                     onClick={() =>
                                                         handleDeleteProduct(
                                                             product._id
@@ -118,6 +120,7 @@ const Products = () => {
                                                 >
                                                     <DeleteIcon />
                                                 </IconButton>
+                                                </div>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -126,7 +129,7 @@ const Products = () => {
                     </TableContainer>
                 </div>
             </Container>
-        </div>
+        
     );
 };
 

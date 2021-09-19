@@ -17,6 +17,8 @@ import OrdersReducer from './OrderReducer/OrdersReducer';
 import UserOrderListReducer from './OrderReducer/UserOrderListReducer';
 import LoaderReducer from './LoaderReducer/LoaderReducer';
 import SearchReducer from './SeatchReducer/SearchReducer';
+import ToggleReducer from './ToggleReducer/ToggleReducer';
+import CategoryListForFilterReducer from './CategoryReducer/CategoryListForFilterReducer';
 
 
 
@@ -33,6 +35,7 @@ const PersistedCartStorage =  persistReducer(persistConfig2, PersistedCartReduce
 const rootReducer = combineReducers({
     addUserReducer,
     categoryStore: categoryReducer,
+    CategoryListForFilterReducer,
     EditCategoryReducer,
     userListReducer,
     EditUserReducer,
@@ -45,6 +48,7 @@ const rootReducer = combineReducers({
     UserOrderListReducer,
     LoaderReducer,
     SearchText:SearchReducer,
+    ToggleReducer,
     
     persistedStorage,
     PersistedCartStorage,

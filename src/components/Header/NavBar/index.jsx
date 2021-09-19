@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     AppBar,
     Toolbar,
@@ -17,11 +17,13 @@ import { NavLink, useHistory, useLocation } from "react-router-dom";
 import CartBadge from "../CartBadge";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken } from "../../../store/actions/tokenAction";
+import { requestUserInfoByUser } from "../../../store/actions/userAction";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     appbar: {
-        backgroundColor: "#f7f7f7",
+        // backgroundColor: "#f7f7f7",
+        background: "#0d132c"
     },
     menuButton: {
         [theme.breakpoints.up("sm")]: {
@@ -60,10 +62,11 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down("xs")]: {
             display: "none",
         },
-        color: "black",
+        color: "white",
         "&:hover": {
-            color: "red",
+            color: "#e42727",
         },
+        
     },
     drawer: {
         width: drawerWidth,
@@ -88,7 +91,9 @@ const useStyles = makeStyles((theme) => ({
         color: "#D44D12",
         fontSize: "25px",
         fontWeight: 600,
-
+        "&:hover":{
+            cursor: "pointer"
+        },
         [theme.breakpoints.up("xs")]: {
             marginLeft: 70,
         },
@@ -96,8 +101,11 @@ const useStyles = makeStyles((theme) => ({
     logo2: {
         color: "#91CA55",
         fontWeight: 900,
+        "&:hover":{
+            cursor: "pointer"
+        }
     },
-
+    
     toolbar: theme.mixins.toolbar,
 }));
 
@@ -111,7 +119,7 @@ const Header = () => {
     const { role, email, token } = useSelector(
         (state) => state.persistedStorage.currentUser
     );
-
+    const currentUserInfo = useSelector((state) => state.CurrentUserInfoReducer)
     const navlinks = [
         {
             text: "Home",
@@ -130,6 +138,12 @@ const Header = () => {
             path: "/signup",
         },
     ];
+
+    useEffect(() => {
+        if(token!=="")
+            dispatch(requestUserInfoByUser(token));
+    
+    }, [token])
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -198,9 +212,9 @@ const Header = () => {
 
                     {/* LOGO */}
                     <div className={classes.space}>
-                        <div>
-                            <span className={classes.logo1}>দো</span>
-                            <span className={classes.logo2}>তারা</span>
+                        <div className={classes.logoContainer}>
+                            <span onClick={() => history.push("/")} className={classes.logo1}>দো</span>
+                            <span onClick={() => history.push("/")} className={classes.logo2}>তারা</span>
                         </div>
                     </div>
                     <div className={classes.navProperties}>
@@ -243,7 +257,7 @@ const Header = () => {
                                             : null
                                     }`}
                                 >
-                                    Signin
+                                    Sign in
                                 </NavLink>
                             )}
                             {role === "" && (
@@ -258,7 +272,7 @@ const Header = () => {
                                             : null
                                     }`}
                                 >
-                                    Signup
+                                    Sign up
                                 </NavLink>
                             )}
                         </div>
@@ -276,7 +290,7 @@ const Header = () => {
                                 className={classes.profile}
                             >
                                 <Avatar alt="" className={classes.avatar}>
-                                    F
+                                    {role!=="" && currentUserInfo?.username[0]}
                                 </Avatar>
                             </IconButton>
                         )}
@@ -302,7 +316,7 @@ const Header = () => {
                                     My Orders
                                 </MenuItem>
                                 <MenuItem onClick={handleSignOut}>
-                                    Signout
+                                    Sign out
                                 </MenuItem>
                             </Menu>
                         )}

@@ -21,14 +21,15 @@ import {
     TextField,
     Button,
     Typography,
-} from "@material-ui/core";
+    Grid,
+} from "@mui/material";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles((theme) => ({
     table: { minWidth: 650 },
-    input: {display: "block", marginTop:15},
-    submitBtn: {display: "block", marginTop:15, marginBottom: 15},
+    input: { display: "block", marginTop: 15 },
+    submitBtn: { display: "block", marginTop: 15, marginBottom: 15 },
 }));
 const Category = () => {
     const classes = useStyles();
@@ -36,6 +37,7 @@ const Category = () => {
         name: "",
         description: "",
     });
+    const [showForm, setShowForm] = useState(false);
     const [loadedCategory, setLoadedCategory] = useState([]);
     const [toggle, setToggle] = useState(true);
     const dispatch = useDispatch();
@@ -49,10 +51,10 @@ const Category = () => {
     useEffect(() => {
         dispatch(requestCategoryList());
     }, [toggle]);
-    
+
     useEffect(() => {
         setLoadedCategory([...categoryList]);
-    },[categoryList])
+    }, [categoryList]);
 
     const handleAddNewCategory = (e) => {
         e.preventDefault();
@@ -68,60 +70,93 @@ const Category = () => {
         setToggle(!toggle);
     };
     return (
-        <div>
-            <Container>
+        <>
+        <Container maxWidth="lg">
+           
                 <div className={classes.form}>
-                    <Typography variant="h5" align="center">CATEGORY</Typography>
-                    <form onSubmit={handleAddNewCategory}>
-                        <Typography variant="h6" color="textSecondary" align="center">ADD CATEGORY</Typography>
-                        <TextField
-                            type="text"
-                            label="category name"
-                            variant= "outlined"
-                            className={classes.input}
-                            onChange={(e) =>
-                                setNewCategory({
-                                    ...newCategory,
-                                    name: e.target.value,
-                                })
-                            }
-                            value={newCategory.name}
-                            placeholder="Category Name"
-                            required
-                        />
-                        <TextField
-                            type="text"
-                            label="category description"
-                            variant= "outlined"
-                            className={classes.input}
-                            onChange={(e) =>
-                                setNewCategory({
-                                    ...newCategory,
-                                    description: e.target.value,
-                                })
-                            }
-                            value={newCategory.description}
-                            placeholder="Category description"
-                            required
-                        />
-                        <Button
-                            type="submit"
-                            className={classes.submitBtn}
-                            variant="contained"
-                            color="primary"
-                        >SUBMIT</Button>
-                    </form>
+                    <Typography variant="h5" align="center" sx={{ my: "50px"}}>
+                        CATEGORY
+                    </Typography>
+                    {!showForm && <Button variant="outlined" onClick={()=>setShowForm(true)}>Add Category</Button>}
+                    {showForm && <form onSubmit={handleAddNewCategory}>
+                        <Typography
+                            variant="h6"
+                            color="textSecondary"
+                            align="center"
+                            sx={{ my: "30px"}}
+                        >
+                            Add Category
+                        </Typography>
+                        <Container maxWidth="xs">
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        type="text"
+                                        label="category name"
+                                        variant="outlined"
+                                        className={classes.input}
+                                        onChange={(e) =>
+                                            setNewCategory({
+                                                ...newCategory,
+                                                name: e.target.value,
+                                            })
+                                        }
+                                        value={newCategory.name}
+                                        placeholder="Category Name"
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        type="text"
+                                        label="category description"
+                                        variant="outlined"
+                                        className={classes.input}
+                                        onChange={(e) =>
+                                            setNewCategory({
+                                                ...newCategory,
+                                                description: e.target.value,
+                                            })
+                                        }
+                                        value={newCategory.description}
+                                        placeholder="Category description"
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button
+                                        fullWidth
+                                        type="submit"
+                                        className={classes.submitBtn}
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        SUBMIT
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Container>
+                    </form>}
                 </div>
-
+                
                 <div className={classes.categoryTable}>
-                <Typography variant="h6" color="textSecondary" align="center">CATEGORY LIST</Typography>
+                    <Typography
+                        variant="h6"
+                        color="textSecondary"
+                        align="center"
+                        sx={{ mb:"20px", mt:"50px"}}
+                    >
+                        Category List
+                    </Typography>
 
                     <TableContainer component={Paper}>
                         <Table
                             className={classes.table}
                             aria-label="simple table"
                         >
-                            <TableHead>
+                            <TableHead sx={{backgroundColor: "#BDBDBD" }}>
                                 <TableRow>
                                     <TableCell>NAME</TableCell>
                                     <TableCell>DESCRIPTION</TableCell>
@@ -129,40 +164,44 @@ const Category = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {loadedCategory.length!==0? categoryList.map((category) => (
-                                    <TableRow key={category._id}>
-                                        <TableCell>{category.name}</TableCell>
-                                        <TableCell>
-                                            {category.description}
-                                        </TableCell>
-                                        <TableCell>
-                                            <IconButton
-                                                onClick={() =>
-                                                    handleEditCategory(
-                                                        category._id
-                                                    )
-                                                }
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
-                                            <IconButton
-                                                onClick={() =>
-                                                    handleDeleteCategory(
-                                                        category._id
-                                                    )
-                                                }
-                                            >
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </TableCell>
-                                    </TableRow>
-                                )):null}
+                                {loadedCategory.length !== 0
+                                    ? categoryList.map((category) => (
+                                          <TableRow key={category._id}>
+                                              <TableCell>
+                                                  {category.name}
+                                              </TableCell>
+                                              <TableCell>
+                                                  {category.description}
+                                              </TableCell>
+                                              <TableCell>
+                                                  <IconButton
+                                                      onClick={() =>
+                                                          handleEditCategory(
+                                                              category._id
+                                                          )
+                                                      }
+                                                  >
+                                                      <EditIcon />
+                                                  </IconButton>
+                                                  <IconButton
+                                                      onClick={() =>
+                                                          handleDeleteCategory(
+                                                              category._id
+                                                          )
+                                                      }
+                                                  >
+                                                      <DeleteIcon />
+                                                  </IconButton>
+                                              </TableCell>
+                                          </TableRow>
+                                      ))
+                                    : null}
                             </TableBody>
                         </Table>
                     </TableContainer>
                 </div>
             </Container>
-        </div>
+        </>
     );
 };
 

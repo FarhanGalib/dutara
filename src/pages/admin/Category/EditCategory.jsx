@@ -1,4 +1,4 @@
-import { Container, TextField } from "@material-ui/core";
+import { Container, TextField, Grid, Typography, Button } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,11 +45,15 @@ const EditCategory = () => {
     };
 
     return (
-        <div>
-            <Container>
-                <div className={classes.form}>
-                    <form onSubmit={handleUpdateCategory}>
+        <Container maxWidth="sm" sx={{ my: "80px", mb:"500px" }}>
+            <Typography variant="h5" align="center" sx={{ my: "50px" }}>
+                Edit Category
+            </Typography>
+            <form onSubmit={handleUpdateCategory}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
                         <TextField
+                            fullWidth
                             type="text"
                             label="category name"
                             variant="outlined"
@@ -64,7 +68,10 @@ const EditCategory = () => {
                             placeholder="Category Name"
                             required
                         />
+                    </Grid>
+                    <Grid item xs={12}>
                         <TextField
+                            fullWidth
                             type="text"
                             label="category description"
                             variant="outlined"
@@ -78,16 +85,23 @@ const EditCategory = () => {
                             value={category.description}
                             placeholder="Category description"
                             required
+                            multiline
+                            rows={4}
                         />
-                        <input
+                        </Grid>
+                        <Grid item xs={12}>
+                        <Button
+                            fullWidth
                             type="submit"
                             className={classes.updateBtn}
-                            value="UPDATE"
-                        />
-                    </form>
-                </div>
-            </Container>
-        </div>
+                            variant="contained"
+                        >
+                            update
+                        </Button>
+                    </Grid>
+                </Grid>
+            </form>
+        </Container>
     );
 };
 

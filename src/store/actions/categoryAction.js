@@ -1,9 +1,10 @@
 import axios from "axios";
 import { actionTypes } from "../actionTypes";
+import { setLoader } from "./loaderAction";
 
 export const requestAddNewCategory = (newCategory, token) => {
     return async (dispatch) => {
-        const category =await axios.post(
+        const {data} =await axios.post(
             "http://localhost:8080/category",
 
             {
@@ -16,6 +17,18 @@ export const requestAddNewCategory = (newCategory, token) => {
                 },
             }
         );
+        dispatch(requestCategoryList());
+    };
+};
+
+
+
+export const setFilterByCategory= (data)=>{
+    const categoryList = [...data];
+    categoryList.unshift({_id:"0", name:"All"});
+    return {
+        type: actionTypes.SET_CATEGORY_FOR_FILTER,
+        payload: categoryList,
     };
 };
 
@@ -28,8 +41,12 @@ export const setCategoryList = (categoryList) => {
 
 export const requestCategoryList = () => {
     return async (dispatch) => {
+       dispatch(setLoader(true));
         const { data } = await axios.get("http://localhost:8080/category");
+        dispatch(setLoader(false));
         dispatch(setCategoryList(data));
+        dispatch(setFilterByCategory(data));
+
     };
 };
 
@@ -40,6 +57,7 @@ export const requestDeleteCategory = (id, token) => {
                 authorization: `bearer ${token}`,
             },
         });
+        dispatch(requestCategoryList());
     };
 };
 
@@ -50,6 +68,8 @@ export const requestUpdateCategory = (id, category, token) => {
                 authorization: `bearer ${token}`,
             },
         });
+        dispatch(requestCategoryList());
+
     };
 };
 
