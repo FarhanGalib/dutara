@@ -9,7 +9,7 @@ import {
     Grid,
     Typography,
     TextField,
-    InputAdornment ,
+    InputAdornment,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -24,7 +24,7 @@ import {
 
 //////////////////////////////////////
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 import CssBaseline from "@mui/material/CssBaseline";
 import { setSearchText } from "../../../store/actions/searchAction";
 import { requestCategoryList } from "../../../store/actions/categoryAction";
@@ -96,8 +96,10 @@ const Products = () => {
                             sx={{ backgroundColor: "white" }}
                             value={category}
                             className={classes.sortByCategory}
-                            onChange={(e) => {setCategory(e.target.value);
-                                dispatch(setSearchText(""));}}
+                            onChange={(e) => {
+                                setCategory(e.target.value);
+                                dispatch(setSearchText(""));
+                            }}
                             variant="outlined"
                             fullWidth
                             SelectProps={{
@@ -126,18 +128,17 @@ const Products = () => {
                                 type="text"
                                 label="Search products"
                                 placeholder="Search..."
-                                onChange={(e) =>{
+                                onChange={(e) => {
                                     dispatch(setSearchText(e.target.value));
                                     setCategory("All");
-                                }
-                                }
+                                }}
                                 InputProps={{
                                     startAdornment: (
-                                      <InputAdornment position="start">
-                                        <SearchIcon />
-                                      </InputAdornment>
+                                        <InputAdornment position="start">
+                                            <SearchIcon />
+                                        </InputAdornment>
                                     ),
-                                  }}
+                                }}
                             />
                         </div>
                     </Grid>
@@ -399,11 +400,13 @@ const Products = () => {
                     </Container>
                 </ThemeProvider>
             )}
-            {category ==="All" && searchText==="" && <Pagination
-                postsPerPage={postsPerPage}
-                totalPosts={productList?.length}
-                paginate={paginate}
-            />}
+            {category === "All" && searchText === "" && (
+                <Pagination
+                    postsPerPage={postsPerPage}
+                    totalPosts={productList?.length}
+                    paginate={paginate}
+                />
+            )}
         </>
     );
 };
