@@ -73,7 +73,7 @@ const AddProduct = () => {
     };
 
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" sx={{mb:"100px"}}>
             <Typography variant="h4" align="center" className={classes.heading} sx={{my: "50px"}}>
                 Add Product
             </Typography>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     Drawer,
     List,
@@ -20,6 +20,8 @@ import { setToken } from "../../store/actions/tokenAction";
 import CategoryIcon from '@material-ui/icons/Category';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import {useSelector} from "react-redux";
+import { requestUserInfoByUser } from '../../store/actions/userAction';
 
 
 const drawerWidth = 240;
@@ -61,6 +63,10 @@ const Dashboard = () => {
     const location = useLocation();
     const history = useHistory();
     const dispatch = useDispatch();
+    const currentUserInfo = useSelector((state) => state.CurrentUserInfoReducer)
+    const { role, email, token } = useSelector(
+        (state) => state.persistedStorage.currentUser
+    );
     const navlinks = [
         {
             text: "Home",
@@ -100,6 +106,11 @@ const Dashboard = () => {
         
     ];
 
+    useEffect(()=>{
+        if(token!=="")
+            dispatch(requestUserInfoByUser(token));
+    },[token]);
+
     const signOut = () => {
         dispatch(setToken({userInfo:{user:"", role:"", token:""}}));
         history.push("/signin");
@@ -117,7 +128,7 @@ const Dashboard = () => {
                 <div className={classes.logo}>
                     <span className={classes.logo1}>দো</span>
                     <span className={classes.logo2}>তারা</span>
-                    <Typography></Typography>
+                    
                 </div>
                 <div style={{marginTop:"50px"}}></div>
                 <List>

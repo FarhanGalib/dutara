@@ -4,7 +4,7 @@ import about from './about.webp';
 
 const About = () => {
     return (
-        <div className={styles.container}>
+        <div className={styles.about_container}>
             <img className={styles.image} src={about} alt=""/>
         </div>
     );

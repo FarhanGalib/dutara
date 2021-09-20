@@ -105,58 +105,10 @@ const ProductDetails = () => {
 
     return (
         <>
-            {/* {currentProduct && (
-                <Container>
-                    <Grid container>
-                        <Grid item>
-                            <div>
-                                <img
-                                    width="300px"
-                                    src={`http://localhost:8080/files/${currentProduct.image}`}
-                                    alt=""
-                                />
-                            </div>
-                        </Grid>
-                        <Grid item>
-                            <div>
-                                <p>{currentProduct.title}</p>
-                                <p>{currentProduct.category.name}</p>
-                                <p>{currentProduct.description}</p>
-                                <p>{`${currentProduct.price} TK`}</p>
-                                <div className={classes.quantity}>
-                                    <button
-                                        onClick={() =>
-                                            handleNumberOfPieces("decrement")
-                                        }
-                                    >
-                                        -
-                                    </button>
-                                    <p className={classes.pieces}>{pieces}</p>
-                                    <button
-                                        onClick={() =>
-                                            handleNumberOfPieces("increment")
-                                        }
-                                    >
-                                        +
-                                    </button>
-                                </div>
-                                <Button
-                                    color="primary"
-                                    variant="contained"
-                                    onClick={handleAddToCart}
-                                >
-                                    add to cart
-                                </Button>
-                            </div>
-                            <div></div>
-                        </Grid>
-                    </Grid>
-                </Container>
-            )}
- */}
+           
 
             {currentProduct && (
-                <Container className={classes.root}>
+                <Container className={classes.root} sx={{my: "150px"}}>
                     <ThemeProvider theme={customGridBreakpoints}>
                         <Card className={classes.card}>
                             <Grid container spacing={4}>

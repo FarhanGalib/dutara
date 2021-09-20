@@ -9,6 +9,7 @@ import {
     Grid,
     Typography,
     TextField,
+    InputAdornment ,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -23,6 +24,7 @@ import {
 
 //////////////////////////////////////
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import SearchIcon from '@mui/icons-material/Search';
 import CssBaseline from "@mui/material/CssBaseline";
 import { setSearchText } from "../../../store/actions/searchAction";
 import { requestCategoryList } from "../../../store/actions/categoryAction";
@@ -65,11 +67,13 @@ const Products = () => {
         history.push(`/product/${id}`);
     };
 
-    const paginate = pageNumber => setCurrentPage(pageNumber);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = productList?productList.slice(indexOfFirstPost, indexOfLastPost):null;
+    const currentPosts = productList
+        ? productList.slice(indexOfFirstPost, indexOfLastPost)
+        : null;
     return (
         <>
             <Container maxWidth="lg">
@@ -92,12 +96,14 @@ const Products = () => {
                             sx={{ backgroundColor: "white" }}
                             value={category}
                             className={classes.sortByCategory}
-                            onChange={(e) => setCategory(e.target.value)}
+                            onChange={(e) => {setCategory(e.target.value);
+                                dispatch(setSearchText(""));}}
                             variant="outlined"
                             fullWidth
                             SelectProps={{
                                 native: true,
                             }}
+                            InputLabelProps={{ shrink: true }}
                             // helperText="filter product by category"
                         >
                             {categoryList?.map((c) => (
@@ -120,92 +126,125 @@ const Products = () => {
                                 type="text"
                                 label="Search products"
                                 placeholder="Search..."
-                                onChange={(e) =>
-                                    dispatch(setSearchText(e.target.value))
+                                onChange={(e) =>{
+                                    dispatch(setSearchText(e.target.value));
+                                    setCategory("All");
                                 }
+                                }
+                                InputProps={{
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        <SearchIcon />
+                                      </InputAdornment>
+                                    ),
+                                  }}
                             />
                         </div>
                     </Grid>
                 </Grid>
             </Container>
-            {(searchText!=="" || category!=="All" ) && <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <Container sx={{ py: 8 }} maxWidth="lg">
-                    <Grid container spacing={3}>
-                        {productList &&
-                            productList
-                                .filter((product) => {
-                                    if (category === "All") return product;
-                                    else
-                                        return category ===
-                                            product?.category.name
-                                            ? product
-                                            : null;
-                                })
-                                .filter((product) => {
-                                    if (searchText === "") return product;
-                                    else if (
-                                        product.title
-                                            .toLowerCase()
-                                            .includes(searchText.toLowerCase())
-                                    )
-                                        return product;
-                                })
-                                .map((product) => (
-                                    <Grid
-                                        item
-                                        xs={12}
-                                        sm={4}
-                                        md={3}
-                                        key={product._id}
-                                    >
-                                        <Card
-                                            sx={{
-                                                height: "100%",
-                                                display: "flex",
-                                                flexDirection: "column",
-                                            }}
+            {(searchText !== "" || category !== "All") && (
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    <Container sx={{ py: 8 }} maxWidth="lg">
+                        <Grid container spacing={3}>
+                            {productList &&
+                                productList
+                                    .filter((product) => {
+                                        if (category === "All") return product;
+                                        else
+                                            return category ===
+                                                product?.category.name
+                                                ? product
+                                                : null;
+                                    })
+                                    .filter((product) => {
+                                        if (searchText === "") return product;
+                                        else if (
+                                            product.title
+                                                .toLowerCase()
+                                                .includes(
+                                                    searchText.toLowerCase()
+                                                )
+                                        )
+                                            return product;
+                                    })
+                                    .map((product) => (
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            sm={4}
+                                            md={3}
+                                            key={product._id}
                                         >
-                                            <CardHeader
-                                                subheader={
-                                                    product.category.name
-                                                }
-                                            />
-
-                                            <img
-                                                src={`http://localhost:8080/files/${product.image}`}
-                                                style={{
-                                                    height: "200px",
-                                                    margin: "auto",
-                                                    width: "100%",
-                                                    objectFit: "contain",
-                                                }}
-                                                alt={product.title}
-                                            />
-                                            <CardContent sx={{ flexGrow: 1 }}>
-                                                <Typography
-                                                    gutterBottom
-                                                    variant="h5"
-                                                    component="h2"
-                                                >
-                                                    {product.title}
-                                                </Typography>
-                                                <Typography variant="small">
-                                                    {`${product.price} TK`}
-                                                </Typography>
-                                            </CardContent>
-                                            <CardActions
+                                            <Card
                                                 sx={{
+                                                    height: "100%",
                                                     display: "flex",
-                                                    flexDirection: "row",
-                                                    justifyContent: `${
-                                                        role !== "admin"
-                                                            ? "space-between"
-                                                            : "right"
-                                                    }`,
+                                                    flexDirection: "column",
                                                 }}
                                             >
-                                                {role !== "admin" && (
+                                                <CardHeader
+                                                    subheader={
+                                                        product.category.name
+                                                    }
+                                                />
+
+                                                <img
+                                                    src={`http://localhost:8080/files/${product.image}`}
+                                                    style={{
+                                                        height: "200px",
+                                                        margin: "auto",
+                                                        width: "100%",
+                                                        objectFit: "contain",
+                                                    }}
+                                                    alt={product.title}
+                                                />
+                                                <CardContent
+                                                    sx={{ flexGrow: 1 }}
+                                                >
+                                                    <Typography
+                                                        gutterBottom
+                                                        variant="h5"
+                                                        component="h2"
+                                                    >
+                                                        {product.title}
+                                                    </Typography>
+                                                    <Typography variant="small">
+                                                        {`${product.price} TK`}
+                                                    </Typography>
+                                                </CardContent>
+                                                <CardActions
+                                                    sx={{
+                                                        display: "flex",
+                                                        flexDirection: "row",
+                                                        justifyContent: `${
+                                                            role !== "admin"
+                                                                ? "space-between"
+                                                                : "right"
+                                                        }`,
+                                                    }}
+                                                >
+                                                    {role !== "admin" && (
+                                                        <Button
+                                                            size="small"
+                                                            variant="outlined"
+                                                            sx={{
+                                                                "&:hover": {
+                                                                    backgroundColor:
+                                                                        "#306ddf",
+                                                                    color: "white",
+                                                                },
+                                                            }}
+                                                            onClick={() =>
+                                                                handleAddToCart(
+                                                                    product._id
+                                                                )
+                                                            }
+                                                        >
+                                                            add to cart
+                                                        </Button>
+                                                    )}
                                                     <Button
                                                         size="small"
                                                         variant="outlined"
@@ -217,117 +256,123 @@ const Products = () => {
                                                             },
                                                         }}
                                                         onClick={() =>
-                                                            handleAddToCart(
+                                                            handleProductDetails(
                                                                 product._id
                                                             )
                                                         }
                                                     >
-                                                        add to cart
+                                                        View
                                                     </Button>
-                                                )}
-                                                <Button
-                                                    size="small"
-                                                    variant="outlined"
-                                                    sx={{
-                                                        "&:hover": {
-                                                            backgroundColor:
-                                                                "#306ddf",
-                                                            color: "white",
-                                                        },
-                                                    }}
-                                                    onClick={() =>
-                                                        handleProductDetails(
-                                                            product._id
-                                                        )
-                                                    }
-                                                >
-                                                    View
-                                                </Button>
-                                            </CardActions>
-                                        </Card>
-                                    </Grid>
-                                ))}
-                    </Grid>
-                </Container>
-            </ThemeProvider>}
-            {(searchText==="" || category==="All" ) && <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <Container sx={{ py: 8 }} maxWidth="lg">
-                    <Grid container spacing={3}>
-                        {productList &&
-                            currentPosts
-                                .filter((product) => {
-                                    if (category === "All") return product;
-                                    else
-                                        return category ===
-                                            product?.category.name
-                                            ? product
-                                            : null;
-                                })
-                                .filter((product) => {
-                                    if (searchText === "") return product;
-                                    else if (
-                                        product.title
-                                            .toLowerCase()
-                                            .includes(searchText.toLowerCase())
-                                    )
-                                        return product;
-                                })
-                                .map((product) => (
-                                    <Grid
-                                        item
-                                        xs={12}
-                                        sm={4}
-                                        md={3}
-                                        key={product._id}
-                                    >
-                                        <Card
-                                            sx={{
-                                                height: "100%",
-                                                display: "flex",
-                                                flexDirection: "column",
-                                            }}
+                                                </CardActions>
+                                            </Card>
+                                        </Grid>
+                                    ))}
+                        </Grid>
+                    </Container>
+                </ThemeProvider>
+            )}
+            {searchText === "" && category === "All" && (
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    <Container sx={{ py: 8 }} maxWidth="lg">
+                        <Grid container spacing={3}>
+                            {productList &&
+                                currentPosts
+                                    .filter((product) => {
+                                        if (category === "All") return product;
+                                        else
+                                            return category ===
+                                                product?.category.name
+                                                ? product
+                                                : null;
+                                    })
+                                    .filter((product) => {
+                                        if (searchText === "") return product;
+                                        else if (
+                                            product.title
+                                                .toLowerCase()
+                                                .includes(
+                                                    searchText.toLowerCase()
+                                                )
+                                        )
+                                            return product;
+                                    })
+                                    .map((product) => (
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            sm={4}
+                                            md={3}
+                                            key={product._id}
                                         >
-                                            <CardHeader
-                                                subheader={
-                                                    product.category.name
-                                                }
-                                            />
-
-                                            <img
-                                                src={`http://localhost:8080/files/${product.image}`}
-                                                style={{
-                                                    height: "200px",
-                                                    margin: "auto",
-                                                    width: "100%",
-                                                    objectFit: "contain",
-                                                }}
-                                                alt={product.title}
-                                            />
-                                            <CardContent sx={{ flexGrow: 1 }}>
-                                                <Typography
-                                                    gutterBottom
-                                                    variant="h5"
-                                                    component="h2"
-                                                >
-                                                    {product.title}
-                                                </Typography>
-                                                <Typography variant="small">
-                                                    {`${product.price} TK`}
-                                                </Typography>
-                                            </CardContent>
-                                            <CardActions
+                                            <Card
                                                 sx={{
+                                                    height: "100%",
                                                     display: "flex",
-                                                    flexDirection: "row",
-                                                    justifyContent: `${
-                                                        role !== "admin"
-                                                            ? "space-between"
-                                                            : "right"
-                                                    }`,
+                                                    flexDirection: "column",
                                                 }}
                                             >
-                                                {role !== "admin" && (
+                                                <CardHeader
+                                                    subheader={
+                                                        product.category.name
+                                                    }
+                                                />
+
+                                                <img
+                                                    src={`http://localhost:8080/files/${product.image}`}
+                                                    style={{
+                                                        height: "200px",
+                                                        margin: "auto",
+                                                        width: "100%",
+                                                        objectFit: "contain",
+                                                    }}
+                                                    alt={product.title}
+                                                />
+                                                <CardContent
+                                                    sx={{ flexGrow: 1 }}
+                                                >
+                                                    <Typography
+                                                        gutterBottom
+                                                        variant="h5"
+                                                        component="h2"
+                                                    >
+                                                        {product.title}
+                                                    </Typography>
+                                                    <Typography variant="small">
+                                                        {`${product.price} TK`}
+                                                    </Typography>
+                                                </CardContent>
+                                                <CardActions
+                                                    sx={{
+                                                        display: "flex",
+                                                        flexDirection: "row",
+                                                        justifyContent: `${
+                                                            role !== "admin"
+                                                                ? "space-between"
+                                                                : "right"
+                                                        }`,
+                                                    }}
+                                                >
+                                                    {role !== "admin" && (
+                                                        <Button
+                                                            size="small"
+                                                            variant="outlined"
+                                                            sx={{
+                                                                "&:hover": {
+                                                                    backgroundColor:
+                                                                        "#306ddf",
+                                                                    color: "white",
+                                                                },
+                                                            }}
+                                                            onClick={() =>
+                                                                handleAddToCart(
+                                                                    product._id
+                                                                )
+                                                            }
+                                                        >
+                                                            add to cart
+                                                        </Button>
+                                                    )}
                                                     <Button
                                                         size="small"
                                                         variant="outlined"
@@ -339,44 +384,26 @@ const Products = () => {
                                                             },
                                                         }}
                                                         onClick={() =>
-                                                            handleAddToCart(
+                                                            handleProductDetails(
                                                                 product._id
                                                             )
                                                         }
                                                     >
-                                                        add to cart
+                                                        View
                                                     </Button>
-                                                )}
-                                                <Button
-                                                    size="small"
-                                                    variant="outlined"
-                                                    sx={{
-                                                        "&:hover": {
-                                                            backgroundColor:
-                                                                "#306ddf",
-                                                            color: "white",
-                                                        },
-                                                    }}
-                                                    onClick={() =>
-                                                        handleProductDetails(
-                                                            product._id
-                                                        )
-                                                    }
-                                                >
-                                                    View
-                                                </Button>
-                                            </CardActions>
-                                        </Card>
-                                    </Grid>
-                                ))}
-                    </Grid>
-                </Container>
-            </ThemeProvider>}
-            <Pagination
-        postsPerPage={postsPerPage}
-        totalPosts={productList?.length}
-        paginate={paginate}
-      />
+                                                </CardActions>
+                                            </Card>
+                                        </Grid>
+                                    ))}
+                        </Grid>
+                    </Container>
+                </ThemeProvider>
+            )}
+            {category ==="All" && searchText==="" && <Pagination
+                postsPerPage={postsPerPage}
+                totalPosts={productList?.length}
+                paginate={paginate}
+            />}
         </>
     );
 };

@@ -152,17 +152,7 @@ const AddUser = () => {
                         />
                     </Grid>
 
-                    {/* <TextField
-                        type="text"
-                        variant="outlined"
-                        label="Role"
-                        value={userAddInfo.role}
-                        onChange={(e) => setAddUserForm("role", e)}
-                        id="role"
-                        name="role"
-                        className=""
-                        required
-                    /> */}
+                    
                     <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
