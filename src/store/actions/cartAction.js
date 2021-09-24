@@ -1,6 +1,7 @@
 import axios from "axios";
 import { actionTypes } from "../actionTypes";
 import { setLoader } from "./loaderAction";
+import { requestOrdersByUser } from './orderActon';
 
 export const setPersistedCart = (productId) => {
     return {
@@ -8,9 +9,6 @@ export const setPersistedCart = (productId) => {
         payload: productId,
     };
 };
-
-
-
 
 
 
@@ -138,6 +136,7 @@ export const requestCheckOut = (token) => {
         });
         console.log(data);
         dispatch(requestCartList(token));
+        dispatch(requestOrdersByUser(token));
     };
 };
 

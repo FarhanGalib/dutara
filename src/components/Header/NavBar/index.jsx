@@ -288,8 +288,9 @@ const Header = () => {
                             <IconButton
                                 onClick={handleProfileMenuOpen}
                                 className={classes.profile}
+                                style={{outline:"none"}}
                             >
-                                <Avatar alt="" className={classes.avatar}>
+                                <Avatar alt="" className={classes.avatar} >
                                     {role!=="" && currentUserInfo?.username[0]}
                                 </Avatar>
                             </IconButton>

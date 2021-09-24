@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "../Header/NavBar";
 import Footer from "../Footer";
-import Dashboard from "../Dashboard";
+import Sidebar from "../Sidebar";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Layout = ({ children }) => {
     const classes = useStyles();
-    const { token, role } = useSelector(
+    const { role } = useSelector(
         (state) => state.persistedStorage.currentUser
     );
 
@@ -35,7 +35,7 @@ const Layout = ({ children }) => {
                     role === "admin" ? classes.flexSidebarChildren : null
                 }`}
             >
-                {role === "admin" && <Dashboard></Dashboard>}
+                {role === "admin" && <Sidebar></Sidebar>}
                 <div className={classes.children}>{children}</div>
             </div>
 

@@ -14,16 +14,9 @@ const Pagination1 = ({ postsPerPage, totalPosts, paginate }) => {
         setVal(v);
     };
     return (
-        // <nav>
-        //   <ul className='pagination'>
-        //     {pageNumbers.map(number => (
-        //       <li key={number} className='page-item'>
-        //         <p onClick={() => paginate(number)}  className='page-link'>
-        //           {number}
-        //         </p>
-        //       </li>
-        <Stack spacing={2}>
+        <Stack spacing={2} style={{ outline: "none" }}>
             <Pagination
+                style={{ outline: "none" }}
                 count={pageNumbers.length}
                 page={val}
                 onChange={handleChange}
@@ -34,9 +27,6 @@ const Pagination1 = ({ postsPerPage, totalPosts, paginate }) => {
             <br />
             <br />
         </Stack>
-        //      ))}
-        //    </ul>
-        //  </nav>
     );
 };
 
