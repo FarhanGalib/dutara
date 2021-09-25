@@ -24,7 +24,6 @@ export const requestAddNewProduct = (newProduct, token) => {
             }
         );
         dispatch(requestProductList(token));
-        console.log(pro);
     };
 };
 
@@ -47,7 +46,6 @@ export const requestProductList = (token) => {
         });
         dispatch(setProductList(data));
         dispatch(setLoader(false));
-        console.log("Product list======",data);
         
     };
 };
@@ -114,7 +112,6 @@ export const requestUpdateProduct = (
                 }
             );
         dispatch(requestProductList(token));
-        console.log(data);
         }
         else{
             const { data } = await axios.patch(
@@ -133,7 +130,6 @@ export const requestUpdateProduct = (
                     },
                 }
             );
-            console.log(data);
         dispatch(requestProductList(token));
 
         }

@@ -72,13 +72,7 @@ const UserProfile = () => {
     };
     const handleUpdate = (e) => {
         e.preventDefault();
-        console.log(
-            user.password.length,
-            user.confirmPassword.length,
-            user.password === user.confirmPassword,
-            user.password,
-            user.confirmPassword
-        );
+      
         if (user.password.length > 7 && user.password.length < 21) {
             setIsLengthOk(true);
             if (user.password === user.confirmPassword) {
@@ -92,7 +86,6 @@ const UserProfile = () => {
             setIsLengthOk(false);
         }
     };
-    console.log(user);
     return (
         <Container maxWidth="sm" sx={{ my: "50px" }}>
             <Typography variant="h5" sx={{ mb: "50px" }}>

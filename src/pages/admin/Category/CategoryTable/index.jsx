@@ -46,7 +46,7 @@ const CategoryTable = () => {
         (state) => state.persistedStorage.currentUser
     );
     const { categoryList } = useSelector((state) => state.categoryStore);
-    console.log(token);
+ 
 
     useEffect(() => {
         dispatch(requestCategoryList());

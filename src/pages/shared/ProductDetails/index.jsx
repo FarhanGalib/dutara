@@ -73,7 +73,6 @@ const ProductDetails = () => {
     useEffect(() => {
         dispatch(requestSingleProduct(id, token));
     }, []);
-    console.log("currentProduct", currentProduct);
 
     const handleNumberOfPieces = (type) => {
         if (type === "increment") {

@@ -41,7 +41,6 @@ export default function SignIn() {
     const setValues = (key, e) => {
         setSignInInfo({ ...signInInfo, [key]: e.target.value });
     };
-    console.log(signInInfo);
 
     const handleSignIn = (e) => {
         e.preventDefault();

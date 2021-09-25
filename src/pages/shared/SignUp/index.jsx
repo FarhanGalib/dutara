@@ -48,7 +48,6 @@ export default function SignUp() {
     const setRegValue = (key, e) => {
         setSignUpInfo({ ...signUpInfo, [key]: e.target.value });
     };
-    // console.log(signUpInfo);
     const handleSignUp = (e) => {
         e.preventDefault();
         if (signUpInfo.password.length > 7 && signUpInfo.password.length < 21) {

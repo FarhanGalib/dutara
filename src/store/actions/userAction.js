@@ -83,7 +83,6 @@ export const requestDeleteSingleUser = (id,token) => {
                 authorization: `bearer ${token}`,
             },
         });
-        console.log(data);
         dispatch(requestUserList(token));
     };
 };
@@ -113,7 +112,6 @@ export const requestSingleUserInfo = (id,token) => {
         dispatch(setSingleUserInfoForEdit(data));
         dispatch(setLoader(false));
         
-        console.log(data);
        
     };
 };
@@ -150,7 +148,6 @@ export const requestUserUpdate = (id,token, currentUserUpdatedInfo) => {
         });
         dispatch(requestUserList(token));
     
-        console.log(data);
        
     };
 };
@@ -207,7 +204,6 @@ export const requestUserInfoByUser=(token)=>{
             },
         });
         dispatch(setUserProfileInfo(data));
-        console.log("data=======",data);
         dispatch(setLoader(false));
 
     };
@@ -244,6 +240,5 @@ export const requestUpdateUserInfo=(userInfo, token)=>{
             }
         }
         );
-        console.log(data);
     }
 }

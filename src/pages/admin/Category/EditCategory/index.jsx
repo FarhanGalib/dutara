@@ -26,7 +26,7 @@ const EditCategory = () => {
     const { name, description } = useSelector(
         (state) => state.EditCategoryReducer.categoryForEdit
     );
-    console.log(token);
+    
 
     useEffect(() => {
         dispatch(requestSingleCategory(id, token));

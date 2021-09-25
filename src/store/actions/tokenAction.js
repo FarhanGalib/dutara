@@ -21,6 +21,5 @@ export const requestSignIn = (signInInfo) => {
         });
         if (data.message === "Logged in Successfully") dispatch(setToken(data));
         else  dispatch(setError(data.message));
-        console.log("login=========",data);
     };
 };

@@ -31,7 +31,6 @@ const AddProduct = () => {
     const { token } = useSelector(
         (state) => state.persistedStorage.currentUser
     );
-    console.log(newProduct);
 
     useEffect(() => {
         dispatch(requestCategoryList());
@@ -49,7 +48,6 @@ const AddProduct = () => {
         const file = e.target.files[0];
         const base64 = await convertBase64(file);
         setBaseImage(base64);
-        console.log(base64);
         setNewProduct({ ...newProduct, image: base64 });
     };
 

@@ -42,7 +42,6 @@ const EditProduct = () => {
     );
     const { singleProductForEdit } = useSelector((state) => state);
 
-    console.log(currentProduct);
 
     useEffect(() => {
         dispatch(requestCategoryList());
@@ -68,7 +67,6 @@ const EditProduct = () => {
         const file = e.target.files[0];
         const base64 = await convertBase64(file);
         setBaseImage(base64);
-        console.log(base64);
         setCurrentProduct({ ...currentProduct, image: base64 });
     };
 

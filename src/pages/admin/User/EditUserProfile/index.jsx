@@ -70,7 +70,6 @@ const EditUserProfile = () => {
         history.push("/users");
     };
 
-    console.log("=========================", userUpdateForm);
     return (
         <Container maxWidth="sm" sx={{ my: "50px" }}>
             <Typography variant="h5" align="center" sx={{ my: "50px" }}>

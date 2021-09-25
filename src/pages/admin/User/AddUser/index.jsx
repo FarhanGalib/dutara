@@ -57,7 +57,6 @@ const AddUser = () => {
             setIsLengthOk(false);
         }
     };
-    console.log(userAddInfo);
     return (
         <Container maxWidth="sm" sx={{ my: "50px" }}>
             <Typography variant="h5" align="center" sx={{ my: "50px" }}>

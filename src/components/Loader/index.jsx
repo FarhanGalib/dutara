@@ -5,7 +5,7 @@ import Styles from "./loader.module.css";
 const Loader = ({ children }) => {
     const dispatch = useDispatch();
     const loader = useSelector((state) => state.LoaderReducer);
-    console.log(loader, "loader======");
+    
     return (
         <div>
             {loader &&

@@ -18,7 +18,6 @@ export const requestOrderList = (token) => {
                 authorization: `bearer ${token}`,
             },
         });
-        console.log(data);
         dispatch(setOrderList(data));
         dispatch(setLoader(false));
 
@@ -26,7 +25,6 @@ export const requestOrderList = (token) => {
 };
 
 export const requestChangeOrderStatus = (orderId, status, token) => {
-    console.log("=========================",orderId, status, token,"==============================");
     return async (dispatch) => {
         const { data } = await axios.patch(
             `http://localhost:8080/order/${orderId}`,
@@ -39,7 +37,6 @@ export const requestChangeOrderStatus = (orderId, status, token) => {
                 },
             }
         );
-       console.log("orderchanged=====",data);
        dispatch(requestOrderList(token));
 
     };
@@ -68,7 +65,6 @@ export const requestOrdersByUser=(token)=>{
                 },
             }
         );
-       console.log(data);
        dispatch(setLoader(false));
        dispatch(setUserOrders(data));
 
