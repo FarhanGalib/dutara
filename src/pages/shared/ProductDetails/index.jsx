@@ -1,11 +1,10 @@
-// import { Button, Container, Grid } from "@material-ui/core";
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import { requestSingleProduct } from "../../../store/actions/productDetailsAction";
 import { makeStyles } from "@material-ui/core/styles";
 import { requestAddToCart } from "../../../store/actions/cartAction";
-/////////////////////////////////////
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -17,11 +16,13 @@ import {
     Grid,
     Typography,
     CardActions,
+    
 } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { requestDeleteProduct } from "../../../store/actions/productAction";
+import { BASE_URL } from "../../../utils/constants";
 const customGridBreakpoints = createTheme({
     breakpoints: {
         values: {
@@ -33,7 +34,8 @@ const customGridBreakpoints = createTheme({
         },
     },
 });
-////////////////////////////////////
+
+  
 const useStyles = makeStyles((theme) => ({
     quantity: {
         display: "flex",
@@ -69,7 +71,8 @@ const ProductDetails = () => {
         (state) => state.persistedStorage.currentUser
     );
     const currentProduct = useSelector((state) => state.productDetailsReducer);
-
+    const loader = useSelector((state) => state.LoaderReducer);
+    
     useEffect(() => {
         dispatch(requestSingleProduct(id, token));
     }, []);
@@ -87,6 +90,7 @@ const ProductDetails = () => {
         if (token !== "") {
             dispatch(requestAddToCart(id, pieces, token));
             history.push("/cart");
+            
         } else {
             history.push("/signin");
         }
@@ -103,14 +107,14 @@ const ProductDetails = () => {
 
     return (
         <>
-            {currentProduct && (
+            { !loader && currentProduct && (
                 <Container className={classes.root} sx={{ my: "150px" }}>
                     <ThemeProvider theme={customGridBreakpoints}>
                         <Card className={classes.card}>
                             <Grid container spacing={4}>
                                 <Grid item sm={12} md={6}>
                                     <img
-                                        src={`http://localhost:8080/files/${currentProduct.image}`}
+                                        src={`${BASE_URL}/files/${currentProduct.image}`}
                                         className={classes.media}
                                         alt=""
                                     />
@@ -228,6 +232,7 @@ const ProductDetails = () => {
                     </ThemeProvider>
                 </Container>
             )}
+             
         </>
     );
 };

@@ -46,6 +46,7 @@ const Orders = () => {
     const { token } = useSelector(
         (state) => state.persistedStorage.currentUser
     );
+    const loader = useSelector((state) => state.LoaderReducer);
 
     useEffect(() => {
         dispatch(requestOrderList(token));
@@ -59,101 +60,140 @@ const Orders = () => {
         dispatch(requestChangeOrderStatus(orderId, status, token));
     };
     return (
-        <Container maxWidth="lg" sx={{ my: "50px", mb: "500px" }}>
-            <Typography variant="h5" align="center" sx={{ my: "50px" }}>
-                Orders
-            </Typography>
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
-                    <TableHead sx={{ backgroundColor: "#BDBDBD" }}>
-                        <TableRow>
-                            <TableCell>ORDER OF</TableCell>
-                            <TableCell>ORDER TIME</TableCell>
-                            <TableCell>STATUS</TableCell>
-                            <TableCell>SHIPPING ADDRESS</TableCell>
-                            <TableCell>ACTIONS</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {orderList &&
-                            orderList.map((item) => (
-                                <TableRow key={item._id}>
-                                    <TableCell>
-                                        {`${item.userId.firstname} ${item.userId.lastname}`}{" "}
-                                        <br />
-                                        {`@${item.userId.username}`}{" "}
-                                    </TableCell>
-                                    <TableCell>
-                                        {new Date(item.date).toUTCString()}
-                                    </TableCell>
-                                    <TableCell>
-                                        {item.status === 0
-                                            ? "pending"
-                                            : item.status === 1
-                                            ? "delivered"
-                                            : "canceled"}
-                                    </TableCell>
-                                    <TableCell>
-                                        {item.userId.address.geolocation.lat}-
-                                        {item.userId.address.geolocation.long}-
-                                        {item.userId.address.city}-
-                                        {item.userId.address.zipcode}
-                                    </TableCell>
-                                    <TableCell>
-                                        <div className={classes.actions}>
-                                            <IconButton
-                                                style={{ outline: "none" }}
-                                                disabled={
-                                                    item?.status === 0
-                                                        ? true
-                                                        : false
-                                                }
-                                                variant="contained"
-                                                className={classes.pending}
-                                                onClick={() =>
-                                                    handleStatus(item._id, 0)
-                                                }
-                                            >
-                                                <HelpIcon />
-                                            </IconButton>
-                                            <IconButton
-                                                style={{ outline: "none" }}
-                                                disabled={
-                                                    item?.status === 1
-                                                        ? true
-                                                        : false
-                                                }
-                                                variant="contained"
-                                                className={classes.delivered}
-                                                onClick={() =>
-                                                    handleStatus(item._id, 1)
-                                                }
-                                            >
-                                                <CheckIcon />
-                                            </IconButton>
-                                            <IconButton
-                                                style={{ outline: "none" }}
-                                                disabled={
-                                                    item?.status === 2
-                                                        ? true
-                                                        : false
-                                                }
-                                                variant="contained"
-                                                className={classes.canceled}
-                                                onClick={() =>
-                                                    handleStatus(item._id, 2)
-                                                }
-                                            >
-                                                <CancelIcon />
-                                            </IconButton>
-                                        </div>
-                                    </TableCell>
+        <>
+            {!loader && (
+                <Container maxWidth="lg" sx={{ my: "50px", mb: "500px" }}>
+                    <Typography variant="h5" align="center" sx={{ my: "50px" }}>
+                        Orders
+                    </Typography>
+                    <TableContainer component={Paper}>
+                        <Table
+                            className={classes.table}
+                            aria-label="simple table"
+                        >
+                            <TableHead sx={{ backgroundColor: "#BDBDBD" }}>
+                                <TableRow>
+                                    <TableCell>ORDER OF</TableCell>
+                                    <TableCell>ORDER TIME</TableCell>
+                                    <TableCell>STATUS</TableCell>
+                                    <TableCell>SHIPPING ADDRESS</TableCell>
+                                    <TableCell>ACTIONS</TableCell>
                                 </TableRow>
-                            ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Container>
+                            </TableHead>
+                            <TableBody>
+                                {orderList &&
+                                    orderList.map((item) => (
+                                        <TableRow key={item._id}>
+                                            <TableCell>
+                                                {`${item.userId.firstname} ${item.userId.lastname}`}{" "}
+                                                <br />
+                                                {`@${item.userId.username}`}{" "}
+                                            </TableCell>
+                                            <TableCell>
+                                                {new Date(
+                                                    item.date
+                                                ).toUTCString()}
+                                            </TableCell>
+                                            <TableCell>
+                                                {item.status === 0
+                                                    ? "pending"
+                                                    : item.status === 1
+                                                    ? "delivered"
+                                                    : "canceled"}
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    item.userId.address
+                                                        .geolocation.lat
+                                                }
+                                                -
+                                                {
+                                                    item.userId.address
+                                                        .geolocation.long
+                                                }
+                                                -{item.userId.address.city}-
+                                                {item.userId.address.zipcode}
+                                            </TableCell>
+                                            <TableCell>
+                                                <div
+                                                    className={classes.actions}
+                                                >
+                                                    <IconButton
+                                                        style={{
+                                                            outline: "none",
+                                                        }}
+                                                        disabled={
+                                                            item?.status === 0
+                                                                ? true
+                                                                : false
+                                                        }
+                                                        variant="contained"
+                                                        className={
+                                                            classes.pending
+                                                        }
+                                                        onClick={() =>
+                                                            handleStatus(
+                                                                item._id,
+                                                                0
+                                                            )
+                                                        }
+                                                    >
+                                                        <HelpIcon />
+                                                    </IconButton>
+                                                    <IconButton
+                                                        style={{
+                                                            outline: "none",
+                                                        }}
+                                                        disabled={
+                                                            item?.status === 1
+                                                                ? true
+                                                                : false
+                                                        }
+                                                        variant="contained"
+                                                        className={
+                                                            classes.delivered
+                                                        }
+                                                        onClick={() =>
+                                                            handleStatus(
+                                                                item._id,
+                                                                1
+                                                            )
+                                                        }
+                                                    >
+                                                        <CheckIcon />
+                                                    </IconButton>
+                                                    <IconButton
+                                                        style={{
+                                                            outline: "none",
+                                                        }}
+                                                        disabled={
+                                                            item?.status === 2
+                                                                ? true
+                                                                : false
+                                                        }
+                                                        variant="contained"
+                                                        className={
+                                                            classes.canceled
+                                                        }
+                                                        onClick={() =>
+                                                            handleStatus(
+                                                                item._id,
+                                                                2
+                                                            )
+                                                        }
+                                                    >
+                                                        <CancelIcon />
+                                                    </IconButton>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Container>
+            )}
+        </>
     );
 };
 

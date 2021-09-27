@@ -18,6 +18,7 @@ import {
     requestSingleProduct,
     requestUpdateProduct,
 } from "../../../../store/actions/productAction";
+import { BASE_URL } from "../../../../utils/constants";
 
 const useStyles = makeStyles({});
 
@@ -41,14 +42,12 @@ const EditProduct = () => {
         (state) => state.persistedStorage.currentUser
     );
     const { singleProductForEdit } = useSelector((state) => state);
-
+    const loader = useSelector((state) => state.LoaderReducer);
 
     useEffect(() => {
         dispatch(requestCategoryList());
         dispatch(requestSingleProduct(id, token));
     }, []);
-
- 
 
     useEffect(() => {
         setCurrentProduct({
@@ -92,133 +91,156 @@ const EditProduct = () => {
     };
 
     return (
-        <Container maxWidth="sm" sx={{my:"50px"}}>
-            <Typography variant="h4" className={classes.heading} align="center" sx={{my:"50px"}}>
-                Edit <span className={classes.headingStyle2}>Pro</span>
-                duct
-            </Typography>
-            <form type="submit" onSubmit={handleUpdateProduct}>
-                <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} sx={{display:"flex", justifyContent: "center"}}>
-                        <img
-                            height="400px"
-                            src={
-                                isImageChanged
-                                    ? baseImage
-                                    : `http://localhost:8080/files/${currentProduct?.image}`
-                            }
-                            alt=""
-                            style={{objectFit: "contain", height:"400px"}}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <TextField
-                            required
-                            fullWidth
-                            variant="outlined"
-                            label="Product Title"
-                            type="text"
-                            value={currentProduct.title}
-                            onChange={(e) =>
-                                setEditedCurrentProduct(e, "title")
-                            }
-                            className={classes.txtField}
-                        />
-                    </Grid>
-                   
-                    <Grid item xs={12} sm={6}>
-                        <input
-                            type="file"
-                            onChange={(e) => uploadProductImage(e)}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                        fullWidth
-                            required
-                            select
-                            size="small"
-                            label="select category"
-                            value={currentProduct.categoryId}
-                            className={classes.Category}
-                            onChange={(e) =>
-                                setCurrentProduct({
-                                    ...currentProduct,
-                                    categoryId: e.target.value,
-                                })
-                            }
-                            SelectProps={{
-                                native: true,
-                            }}
-                            // helperText="select category"
-                        >
-                            {categoryList.map((c) => (
-                                <option key={c._id} value={c._id}>
-                                    {c.name}
-                                </option>
-                            ))}
-                        </TextField>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            required
-                            fullWidth
-                            variant="outlined"
-                            label="Product Price"
-                            type="number"
-                            value={currentProduct.price}
-                            onChange={(e) =>
-                                setEditedCurrentProduct(e, "price")
-                            }
-                            className={classes.txtField}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            required
-                            fullWidth
-                            variant="outlined"
-                            label="Product Stock"
-                            type="number"
-                            value={currentProduct.stock}
-                            onChange={(e) =>
-                                setEditedCurrentProduct(e, "stock")
-                            }
-                            className={classes.txtField}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <TextField
-                            required
-                            fullWidth
-                            variant="outlined"
-                            label="Product Description"
-                            type="text"
-                            multiline
-                            rows={4}
-                            value={currentProduct.description}
-                            onChange={(e) =>
-                                setEditedCurrentProduct(e, "description")
-                            }
-                            className={classes.txtField}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            startIcon={<SaveIcon />}
-                            variant="contained"
-                            color="primary"
-                            className={classes.btn}
-                            style={{outline:"none"}}
-                        >
-                            Update Product
-                        </Button>
-                    </Grid>
-                </Grid>
-            </form>
-        </Container>
+        <>
+            {!loader && (
+                <Container maxWidth="sm" sx={{ my: "50px" }}>
+                    <Typography
+                        variant="h4"
+                        className={classes.heading}
+                        align="center"
+                        sx={{ my: "50px" }}
+                    >
+                        Edit <span className={classes.headingStyle2}>Pro</span>
+                        duct
+                    </Typography>
+                    <form type="submit" onSubmit={handleUpdateProduct}>
+                        <Grid container spacing={2}>
+                            <Grid
+                                item
+                                xs={12}
+                                sm={12}
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                }}
+                            >
+                                <img
+                                    height="400px"
+                                    src={
+                                        isImageChanged
+                                            ? baseImage
+                                            : `${BASE_URL}/files/${currentProduct?.image}`
+                                    }
+                                    alt=""
+                                    style={{
+                                        objectFit: "contain",
+                                        height: "400px",
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    variant="outlined"
+                                    label="Product Title"
+                                    type="text"
+                                    value={currentProduct.title}
+                                    onChange={(e) =>
+                                        setEditedCurrentProduct(e, "title")
+                                    }
+                                    className={classes.txtField}
+                                />
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                                <input
+                                    type="file"
+                                    onChange={(e) => uploadProductImage(e)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    required
+                                    select
+                                    size="small"
+                                    label="select category"
+                                    value={currentProduct.categoryId}
+                                    className={classes.Category}
+                                    onChange={(e) =>
+                                        setCurrentProduct({
+                                            ...currentProduct,
+                                            categoryId: e.target.value,
+                                        })
+                                    }
+                                    SelectProps={{
+                                        native: true,
+                                    }}
+                                    // helperText="select category"
+                                >
+                                    {categoryList.map((c) => (
+                                        <option key={c._id} value={c._id}>
+                                            {c.name}
+                                        </option>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    variant="outlined"
+                                    label="Product Price"
+                                    type="number"
+                                    value={currentProduct.price}
+                                    onChange={(e) =>
+                                        setEditedCurrentProduct(e, "price")
+                                    }
+                                    className={classes.txtField}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    variant="outlined"
+                                    label="Product Stock"
+                                    type="number"
+                                    value={currentProduct.stock}
+                                    onChange={(e) =>
+                                        setEditedCurrentProduct(e, "stock")
+                                    }
+                                    className={classes.txtField}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    variant="outlined"
+                                    label="Product Description"
+                                    type="text"
+                                    multiline
+                                    rows={4}
+                                    value={currentProduct.description}
+                                    onChange={(e) =>
+                                        setEditedCurrentProduct(
+                                            e,
+                                            "description"
+                                        )
+                                    }
+                                    className={classes.txtField}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12}>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    startIcon={<SaveIcon />}
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.btn}
+                                    style={{ outline: "none" }}
+                                >
+                                    Update Product
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </form>
+                </Container>
+            )}
+        </>
     );
 };
 

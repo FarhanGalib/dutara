@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import {useLocation} from "react-router-dom";
 import Header from "../Header/NavBar";
 import Footer from "../Footer";
 import Sidebar from "../Sidebar";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
+import { setSearchText } from '../../store/actions/searchAction';
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -23,10 +25,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Layout = ({ children }) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const location = useLocation();
     const { role } = useSelector(
         (state) => state.persistedStorage.currentUser
     );
 
+    if(location.pathname!=="/"){
+        dispatch(setSearchText(""));
+    }
+    console.log("pathname============",location.pathname);
     return (
         <div className={classes.root}>
             {(role === "" || role === "user") && <Header></Header>}

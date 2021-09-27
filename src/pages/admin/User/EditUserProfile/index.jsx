@@ -20,6 +20,7 @@ const EditUserProfile = () => {
     const { token } = useSelector(
         (state) => state.persistedStorage.currentUser
     );
+    const loader = useSelector((state) => state.LoaderReducer);
     const { currentUserInfo } = useSelector((state) => state.EditUserReducer);
     const [userUpdateForm, setUserUpdateForm] = useState({
         lat: "",
@@ -71,205 +72,199 @@ const EditUserProfile = () => {
     };
 
     return (
-        <Container maxWidth="sm" sx={{ my: "50px" }}>
-            <Typography variant="h5" align="center" sx={{ my: "50px" }}>
-                Edit User
-            </Typography>
-            <form onSubmit={handleUserUpdateForm}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={12}>
-                        <TextField
-                            fullWidth
-                            type="email"
-                            variant="outlined"
-                            label="Email"
-                            value={userUpdateForm.email}
-                            onChange={(e) => setForm("email", e)}
-                            id="email"
-                            name="email"
-                            className=""
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <TextField
-                            fullWidth
-                            type="text"
-                            variant="outlined"
-                            label="Username"
-                            value={userUpdateForm.username}
-                            onChange={(e) => setForm("username", e)}
-                            id="username"
-                            name="username"
-                            className=""
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            fullWidth
-                            type="text"
-                            variant="outlined"
-                            label="First name"
-                            value={userUpdateForm.firstname}
-                            onChange={(e) => setForm("firstname", e)}
-                            id="firstname"
-                            name="firstname"
-                            className=""
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            fullWidth
-                            type="text"
-                            variant="outlined"
-                            label="Last Name"
-                            value={userUpdateForm.lastname}
-                            onChange={(e) => setForm("lastname", e)}
-                            id="lastname"
-                            name="lastname"
-                            className=""
-                            required
-                        />
-                    </Grid>
-                    {/* <TextField
-                        type="text"
-                        variant="outlined"
-                        label="Role"
-                        value={userUpdateForm.role}
-                        onChange={(e) => setForm("role", e)}
-                        id="role"
-                        name="role"
-                        className=""
-                        required
-                    /> */}
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            fullWidth
-                            required
-                            select
-                            value={userUpdateForm.role}
-                            className={classes.sortByCategory}
-                            onChange={(e) =>
-                                setUserUpdateForm({
-                                    ...userUpdateForm,
-                                    role: e.target.value,
-                                })
-                            }
-                            SelectProps={{
-                                native: true,
-                            }}
-                            label="select role"
-                            variant="outlined"
-                        >
-                            {["user", "admin"].map((role) => (
-                                <option key={role} value={role}>
-                                    {role}
-                                </option>
-                            ))}
-                        </TextField>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            fullWidth
-                            type="text"
-                            variant="outlined"
-                            label="Phone Number"
-                            value={userUpdateForm.phone}
-                            onChange={(e) => setForm("phone", e)}
-                            id="phone"
-                            name="phone"
-                            className=""
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            fullWidth
-                            type="text"
-                            variant="outlined"
-                            label="Latitude"
-                            value={userUpdateForm.lat}
-                            onChange={(e) => setForm("lat", e)}
-                            id="lat"
-                            name="lat"
-                            className=""
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            fullWidth
-                            type="text"
-                            variant="outlined"
-                            label="Longitude"
-                            value={userUpdateForm.long}
-                            onChange={(e) => setForm("long", e)}
-                            id="long"
-                            name="long"
-                            className=""
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            fullWidth
-                            type="text"
-                            variant="outlined"
-                            label="Zip Code"
-                            value={userUpdateForm.zipcode}
-                            onChange={(e) => setForm("zipcode", e)}
-                            id="zipcode"
-                            name="zipcode"
-                            className=""
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            fullWidth
-                            type="text"
-                            variant="outlined"
-                            label="House no."
-                            value={userUpdateForm.number}
-                            onChange={(e) => setForm("number", e)}
-                            id="number"
-                            name="number"
-                            className=""
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <TextField
-                            fullWidth
-                            type="text"
-                            variant="outlined"
-                            label="City"
-                            value={userUpdateForm.city}
-                            onChange={(e) => setForm("city", e)}
-                            id="city"
-                            name="city"
-                            className=""
-                            required
-                        />
-                    </Grid>
-                    {/* <Grid item xs={12} sm={12}></Grid>
+        <>
+            {!loader && (
+                <Container maxWidth="sm" sx={{ my: "50px" }}>
+                    <Typography variant="h5" align="center" sx={{ my: "50px" }}>
+                        Edit User
+                    </Typography>
+                    <form onSubmit={handleUserUpdateForm}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={12}>
+                                <TextField
+                                    fullWidth
+                                    type="email"
+                                    variant="outlined"
+                                    label="Email"
+                                    value={userUpdateForm.email}
+                                    onChange={(e) => setForm("email", e)}
+                                    id="email"
+                                    name="email"
+                                    className=""
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12}>
+                                <TextField
+                                    fullWidth
+                                    type="text"
+                                    variant="outlined"
+                                    label="Username"
+                                    value={userUpdateForm.username}
+                                    onChange={(e) => setForm("username", e)}
+                                    id="username"
+                                    name="username"
+                                    className=""
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    type="text"
+                                    variant="outlined"
+                                    label="First name"
+                                    value={userUpdateForm.firstname}
+                                    onChange={(e) => setForm("firstname", e)}
+                                    id="firstname"
+                                    name="firstname"
+                                    className=""
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    type="text"
+                                    variant="outlined"
+                                    label="Last Name"
+                                    value={userUpdateForm.lastname}
+                                    onChange={(e) => setForm("lastname", e)}
+                                    id="lastname"
+                                    name="lastname"
+                                    className=""
+                                    required
+                                />
+                            </Grid>
+                           
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    required
+                                    select
+                                    value={userUpdateForm.role}
+                                    className={classes.sortByCategory}
+                                    onChange={(e) =>
+                                        setUserUpdateForm({
+                                            ...userUpdateForm,
+                                            role: e.target.value,
+                                        })
+                                    }
+                                    SelectProps={{
+                                        native: true,
+                                    }}
+                                    label="select role"
+                                    variant="outlined"
+                                >
+                                    {["user", "admin"].map((role) => (
+                                        <option key={role} value={role}>
+                                            {role}
+                                        </option>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    type="text"
+                                    variant="outlined"
+                                    label="Phone Number"
+                                    value={userUpdateForm.phone}
+                                    onChange={(e) => setForm("phone", e)}
+                                    id="phone"
+                                    name="phone"
+                                    className=""
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    type="text"
+                                    variant="outlined"
+                                    label="Latitude"
+                                    value={userUpdateForm.lat}
+                                    onChange={(e) => setForm("lat", e)}
+                                    id="lat"
+                                    name="lat"
+                                    className=""
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    type="text"
+                                    variant="outlined"
+                                    label="Longitude"
+                                    value={userUpdateForm.long}
+                                    onChange={(e) => setForm("long", e)}
+                                    id="long"
+                                    name="long"
+                                    className=""
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    type="text"
+                                    variant="outlined"
+                                    label="Zip Code"
+                                    value={userUpdateForm.zipcode}
+                                    onChange={(e) => setForm("zipcode", e)}
+                                    id="zipcode"
+                                    name="zipcode"
+                                    className=""
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    type="text"
+                                    variant="outlined"
+                                    label="House no."
+                                    value={userUpdateForm.number}
+                                    onChange={(e) => setForm("number", e)}
+                                    id="number"
+                                    name="number"
+                                    className=""
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12}>
+                                <TextField
+                                    fullWidth
+                                    type="text"
+                                    variant="outlined"
+                                    label="City"
+                                    value={userUpdateForm.city}
+                                    onChange={(e) => setForm("city", e)}
+                                    id="city"
+                                    name="city"
+                                    className=""
+                                    required
+                                />
+                            </Grid>
+                            {/* <Grid item xs={12} sm={12}></Grid>
                     <Grid item xs={12} sm={12}></Grid> */}
-                    <Grid item xs={12} sm={12}>
-                        <Button
-                            style={{ outline: "none" }}
-                            fullWidth
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                        >
-                            UPDATE
-                        </Button>
-                    </Grid>{" "}
-                </Grid>
-            </form>
-        </Container>
+                            <Grid item xs={12} sm={12}>
+                                <Button
+                                    style={{ outline: "none" }}
+                                    fullWidth
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                >
+                                    UPDATE
+                                </Button>
+                            </Grid>{" "}
+                        </Grid>
+                    </form>
+                </Container>
+            )}
+        </>
     );
 };
 

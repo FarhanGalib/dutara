@@ -46,6 +46,7 @@ const CategoryTable = () => {
         (state) => state.persistedStorage.currentUser
     );
     const { categoryList } = useSelector((state) => state.categoryStore);
+    const loader = useSelector((state) => state.LoaderReducer);
  
 
     useEffect(() => {
@@ -71,7 +72,7 @@ const CategoryTable = () => {
     };
     return (
         <>
-            <Container maxWidth="lg">
+            {!loader && <Container maxWidth="lg">
                 <div className={classes.form}>
                     <Typography variant="h5" align="center" sx={{ my: "50px" }}>
                         CATEGORY
@@ -216,7 +217,7 @@ const CategoryTable = () => {
                         </Table>
                     </TableContainer>
                 </div>
-            </Container>
+            </Container>}
         </>
     );
 };

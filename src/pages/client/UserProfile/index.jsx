@@ -28,6 +28,8 @@ const UserProfile = () => {
     const { CurrentUserInfoReducer: currentUser } = useSelector(
         (state) => state
     );
+    const loader = useSelector((state) => state.LoaderReducer);
+
     const [user, setUser] = useState({
         lat: "",
         long: "",
@@ -72,7 +74,7 @@ const UserProfile = () => {
     };
     const handleUpdate = (e) => {
         e.preventDefault();
-      
+
         if (user.password.length > 7 && user.password.length < 21) {
             setIsLengthOk(true);
             if (user.password === user.confirmPassword) {
@@ -87,175 +89,205 @@ const UserProfile = () => {
         }
     };
     return (
-        <Container maxWidth="sm" sx={{ my: "50px" }}>
-            <Typography variant="h5" sx={{ mb: "50px" }}>
-                Edit <span style={{ color: "orange" }}>Pro</span>file
-            </Typography>
-            {currentUser && (
-                <form type="submit" onSubmit={handleUpdate}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                variant="outlined"
-                                label="Email"
-                                type="email"
-                                value={user?.email}
-                                onChange={(e) => handleChange(e, "email")}
-                                className={classes.txtField}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                variant="outlined"
-                                label="username"
-                                type="text"
-                                value={user?.username}
-                                onChange={(e) => handleChange(e, "username")}
-                                className={classes.txtField}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                required
-                                fullWidth
-                                variant="outlined"
-                                label="password"
-                                type="password"
-                                value={user?.password}
-                                onChange={(e) => handleChange(e, "password")}
-                                className={classes.txtField}
-                            />
-                            {!isLengthOk && (
-                                <p style={{ color: "red", fontSize: "12px" }}>
-                                    password must be 8-20 character
-                                </p>
-                            )}
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                required
-                                fullWidth
-                                type="password"
-                                variant="outlined"
-                                label="confirm password"
-                                value={user?.confirmPassword}
-                                onChange={(e) =>
-                                    handleChange(e, "confirmPassword")
-                                }
-                                className={classes.txtField}
-                            />
+        <>
+            {!loader && (
+                <Container maxWidth="sm" sx={{ my: "50px" }}>
+                    <Typography variant="h5" sx={{ mb: "50px" }}>
+                        Edit <span style={{ color: "orange" }}>Pro</span>file
+                    </Typography>
+                    {currentUser && (
+                        <form type="submit" onSubmit={handleUpdate}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        variant="outlined"
+                                        label="Email"
+                                        type="email"
+                                        value={user?.email}
+                                        onChange={(e) =>
+                                            handleChange(e, "email")
+                                        }
+                                        className={classes.txtField}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        variant="outlined"
+                                        label="username"
+                                        type="text"
+                                        value={user?.username}
+                                        onChange={(e) =>
+                                            handleChange(e, "username")
+                                        }
+                                        className={classes.txtField}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        variant="outlined"
+                                        label="password"
+                                        type="password"
+                                        value={user?.password}
+                                        onChange={(e) =>
+                                            handleChange(e, "password")
+                                        }
+                                        className={classes.txtField}
+                                    />
+                                    {!isLengthOk && (
+                                        <p
+                                            style={{
+                                                color: "red",
+                                                fontSize: "12px",
+                                            }}
+                                        >
+                                            password must be 8-20 character
+                                        </p>
+                                    )}
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        type="password"
+                                        variant="outlined"
+                                        label="confirm password"
+                                        value={user?.confirmPassword}
+                                        onChange={(e) =>
+                                            handleChange(e, "confirmPassword")
+                                        }
+                                        className={classes.txtField}
+                                    />
 
-                            {!isPassMatched && (
-                                <p style={{ color: "red", fontSize: "12px" }}>
-                                    password not matched
-                                </p>
-                            )}
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                required
-                                fullWidth
-                                variant="outlined"
-                                label="role"
-                                type="text"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                value={user?.role}
-                                //onChange={(e) => handleChange(e, "role")}
-                                className={classes.txtField}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                variant="outlined"
-                                label="Latitude"
-                                type="text"
-                                value={user?.lat}
-                                onChange={(e) => handleChange(e, "lat")}
-                                className={classes.txtField}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                variant="outlined"
-                                label="Longitude"
-                                type="text"
-                                value={user?.long}
-                                onChange={(e) => handleChange(e, "long")}
-                                className={classes.txtField}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                variant="outlined"
-                                label="city"
-                                type="text"
-                                value={user?.city}
-                                onChange={(e) => handleChange(e, "city")}
-                                className={classes.txtField}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                variant="outlined"
-                                label="street"
-                                type="text"
-                                onChange={(e) => handleChange(e, "street")}
-                                className={classes.txtField}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                variant="outlined"
-                                label="number"
-                                type="number"
-                                value={user?.number}
-                                onChange={(e) => handleChange(e, "number")}
-                                className={classes.txtField}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                variant="outlined"
-                                label="zipcode"
-                                type="text"
-                                value={user?.zipcode}
-                                onChange={(e) => handleChange(e, "zipcode")}
-                                className={classes.txtField}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Button
-                                style={{ outline: "none" }}
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                            >
-                                Update
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </form>
+                                    {!isPassMatched && (
+                                        <p
+                                            style={{
+                                                color: "red",
+                                                fontSize: "12px",
+                                            }}
+                                        >
+                                            password not matched
+                                        </p>
+                                    )}
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        variant="outlined"
+                                        label="role"
+                                        type="text"
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        value={user?.role}
+                                        //onChange={(e) => handleChange(e, "role")}
+                                        className={classes.txtField}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        variant="outlined"
+                                        label="Latitude"
+                                        type="text"
+                                        value={user?.lat}
+                                        onChange={(e) => handleChange(e, "lat")}
+                                        className={classes.txtField}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        variant="outlined"
+                                        label="Longitude"
+                                        type="text"
+                                        value={user?.long}
+                                        onChange={(e) =>
+                                            handleChange(e, "long")
+                                        }
+                                        className={classes.txtField}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        variant="outlined"
+                                        label="city"
+                                        type="text"
+                                        value={user?.city}
+                                        onChange={(e) =>
+                                            handleChange(e, "city")
+                                        }
+                                        className={classes.txtField}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        variant="outlined"
+                                        label="street"
+                                        type="text"
+                                        onChange={(e) =>
+                                            handleChange(e, "street")
+                                        }
+                                        className={classes.txtField}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        variant="outlined"
+                                        label="number"
+                                        type="number"
+                                        value={user?.number}
+                                        onChange={(e) =>
+                                            handleChange(e, "number")
+                                        }
+                                        className={classes.txtField}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        variant="outlined"
+                                        label="zipcode"
+                                        type="text"
+                                        value={user?.zipcode}
+                                        onChange={(e) =>
+                                            handleChange(e, "zipcode")
+                                        }
+                                        className={classes.txtField}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button
+                                        style={{ outline: "none" }}
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        Update
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </form>
+                    )}
+                </Container>
             )}
-        </Container>
+        </>
     );
 };
 

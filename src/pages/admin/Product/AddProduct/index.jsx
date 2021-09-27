@@ -31,6 +31,7 @@ const AddProduct = () => {
     const { token } = useSelector(
         (state) => state.persistedStorage.currentUser
     );
+    const loader = useSelector((state) => state.LoaderReducer);
 
     useEffect(() => {
         dispatch(requestCategoryList());
@@ -71,134 +72,143 @@ const AddProduct = () => {
     };
 
     return (
-        <Container maxWidth="sm" sx={{ mb: "100px" }}>
-            <Typography
-                variant="h4"
-                align="center"
-                className={classes.heading}
-                sx={{ my: "50px" }}
-            >
-                Add Product
-            </Typography>
-            <form type="submit" onSubmit={requestAddProduct}>
-                <Grid container spacing={2}>
-                    {isImageChanged && (
-                        <Grid
-                            item
-                            xs={12}
-                            sx={{ display: "flex", justifyContent: "center" }}
-                        >
-                            <img
-                                style={{
-                                    height: "300px",
-                                    objectFit: "contain",
-                                }}
-                                src={isImageChanged ? baseImage : null}
-                                alt=""
-                            />
+        <>
+            {!loader && (
+                <Container maxWidth="sm" sx={{ mb: "100px" }}>
+                    <Typography
+                        variant="h4"
+                        align="center"
+                        className={classes.heading}
+                        sx={{ my: "50px" }}
+                    >
+                        Add Product
+                    </Typography>
+                    <form type="submit" onSubmit={requestAddProduct}>
+                        <Grid container spacing={2}>
+                            {isImageChanged && (
+                                <Grid
+                                    item
+                                    xs={12}
+                                    sx={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            height: "300px",
+                                            objectFit: "contain",
+                                        }}
+                                        src={isImageChanged ? baseImage : null}
+                                        alt=""
+                                    />
+                                </Grid>
+                            )}
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    variant="outlined"
+                                    label="Product Title"
+                                    type="text"
+                                    value={newProduct.title}
+                                    onChange={(e) => setAddProduct(e, "title")}
+                                    className={classes.txtField}
+                                />
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                                <input
+                                    type="file"
+                                    onChange={(e) => uploadProductImage(e)}
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    size="small"
+                                    select
+                                    value={newProduct._id}
+                                    className={classes.sortByCategory}
+                                    onChange={(e) =>
+                                        setNewProduct({
+                                            ...newProduct,
+                                            categoryId: e.target.value,
+                                        })
+                                    }
+                                    SelectProps={{
+                                        native: true,
+                                    }}
+                                    helperText="select category"
+                                >
+                                    {categoryList.map((c) => (
+                                        <option key={c._id} value={c._id}>
+                                            {c.name}
+                                        </option>
+                                    ))}
+                                </TextField>
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    variant="outlined"
+                                    label="Product Price"
+                                    type="number"
+                                    value={newProduct.price}
+                                    onChange={(e) => setAddProduct(e, "price")}
+                                    className={classes.txtField}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    variant="outlined"
+                                    label="Product Stock"
+                                    type="number"
+                                    value={newProduct.stock}
+                                    onChange={(e) => setAddProduct(e, "stock")}
+                                    className={classes.txtField}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    variant="outlined"
+                                    label="Product Description"
+                                    type="text"
+                                    multiline
+                                    rows={4}
+                                    value={newProduct.description}
+                                    onChange={(e) =>
+                                        setAddProduct(e, "description")
+                                    }
+                                    className={classes.txtField}
+                                />
+                            </Grid>
+                            <Grid item xm={12} sm={12}>
+                                <Button
+                                    style={{ outline: "none" }}
+                                    fullWidth
+                                    type="submit"
+                                    startIcon={<SaveIcon />}
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.btn}
+                                >
+                                    Add Product
+                                </Button>
+                            </Grid>
                         </Grid>
-                    )}
-                    <Grid item xs={12}>
-                        <TextField
-                            required
-                            fullWidth
-                            variant="outlined"
-                            label="Product Title"
-                            type="text"
-                            value={newProduct.title}
-                            onChange={(e) => setAddProduct(e, "title")}
-                            className={classes.txtField}
-                        />
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <input
-                            type="file"
-                            onChange={(e) => uploadProductImage(e)}
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            required
-                            fullWidth
-                            size="small"
-                            select
-                            value={newProduct._id}
-                            className={classes.sortByCategory}
-                            onChange={(e) =>
-                                setNewProduct({
-                                    ...newProduct,
-                                    categoryId: e.target.value,
-                                })
-                            }
-                            SelectProps={{
-                                native: true,
-                            }}
-                            helperText="select category"
-                        >
-                            {categoryList.map((c) => (
-                                <option key={c._id} value={c._id}>
-                                    {c.name}
-                                </option>
-                            ))}
-                        </TextField>
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            required
-                            fullWidth
-                            variant="outlined"
-                            label="Product Price"
-                            type="number"
-                            value={newProduct.price}
-                            onChange={(e) => setAddProduct(e, "price")}
-                            className={classes.txtField}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            required
-                            fullWidth
-                            variant="outlined"
-                            label="Product Stock"
-                            type="number"
-                            value={newProduct.stock}
-                            onChange={(e) => setAddProduct(e, "stock")}
-                            className={classes.txtField}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            required
-                            fullWidth
-                            variant="outlined"
-                            label="Product Description"
-                            type="text"
-                            multiline
-                            rows={4}
-                            value={newProduct.description}
-                            onChange={(e) => setAddProduct(e, "description")}
-                            className={classes.txtField}
-                        />
-                    </Grid>
-                    <Grid item xm={12} sm={12}>
-                        <Button
-                            style={{ outline: "none" }}
-                            fullWidth
-                            type="submit"
-                            startIcon={<SaveIcon />}
-                            variant="contained"
-                            color="primary"
-                            className={classes.btn}
-                        >
-                            Add Product
-                        </Button>
-                    </Grid>
-                </Grid>
-            </form>
-        </Container>
+                    </form>
+                </Container>
+            )}
+        </>
     );
 };
 

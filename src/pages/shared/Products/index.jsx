@@ -4,13 +4,15 @@ import {
     CardActions,
     CardContent,
     CardHeader,
-    CardMedia,
     Container,
     Grid,
     Typography,
     TextField,
     InputAdornment,
+    Stack,
+    Snackbar,
 } from "@mui/material";
+import MuiAlert from '@mui/material/Alert';
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -29,10 +31,15 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { setSearchText } from "../../../store/actions/searchAction";
 import { requestCategoryList } from "../../../store/actions/categoryAction";
 import Pagination1 from "../../../components/Pagination";
+import { BASE_URL } from "../../../utils/constants";
 const theme = createTheme();
 
 ///////////////////////////////////////////////
 const useStyles = makeStyles((theme) => ({}));
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Products = () => {
     const classes = useStyles();
@@ -47,6 +54,9 @@ const Products = () => {
     const { role, token } = useSelector(
         (state) => state.persistedStorage.currentUser
     );
+    const loader = useSelector((state) => state.LoaderReducer);
+
+    const [open, setOpen] = React.useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(8);
 
@@ -61,6 +71,7 @@ const Products = () => {
             history.push("/signin");
         } else if (role === "user") {
             dispatch(requestAddCartItem(productId, token));
+            setOpen(true);
         }
     };
     const handleProductDetails = (id) => {
@@ -76,75 +87,77 @@ const Products = () => {
         : null;
     return (
         <>
-            <Container maxWidth="lg">
-                <Typography
-                    variant="h6"
-                    color="textSecondary"
-                    className={classes.title}
-                    sx={{ my: "50px" }}
-                >
-                    Product-List
-                </Typography>
-                <Grid container spacing={4}>
-                    <Grid item xs={12} sm={6}>
-                        {/* CATEGORY */}
+            {!loader && (
+                <Container maxWidth="lg">
+                    <Typography
+                        variant="h6"
+                        color="textSecondary"
+                        className={classes.title}
+                        sx={{ my: "50px" }}
+                    >
+                        Product-List
+                    </Typography>
+                    <Grid container spacing={4}>
+                        <Grid item xs={12} sm={6}>
+                            {/* CATEGORY */}
 
-                        <TextField
-                            select
-                            size="small"
-                            label="filter by category"
-                            sx={{ backgroundColor: "white" }}
-                            value={category}
-                            className={classes.sortByCategory}
-                            onChange={(e) => {
-                                setCategory(e.target.value);
-                                dispatch(setSearchText(""));
-                            }}
-                            variant="outlined"
-                            fullWidth
-                            SelectProps={{
-                                native: true,
-                            }}
-                            InputLabelProps={{ shrink: true }}
-                            // helperText="filter product by category"
-                        >
-                            {categoryList?.map((c) => (
-                                <option key={c._id} value={c.name}>
-                                    {c.name}
-                                </option>
-                            ))}
-                        </TextField>
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        {/* SEARCH BAR */}
-                        <div>
                             <TextField
-                                value={searchText}
+                                select
                                 size="small"
-                                //className={classes.searchTxt}
+                                label="filter by category"
                                 sx={{ backgroundColor: "white" }}
-                                fullWidth
-                                type="text"
-                                label="Search products"
-                                placeholder="Search..."
+                                value={category}
+                                className={classes.sortByCategory}
                                 onChange={(e) => {
-                                    dispatch(setSearchText(e.target.value));
-                                    setCategory("All");
+                                    setCategory(e.target.value);
+                                    dispatch(setSearchText(""));
                                 }}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <SearchIcon />
-                                        </InputAdornment>
-                                    ),
+                                variant="outlined"
+                                fullWidth
+                                SelectProps={{
+                                    native: true,
                                 }}
-                            />
-                        </div>
+                                InputLabelProps={{ shrink: true }}
+                                // helperText="filter product by category"
+                            >
+                                {categoryList?.map((c) => (
+                                    <option key={c._id} value={c.name}>
+                                        {c.name}
+                                    </option>
+                                ))}
+                            </TextField>
+                        </Grid>
+
+                        <Grid item xs={12} sm={6}>
+                            {/* SEARCH BAR */}
+                            <div>
+                                <TextField
+                                    value={searchText}
+                                    size="small"
+                                    //className={classes.searchTxt}
+                                    sx={{ backgroundColor: "white" }}
+                                    fullWidth
+                                    type="text"
+                                    label="Search products"
+                                    placeholder="Search..."
+                                    onChange={(e) => {
+                                        dispatch(setSearchText(e.target.value));
+                                        setCategory("All");
+                                    }}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <SearchIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </div>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Container>
-            {(searchText !== "" || category !== "All") && (
+                </Container>
+            )}
+            {(searchText !== "" || category !== "All") && !loader && (
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
                     <Container sx={{ py: 8 }} maxWidth="lg">
@@ -192,7 +205,7 @@ const Products = () => {
                                                 />
 
                                                 <img
-                                                    src={`http://localhost:8080/files/${product.image}`}
+                                                    src={`${BASE_URL}/files/${product.image}`}
                                                     style={{
                                                         height: "200px",
                                                         margin: "auto",
@@ -278,7 +291,7 @@ const Products = () => {
                     </Container>
                 </ThemeProvider>
             )}
-            {searchText === "" && category === "All" && (
+            {searchText === "" && category === "All" && !loader && (
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
                     <Container sx={{ py: 8 }} maxWidth="lg">
@@ -326,7 +339,7 @@ const Products = () => {
                                                 />
 
                                                 <img
-                                                    src={`http://localhost:8080/files/${product.image}`}
+                                                    src={`${BASE_URL}/files/${product.image}`}
                                                     style={{
                                                         height: "200px",
                                                         margin: "auto",
@@ -412,7 +425,7 @@ const Products = () => {
                     </Container>
                 </ThemeProvider>
             )}
-            {category === "All" && searchText === "" && (
+            {category === "All" && searchText === "" && !loader && (
                 <Pagination1
                     style={{ outline: "none" }}
                     postsPerPage={postsPerPage}
@@ -420,6 +433,33 @@ const Products = () => {
                     paginate={paginate}
                 />
             )}
+            <Stack spacing={2} sx={{ width: "100%" }}>
+                <Snackbar
+                    open={open}
+                    autoHideDuration={2000}
+                    onClose={(event, reason) => {
+                        if (reason === 'clickaway') {
+                          return;
+                        }
+                    
+                        setOpen(false);
+                      }}
+                >
+                    <Alert
+                        onClose={(event, reason) => {
+                            if (reason === 'clickaway') {
+                              return;
+                            }
+                        
+                            setOpen(false);
+                          }}
+                        severity="success"
+                        sx={{ width: "100%" }}
+                    >
+                        Product is added to the cart!
+                    </Alert>
+                </Snackbar>
+            </Stack>
         </>
     );
 };
