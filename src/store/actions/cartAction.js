@@ -121,7 +121,7 @@ export const deleteProductFromCart =(productId,token)=>{
                 authorization: `bearer ${token}`,
             },
         });
-      
+      dispatch(requestCartList(token));
     }
 }
 
