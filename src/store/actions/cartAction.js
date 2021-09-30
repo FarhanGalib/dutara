@@ -85,7 +85,7 @@ export const setCartProductQuantity=(type, productId, quantity, token)=>{
                 authorization: `bearer ${token}`,
             },
         });
-      
+        dispatch(requestCartList(token));
     }
 }
 
