@@ -34,7 +34,7 @@ const Layout = ({ children }) => {
     if(location.pathname!=="/"){
         dispatch(setSearchText(""));
     }
-    console.log("pathname============",location.pathname);
+    
     return (
         <div className={classes.root}>
             {(role === "" || role === "user") && <Header></Header>}
