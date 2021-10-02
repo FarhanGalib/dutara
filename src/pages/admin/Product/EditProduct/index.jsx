@@ -140,6 +140,7 @@ const EditProduct = () => {
                                         setEditedCurrentProduct(e, "title")
                                     }
                                     className={classes.txtField}
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
 
@@ -167,6 +168,7 @@ const EditProduct = () => {
                                     SelectProps={{
                                         native: true,
                                     }}
+                                    InputLabelProps={{ shrink: true }}
                                     // helperText="select category"
                                 >
                                     {categoryList.map((c) => (
@@ -188,6 +190,7 @@ const EditProduct = () => {
                                         setEditedCurrentProduct(e, "price")
                                     }
                                     className={classes.txtField}
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -202,6 +205,7 @@ const EditProduct = () => {
                                         setEditedCurrentProduct(e, "stock")
                                     }
                                     className={classes.txtField}
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12}>
@@ -221,6 +225,7 @@ const EditProduct = () => {
                                         )
                                     }
                                     className={classes.txtField}
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12}>

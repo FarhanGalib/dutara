@@ -137,7 +137,13 @@ const ProductTable = () => {
                                                     >
                                                         <IconButton
                                                             style={{
-                                                                outline: "none",
+                                                                outline:
+                                                                    "none",
+                                                                backgroundColor:
+                                                                    "#52ff6f",
+                                                                color: "white",
+                                                                marginRight:
+                                                                    "5px",
                                                             }}
                                                             onClick={() =>
                                                                 handleEditProduct(
@@ -148,8 +154,11 @@ const ProductTable = () => {
                                                             <EditIcon />
                                                         </IconButton>
                                                         <IconButton
-                                                            style={{
+                                                             style={{
                                                                 outline: "none",
+                                                                backgroundColor:
+                                                                    "#ee4e4e",
+                                                                color: "white",
                                                             }}
                                                             onClick={() =>
                                                                 handleDeleteProduct(

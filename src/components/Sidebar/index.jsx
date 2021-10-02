@@ -1,11 +1,11 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import {
     Drawer,
     List,
     ListItem,
     ListItemText,
     ListItemIcon,
-    Typography
+    Typography,
 } from "@mui/material";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import HomeIcon from "@material-ui/icons/Home";
@@ -17,12 +17,11 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { setToken } from "../../store/actions/tokenAction";
-import CategoryIcon from '@material-ui/icons/Category';
-import LocalMallIcon from '@material-ui/icons/LocalMall';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import {useSelector} from "react-redux";
-import { requestUserInfoByUser } from '../../store/actions/userAction';
-
+import CategoryIcon from "@material-ui/icons/Category";
+import LocalMallIcon from "@material-ui/icons/LocalMall";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import { useSelector } from "react-redux";
+import { requestUserInfoByUser } from "../../store/actions/userAction";
 
 const drawerWidth = 240;
 
@@ -31,10 +30,7 @@ const useStyles = makeStyles((theme) => ({
         width: drawerWidth,
     },
     drawerPaper: {
-        
         width: drawerWidth,
-        
-        
     },
     active: {
         backgroundColor: "#f1f1f1",
@@ -46,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     logo: {
-        
         paddingLeft: theme.spacing(5),
     },
     logo1: {
@@ -54,14 +49,16 @@ const useStyles = makeStyles((theme) => ({
         fontSize: "45px",
         fontWeight: 600,
         "&:hover": {
-            cursor: "pointer",}
+            cursor: "pointer",
+        },
     },
     logo2: {
         color: "#91CA55",
         fontSize: "35px",
         fontWeight: 900,
         "&:hover": {
-            cursor: "pointer",}
+            cursor: "pointer",
+        },
     },
 }));
 
@@ -70,8 +67,10 @@ const Sidebar = () => {
     const location = useLocation();
     const history = useHistory();
     const dispatch = useDispatch();
-    const currentUserInfo = useSelector((state) => state.CurrentUserInfoReducer)
-    const {  token } = useSelector(
+    const currentUserInfo = useSelector(
+        (state) => state.CurrentUserInfoReducer
+    );
+    const { token } = useSelector(
         (state) => state.persistedStorage.currentUser
     );
     const navlinks = [
@@ -110,16 +109,14 @@ const Sidebar = () => {
             icon: <CategoryIcon color="primary" />,
             path: "/category",
         },
-        
     ];
 
-    useEffect(()=>{
-        if(token!=="")
-            dispatch(requestUserInfoByUser(token));
-    },[token]);
+    useEffect(() => {
+        if (token !== "") dispatch(requestUserInfoByUser(token));
+    }, [token]);
 
     const signOut = () => {
-        dispatch(setToken({userInfo:{user:"", role:"", token:""}}));
+        dispatch(setToken({ userInfo: { user: "", role: "", token: "" } }));
         history.push("/signin");
     };
     return (
@@ -133,18 +130,31 @@ const Sidebar = () => {
                 }}
             >
                 <div className={classes.logo}>
-                    <span className={classes.logo1} onClick={() => history.push('/')} >দো</span>
-                    <span className={classes.logo2} onClick={() => history.push('/')} >তারা</span>
-                    
+                    <span
+                        className={classes.logo1}
+                        onClick={() => history.push("/")}
+                    >
+                        দো
+                    </span>
+                    <span
+                        className={classes.logo2}
+                        onClick={() => history.push("/")}
+                    >
+                        তারা
+                    </span>
                 </div>
-                <Typography variant="h6" align="center" color="primary">Hello Admin,</Typography>
-                <Typography variant="p" align="center" color="secondary"><b>@{currentUserInfo && currentUserInfo?.username}</b></Typography>
-                <div style={{marginTop:"50px"}}></div>
+                <Typography variant="h6" align="center" color="primary">
+                    Hello Admin,
+                </Typography>
+                <Typography variant="p" align="center" color="secondary">
+                    <b>@{currentUserInfo && currentUserInfo?.username}</b>
+                </Typography>
+                <div style={{ marginTop: "50px" }}></div>
                 <List>
                     {navlinks.map((item) => (
                         <ListItem
                             className={`${classes.item} ${
-                                (location.pathname === item.path)
+                                location.pathname === item.path
                                     ? classes.active
                                     : null
                             }`}

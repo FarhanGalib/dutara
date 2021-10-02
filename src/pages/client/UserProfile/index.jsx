@@ -110,6 +110,7 @@ const UserProfile = () => {
                                             handleChange(e, "email")
                                         }
                                         className={classes.txtField}
+                                        InputLabelProps={{ shrink: true }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -124,6 +125,7 @@ const UserProfile = () => {
                                             handleChange(e, "username")
                                         }
                                         className={classes.txtField}
+                                        InputLabelProps={{ shrink: true }}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -188,6 +190,7 @@ const UserProfile = () => {
                                         value={user?.role}
                                         //onChange={(e) => handleChange(e, "role")}
                                         className={classes.txtField}
+                                        InputLabelProps={{ shrink: true }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -200,6 +203,7 @@ const UserProfile = () => {
                                         value={user?.lat}
                                         onChange={(e) => handleChange(e, "lat")}
                                         className={classes.txtField}
+                                        InputLabelProps={{ shrink: true }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -214,6 +218,7 @@ const UserProfile = () => {
                                             handleChange(e, "long")
                                         }
                                         className={classes.txtField}
+                                        InputLabelProps={{ shrink: true }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -228,6 +233,7 @@ const UserProfile = () => {
                                             handleChange(e, "city")
                                         }
                                         className={classes.txtField}
+                                        InputLabelProps={{ shrink: true }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -255,6 +261,7 @@ const UserProfile = () => {
                                             handleChange(e, "number")
                                         }
                                         className={classes.txtField}
+                                        InputLabelProps={{ shrink: true }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -269,6 +276,7 @@ const UserProfile = () => {
                                             handleChange(e, "zipcode")
                                         }
                                         className={classes.txtField}
+                                        InputLabelProps={{ shrink: true }}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>

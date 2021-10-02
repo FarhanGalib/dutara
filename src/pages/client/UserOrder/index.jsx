@@ -16,6 +16,20 @@ import { Container, Paper, Typography } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     table: { minWidth: 650 },
+    status: {
+        padding: 8,
+        display: "inline-block",
+        borderRadius: 16,
+    },
+    pendingStatus: {
+        backgroundColor: "#f4b328",
+    },
+    deliveredStatus: {
+        backgroundColor: "#2cea60",
+    },
+    canceledStatus: {
+        backgroundColor: "#ff3939",
+    },
 }));
 
 const UserOrder = () => {
@@ -61,11 +75,23 @@ const UserOrder = () => {
                                     userOrderList.map((item) => (
                                         <TableRow key={item._id}>
                                             <TableCell>
-                                                {item.status === 0
-                                                    ? "pending"
-                                                    : item.status === 1
-                                                    ? "delivered"
-                                                    : "canceled"}
+                                                <div
+                                                    className={`${
+                                                        classes.status
+                                                    } ${
+                                                        item.status === 0
+                                                            ? classes.pendingStatus
+                                                            : item.status === 1
+                                                            ? classes.deliveredStatus
+                                                            : classes.canceledStatus
+                                                    }`}
+                                                >
+                                                    {item.status === 0
+                                                        ? "pending"
+                                                        : item.status === 1
+                                                        ? "delivered"
+                                                        : "canceled"}
+                                                </div>
                                             </TableCell>
                                             <TableCell>
                                                 {new Date(

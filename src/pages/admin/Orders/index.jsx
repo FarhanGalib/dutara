@@ -32,10 +32,24 @@ const useStyles = makeStyles((theme) => ({
         color: "white",
     },
     canceled: {
-        backgroundColor: "#ff1515",
+        backgroundColor: "#ff3939",
         marginLeft: 5,
         marginRight: 5,
         color: "white",
+    },
+    status: {
+        padding: 8,
+        display: "inline-block",
+        borderRadius: 16,
+    },
+    pendingStatus: {
+        backgroundColor: "#f4b328",
+    },
+    deliveredStatus: {
+        backgroundColor: "#2cea60",
+    },
+    canceledStatus: {
+        backgroundColor: "#ff3939",
     },
 }));
 const Orders = () => {
@@ -95,11 +109,23 @@ const Orders = () => {
                                                 ).toUTCString()}
                                             </TableCell>
                                             <TableCell>
-                                                {item.status === 0
-                                                    ? "pending"
-                                                    : item.status === 1
-                                                    ? "delivered"
-                                                    : "canceled"}
+                                                <div
+                                                    className={`${
+                                                        classes.status
+                                                    } ${
+                                                        item.status === 0
+                                                            ? classes.pendingStatus
+                                                            : item.status === 1
+                                                            ? classes.deliveredStatus
+                                                            : classes.canceledStatus
+                                                    }`}
+                                                >
+                                                    {item.status === 0
+                                                        ? "pending"
+                                                        : item.status === 1
+                                                        ? "delivered"
+                                                        : "canceled"}
+                                                </div>
                                             </TableCell>
                                             <TableCell>
                                                 {

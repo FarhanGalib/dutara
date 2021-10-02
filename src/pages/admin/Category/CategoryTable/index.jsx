@@ -47,7 +47,6 @@ const CategoryTable = () => {
     );
     const { categoryList } = useSelector((state) => state.categoryStore);
     const loader = useSelector((state) => state.LoaderReducer);
- 
 
     useEffect(() => {
         dispatch(requestCategoryList());
@@ -72,152 +71,171 @@ const CategoryTable = () => {
     };
     return (
         <>
-            {!loader && <Container maxWidth="lg">
-                <div className={classes.form}>
-                    <Typography variant="h5" align="center" sx={{ my: "50px" }}>
-                        CATEGORY
-                    </Typography>
-                    {!showForm && (
-                        <Button
-                            variant="outlined"
-                            onClick={() => setShowForm(true)}
-                            style={{ outline: "none" }}
+            {!loader && (
+                <Container maxWidth="lg">
+                    <div className={classes.form}>
+                        <Typography
+                            variant="h5"
+                            align="center"
+                            sx={{ my: "50px" }}
                         >
-                            Add Category
-                        </Button>
-                    )}
-                    {showForm && (
-                        <form onSubmit={handleAddNewCategory}>
-                            <Typography
-                                variant="h6"
-                                color="textSecondary"
-                                align="center"
-                                sx={{ my: "30px" }}
+                            CATEGORY
+                        </Typography>
+                        {!showForm && (
+                            <Button
+                                variant="outlined"
+                                onClick={() => setShowForm(true)}
+                                style={{ outline: "none" }}
                             >
                                 Add Category
-                            </Typography>
-                            <Container maxWidth="xs">
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12}>
-                                        <TextField
-                                            fullWidth
-                                            type="text"
-                                            label="category name"
-                                            variant="outlined"
-                                            className={classes.input}
-                                            onChange={(e) =>
-                                                setNewCategory({
-                                                    ...newCategory,
-                                                    name: e.target.value,
-                                                })
-                                            }
-                                            value={newCategory.name}
-                                            placeholder="Category Name"
-                                            required
-                                        />
+                            </Button>
+                        )}
+                        {showForm && (
+                            <form onSubmit={handleAddNewCategory}>
+                                <Typography
+                                    variant="h6"
+                                    color="textSecondary"
+                                    align="center"
+                                    sx={{ my: "30px" }}
+                                >
+                                    Add Category
+                                </Typography>
+                                <Container maxWidth="xs">
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                fullWidth
+                                                type="text"
+                                                label="category name"
+                                                variant="outlined"
+                                                className={classes.input}
+                                                onChange={(e) =>
+                                                    setNewCategory({
+                                                        ...newCategory,
+                                                        name: e.target.value,
+                                                    })
+                                                }
+                                                value={newCategory.name}
+                                                placeholder="Category Name"
+                                                required
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                fullWidth
+                                                type="text"
+                                                label="category description"
+                                                variant="outlined"
+                                                className={classes.input}
+                                                onChange={(e) =>
+                                                    setNewCategory({
+                                                        ...newCategory,
+                                                        description:
+                                                            e.target.value,
+                                                    })
+                                                }
+                                                value={newCategory.description}
+                                                placeholder="Category description"
+                                                required
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Button
+                                                fullWidth
+                                                type="submit"
+                                                className={classes.submitBtn}
+                                                variant="contained"
+                                                color="primary"
+                                                style={{ outline: "none" }}
+                                            >
+                                                SUBMIT
+                                            </Button>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <TextField
-                                            fullWidth
-                                            type="text"
-                                            label="category description"
-                                            variant="outlined"
-                                            className={classes.input}
-                                            onChange={(e) =>
-                                                setNewCategory({
-                                                    ...newCategory,
-                                                    description: e.target.value,
-                                                })
-                                            }
-                                            value={newCategory.description}
-                                            placeholder="Category description"
-                                            required
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Button
-                                            fullWidth
-                                            type="submit"
-                                            className={classes.submitBtn}
-                                            variant="contained"
-                                            color="primary"
-                                            style={{ outline: "none" }}
-                                        >
-                                            SUBMIT
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                            </Container>
-                        </form>
-                    )}
-                </div>
+                                </Container>
+                            </form>
+                        )}
+                    </div>
 
-                <div className={classes.categoryTable}>
-                    <Typography
-                        variant="h6"
-                        color="textSecondary"
-                        align="center"
-                        sx={{ mb: "20px", mt: "50px" }}
-                    >
-                        Category List
-                    </Typography>
-
-                    <TableContainer component={Paper} sx={{mb: "50px"}}>
-                        <Table
-                            className={classes.table}
-                            aria-label="simple table"
+                    <div className={classes.categoryTable}>
+                        <Typography
+                            variant="h6"
+                            color="textSecondary"
+                            align="center"
+                            sx={{ mb: "20px", mt: "50px" }}
                         >
-                            <TableHead sx={{ backgroundColor: "#BDBDBD" }}>
-                                <TableRow>
-                                    <TableCell>NAME</TableCell>
-                                    <TableCell>DESCRIPTION</TableCell>
-                                    <TableCell>ACTION</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {loadedCategory.length !== 0
-                                    ? categoryList.map((category) => (
-                                          <TableRow key={category._id}>
-                                              <TableCell>
-                                                  {category.name}
-                                              </TableCell>
-                                              <TableCell>
-                                                  {category.description}
-                                              </TableCell>
-                                              <TableCell>
-                                                  <IconButton
-                                                      style={{
-                                                          outline: "none",
-                                                      }}
-                                                      onClick={() =>
-                                                          handleEditCategory(
-                                                              category._id
-                                                          )
-                                                      }
-                                                  >
-                                                      <EditIcon />
-                                                  </IconButton>
-                                                  <IconButton
-                                                      style={{
-                                                          outline: "none",
-                                                      }}
-                                                      onClick={() =>
-                                                          handleDeleteCategory(
-                                                              category._id
-                                                          )
-                                                      }
-                                                  >
-                                                      <DeleteIcon />
-                                                  </IconButton>
-                                              </TableCell>
-                                          </TableRow>
-                                      ))
-                                    : null}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div>
-            </Container>}
+                            Category List
+                        </Typography>
+
+                        <TableContainer component={Paper} sx={{ mb: "50px" }}>
+                            <Table
+                                className={classes.table}
+                                aria-label="simple table"
+                            >
+                                <TableHead sx={{ backgroundColor: "#BDBDBD" }}>
+                                    <TableRow>
+                                        <TableCell>NAME</TableCell>
+                                        <TableCell>DESCRIPTION</TableCell>
+                                        <TableCell>ACTION</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {loadedCategory.length !== 0
+                                        ? categoryList.map((category) => (
+                                              <TableRow key={category._id}>
+                                                  <TableCell>
+                                                      {category.name}
+                                                  </TableCell>
+                                                  <TableCell>
+                                                      {category.description}
+                                                  </TableCell>
+                                                  <TableCell>
+                                                      <div style={{display:"flex"}}>
+                                                          <IconButton
+                                                              style={{
+                                                                  outline:
+                                                                      "none",
+                                                                  backgroundColor:
+                                                                      "#52ff6f",
+                                                                  color: "white",
+                                                                  marginRight:
+                                                                      "5px",
+                                                              }}
+                                                              onClick={() =>
+                                                                  handleEditCategory(
+                                                                      category._id
+                                                                  )
+                                                              }
+                                                          >
+                                                              <EditIcon />
+                                                          </IconButton>
+                                                          <IconButton
+                                                              style={{
+                                                                  outline:
+                                                                      "none",
+                                                                  backgroundColor:
+                                                                      "#ee4e4e",
+                                                                  color: "white",
+                                                              }}
+                                                              onClick={() =>
+                                                                  handleDeleteCategory(
+                                                                      category._id
+                                                                  )
+                                                              }
+                                                          >
+                                                              <DeleteIcon />
+                                                          </IconButton>
+                                                      </div>
+                                                  </TableCell>
+                                              </TableRow>
+                                          ))
+                                        : null}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
+                </Container>
+            )}
         </>
     );
 };

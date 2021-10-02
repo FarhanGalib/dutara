@@ -24,6 +24,9 @@ import {
 
 const useStyles = makeStyles((theme) => ({
     table: { minWidth: 650 },
+    role: { display: "inline-block", padding: "2px 8px", borderRadius: 15 },
+    user: { backgroundColor: "#4ff5c3" },
+    admin: { backgroundColor: "#f5c94f" },
 }));
 const UserTable = () => {
     const classes = useStyles();
@@ -93,7 +96,17 @@ const UserTable = () => {
                                                   {user?.phone}
                                               </TableCell>
                                               <TableCell>
-                                                  {user?.role}
+                                                  <div
+                                                      className={`${
+                                                          classes.role
+                                                      } ${
+                                                          user?.role === "user"
+                                                              ? classes.user
+                                                              : classes.admin
+                                                      }`}
+                                                  >
+                                                      {user?.role}
+                                                  </div>
                                               </TableCell>
                                               <TableCell>
                                                   {user?.address.number}-
@@ -101,30 +114,44 @@ const UserTable = () => {
                                                   {user?.address.zipcode}
                                               </TableCell>
                                               <TableCell>
-                                                  <IconButton
+                                                  <div
                                                       style={{
-                                                          outline: "none",
+                                                          display: "flex",
                                                       }}
-                                                      onClick={() =>
-                                                          handleEditUser(
-                                                              user._id
-                                                          )
-                                                      }
                                                   >
-                                                      <EditIcon />
-                                                  </IconButton>
-                                                  <IconButton
-                                                      style={{
-                                                          outline: "none",
-                                                      }}
-                                                      onClick={() =>
-                                                          handleDeleteUser(
-                                                              user._id
-                                                          )
-                                                      }
-                                                  >
-                                                      <DeleteIcon />
-                                                  </IconButton>
+                                                      <IconButton
+                                                          style={{
+                                                              outline: "none",
+                                                              backgroundColor:
+                                                                  "#52ff6f",
+                                                              color: "white",
+                                                              marginRight:
+                                                                  "5px",
+                                                          }}
+                                                          onClick={() =>
+                                                              handleEditUser(
+                                                                  user._id
+                                                              )
+                                                          }
+                                                      >
+                                                          <EditIcon />
+                                                      </IconButton>
+                                                      <IconButton
+                                                          style={{
+                                                              outline: "none",
+                                                              backgroundColor:
+                                                                  "#ee4e4e",
+                                                              color: "white",
+                                                          }}
+                                                          onClick={() =>
+                                                              handleDeleteUser(
+                                                                  user._id
+                                                              )
+                                                          }
+                                                      >
+                                                          <DeleteIcon />
+                                                      </IconButton>
+                                                  </div>
                                               </TableCell>
                                           </TableRow>
                                       ))

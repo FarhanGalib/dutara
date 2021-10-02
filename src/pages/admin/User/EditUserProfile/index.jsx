@@ -92,6 +92,7 @@ const EditUserProfile = () => {
                                     name="email"
                                     className=""
                                     required
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12}>
@@ -106,6 +107,7 @@ const EditUserProfile = () => {
                                     name="username"
                                     className=""
                                     required
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -120,6 +122,7 @@ const EditUserProfile = () => {
                                     name="firstname"
                                     className=""
                                     required
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -134,6 +137,7 @@ const EditUserProfile = () => {
                                     name="lastname"
                                     className=""
                                     required
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                            
@@ -155,6 +159,7 @@ const EditUserProfile = () => {
                                     }}
                                     label="select role"
                                     variant="outlined"
+                                    InputLabelProps={{ shrink: true }}
                                 >
                                     {["user", "admin"].map((role) => (
                                         <option key={role} value={role}>
@@ -175,6 +180,7 @@ const EditUserProfile = () => {
                                     name="phone"
                                     className=""
                                     required
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -189,6 +195,7 @@ const EditUserProfile = () => {
                                     name="lat"
                                     className=""
                                     required
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -203,6 +210,7 @@ const EditUserProfile = () => {
                                     name="long"
                                     className=""
                                     required
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -217,6 +225,7 @@ const EditUserProfile = () => {
                                     name="zipcode"
                                     className=""
                                     required
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -231,6 +240,7 @@ const EditUserProfile = () => {
                                     name="number"
                                     className=""
                                     required
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12}>
@@ -245,6 +255,7 @@ const EditUserProfile = () => {
                                     name="city"
                                     className=""
                                     required
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                             {/* <Grid item xs={12} sm={12}></Grid>

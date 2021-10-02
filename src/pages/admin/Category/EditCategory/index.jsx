@@ -68,6 +68,7 @@ const EditCategory = () => {
                                     }
                                     value={category.name}
                                     placeholder="Category Name"
+                                    InputLabelProps={{ shrink: true }}
                                     required
                                 />
                             </Grid>
@@ -89,6 +90,7 @@ const EditCategory = () => {
                                     required
                                     multiline
                                     rows={4}
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                             <Grid item xs={12}>
