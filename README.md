@@ -127,11 +127,6 @@ When customer will first visit the website.
 
  <img  width="100%"  height="100%"  src="./src/resources/screenshot/orders.PNG"/>
 
-## Orders (Admin)
+## Website
 
- <img  width="100%"  height="100%"  src="./src/resources/screenshot/orders.PNG"/>
-  
-  
-  ## Website
-  
-  `Website Link:` https://dutara.netlify.app/
+`Website Link:` https://dutara.netlify.app/
