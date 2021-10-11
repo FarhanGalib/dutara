@@ -12,13 +12,9 @@
 6. React Router
 7. VS Code
 
----
-
 ## Pre-requisites
 
 1. Npm
-
----
 
 ## How To Run
 
@@ -26,8 +22,6 @@
 2. Run `yarn` or `npm install` to install all the dependencies
 3. Once installed, run `yarn start` or `npm start`
 4. The project will run by default on `3000` port.
-
----
 
 ## Features
 
@@ -51,8 +45,6 @@
 6.  Add Products, edit and delete them
 7.  Add Customer, edit profile and delete them
 8.  Add Category of product, edit and delete them
-
----
 
 ## ScreenShots
 
@@ -139,7 +131,7 @@ When customer will first visit the website.
 
  <img  width="100%"  height="100%"  src="./src/resources/screenshot/orders.PNG"/>
   
-  -----
+  
   ## Website
   
   `Website Link:` https://dutara.netlify.app/
