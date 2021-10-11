@@ -25,26 +25,26 @@
 
 ## Features
 
--   Customer
+-   ### Customer
 
-1.  Sign in/ sign up using `JWT` token.
-2.  View products in home page.
-3.  search products and sort product by category.
-4.  pagination
-5.  Add to cart.
-6.  Proceed to checkout.
-7.  Edit Profile.
+    1.  Sign in/ sign up using `JWT` token.
+    2.  View products in home page.
+    3.  search products and sort product by category.
+    4.  pagination
+    5.  Add to cart.
+    6.  Proceed to checkout.
+    7.  Edit Profile.
 
--   admin
+-   ### Admin
 
-1.  Sign in/ sign up using `JWT` token.
-2.  View products in home page.
-3.  search products and sort product by category.
-4.  pagination
-5.  View orders and change Order status (delivered, pending, canceled)
-6.  Add Products, edit and delete them
-7.  Add Customer, edit profile and delete them
-8.  Add Category of product, edit and delete them
+    1.  Sign in/ sign up using `JWT` token.
+    2.  View products in home page.
+    3.  search products and sort product by category.
+    4.  pagination
+    5.  View orders and change Order status (delivered, pending, canceled)
+    6.  Add Products, edit and delete them
+    7.  Add Customer, edit profile and delete them
+    8.  Add Category of product, edit and delete them
 
 ## ScreenShots
 
@@ -130,3 +130,11 @@ When customer will first visit the website.
 ## Website
 
 `Website Link:` https://dutara.netlify.app/
+
+`Admin_email: farhan@gmail.com`
+
+`password: 12345678 `
+
+`Customer_email: proyash@gmail.com`
+
+`password: 12345678 `
